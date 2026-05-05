@@ -7,11 +7,13 @@ tags: ['筆記', 'NestJS']
 slug: nestjs-pipe
 ---
 
-pipe 元件可以針對輸入輸出驗證資料格式，並進行**轉型**。
+![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1776849917000caugg4.png)
+
+pipe 可以驗證輸入輸出的格式並進行**轉型**。
 
 ## 參數驗證
 
-在 `@Query` 或 `@Param` 裝飾器中傳入：
+在 `@Query` 或 `@Param` 裝飾器中傳入參數名稱與 `ParseIntPipe`，就可以轉換參數型別：
 
 ```ts
 @Get('test-parse-int-pipe')
@@ -20,7 +22,7 @@ getTestParseIntPipe(@Query('id', ParseIntPipe) id: number) {
 }
 ```
 
-可以在實例化 pipe 時在建構函式帶入指定的狀態碼來表示請求格式有誤時要拋出的回應：
+`ParseIntPipe` 的建構函式可以傳入狀態碼，表示請求格式有誤時的回應：
 
 ```ts
 @Get('test-parse-int-pipe')
@@ -81,9 +83,9 @@ getTodos(
 
 ---
 
-## 物件資料驗證
+## 物件驗證
 
-需要用到 `ValidationPipe`：
+驗證物件資料需要使用 `ValidationPipe`，並安裝相關的套件：
 
 ```bash
 npm i class-validator class-transformer
@@ -113,15 +115,16 @@ export class CreateTodoDto {
 ```
 
 :::warning
-官方有特別強調，雖然用 interface 定義格式也能達到驗證的效果，但是只是 TS 的檢查語法，不會被編譯成 class 或其他實例，因為 runtime 階段 interface 就不存在了，沒有辦法在資料傳輸的過程中被 `class-validator` 檢查。
+官方強調雖然用 `interface` 定義格式也能達到驗證的效果，但是只是 TS 的檢查語法，不會被編譯成 class 或其他實例，因為 runtime 階段 `interface` 就不存在了，沒有辦法在傳輸的過程中被 `class-validator` 檢查。
 :::
 
 ### 部分套用
 
-使用 `@UsePipe` 裝飾器，套用在指定的方法或是 controller 上，參數型別可以直接指定為 `CreateTodoDto` 這個類別定義，`ValidationPipe` 就會去找原始定義進行比對：
+套用方式同 exception filter，使用 `@UsePipe` 套用在指定的方法或是整個 controller 上。
+
+參數型別指定為 `CreateTodoDto` 這個類別，`ValidationPipe` 就會根據 `CreateTodoDto` 每個欄位的驗證規則來比對：
 
 ```ts
-// 套用在 post 方法
 @UsePipes(ValidationPipe)
 @Post()
 createTodo(@Body() data: CreateTodoDto) {
@@ -131,7 +134,7 @@ createTodo(@Body() data: CreateTodoDto) {
 }
 ```
 
-故意傳入一個不符格式的資料 `{}`，會得到：
+故意傳入一個不符格式的 `{}`，會得到：
 
 ```json
 {
@@ -144,13 +147,13 @@ createTodo(@Body() data: CreateTodoDto) {
 }
 ```
 
-在 `CreateTodoDto` 中有對 `content` 標記 `@IsOptional()`，因此這個沒給這個值或是給空值不會報錯。
+在 `CreateTodoDto` 中有對 `content` 掛上 `@IsOptional()`，因此這個沒給這個值或是給空值不會報錯。
 
-如果將 `@UsePipes` 移除的話，DTO 中標記的所有規則都不會生效，這個 POST 請求就會直接通過，得到一個 `{}`。
+:::warning
+如果將 `@UsePipes` 移除，DTO 中掛的所有規則都不會生效，這個 POST 請求就會直接通過，得到一個 `{}`。
+:::
 
 ### 全域套用
-
-套用的方式和 exception filter 相同。
 
 在根模組進行注入：
 
@@ -180,7 +183,7 @@ async function bootstrap() {
 
 ### 建構函式
 
-傳入 `ValidationPipe` 給 `@UsePipes` 時，會自動建立實例，再根據下一行要執行的函式參數型別套用驗證：
+在 `@UsePipes` 傳入 `ValidationPipe` 時，會自動建立實例，再根據參數型別套用驗證：
 
 ```ts
 @UsePipes(ValidationPipe)
@@ -211,7 +214,7 @@ async function bootstrap() {
 
 ## 轉型
 
-將 `transform` 打開後，驗證結束時會將資料做轉型，如下面這個範例，傳入的 `data` 通過驗證後，會依照參數型別的宣告，轉型成 `CreateTodoDto` 實例：
+`transform` 設為 `true` 後，驗證結束時會將物件資料轉型，如下面範例，傳入的 `data` 通過驗證後，會依照我們給予的參數型別 `data: CreateTodoDto`，轉型成 `CreateTodoDto` 實例：
 
 ```ts
 @UsePipes(
@@ -231,13 +234,13 @@ createTodo(@Body() data: CreateTodoDto) {
 }
 ```
 
-因此像是剛開始示範的 query、param 要從 `string` 轉 `number`，也可以用這種方式轉型。
+`@Query` 或 `@Param` 的參數也可以透過這種設定來轉型。
 
 ---
 
 ## 共用格式
 
-DTO 本身也可以透過繼承來映射出新的 DTO，首先要安裝：
+DTO 可以透過繼承來映射出新的 DTO，首先要安裝：
 
 ```bash
 npm i @nestjs/mapped-types
@@ -248,19 +251,15 @@ npm i @nestjs/mapped-types
 用 `PartialType` 繼承 ，全部欄位都會變成可選的，但驗證規則一樣保留：
 
 ```ts
-export class UpdateUserDto extends PartialType(CreateUserDto) {}
+export class UpdateUserDto extends PartialType(CreateTodoDto) {}
 ```
 
 ### 選擇套用
 
-在 `PickType` 中的陣列放入指定欄位名稱就可以改寫驗證規則：
+在 `PickType` 中的陣列放入指定欄位名稱，就可以繼承該欄位：
 
 ```ts
-export class UpdateTodoDto extends PickType(CreateTodoDto, ['title']) {
-  @MaxLength(1000)
-  @IsOptional()
-  public readonly description?: string;
-}
+export class UpdateTodoDto extends PickType(CreateTodoDto, ['title']) {}
 ```
 
 ### 排除套用
@@ -273,7 +272,7 @@ export class UpdateTodoDto extends OmitType(CreateTodoDto, ['title']) {}
 
 ### 合併套用
 
-不解釋，就是合併任意 DTO 的全部欄位：
+合併任意 DTO 的全部欄位：
 
 ```ts
 export class UpdateTodoDto extends OmitType(CreateTodoDto, OtherDto) {}
@@ -283,7 +282,7 @@ export class UpdateTodoDto extends OmitType(CreateTodoDto, OtherDto) {}
 
 ## 自訂 pipe
 
-運行的流程也和 filter 差不多，在特定的判斷點沒有通過驗證的話就 `throw` 中斷流程：
+運行的流程也和 filter 類似，沒有通過條件判斷就 `throw` 中斷流程：
 
 ```ts
 @Injectable()
@@ -300,7 +299,7 @@ export class CustomParseIntPipe implements PipeTransform {
 }
 ```
 
-用法一樣是在特定的裝飾器中傳入 pipe 元件的類別或實例：
+在裝飾器中傳入使用：
 
 ```ts
 @Get('test-parse-int-pipe-custom')
@@ -316,10 +315,12 @@ getTestParseIntPipeCustom(
 
 ## 小結
 
-pipe 是 NestJS 必用的元件，基本上 `ValidationPipe` 就已經能取代大部分的輸入輸出驗證，整體用法和 filter 也是一模一樣！
+pipe 是 NestJS 必用的元件，基本上 `ValidationPipe` 就已經能做到基本的資料驗證。
+
+class-validator 適用於以類別為主的資料模型，如果要和前端環境一起共用則推薦使用 Zod，有專用的套件 `nestjs-zod` 提供 pipe 元件。
 
 ---
 
 ## 參考資料
 
-- [Exception filters](https://docs.nestjs.com/techniques/validation)
+- [Pipes](https://docs.nestjs.com/pipes)

@@ -7,9 +7,11 @@ tags: ['筆記', 'NestJS']
 slug: nestjs-controller
 ---
 
+![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1776849917000caugg4.png)
+
 ## 路由
 
-路由名稱會透過 `@Controller` 傳入元數據 (metadata），在應用程式啟動時建立一個路由表並將這個元數據註冊進去，如：
+應用程式啟動時會建立一個路由表，路由名稱透過 `@Controller` 傳入元數據 (metadata），並將這個元數據註冊到路由表，如：
 
 ```ts
 @Controller('todos')
@@ -26,7 +28,7 @@ export class TodoController {}
 
 ## 請求
 
-必須使用 HTTP method 裝飾器，才會將對應方法 (handler) 註冊到路由表，如：
+須使用 HTTP method 裝飾器，才會將對應方法 (handler) 註冊到路由表，如：
 
 ```ts
 @Controller('todos')
@@ -44,7 +46,7 @@ export class TodoController {
 
 ## 子路由
 
-在 `@Get` 裡面帶入字串會生成子路由的端點，如 `@Get('sub')`則表示可以存取 `/todos/sub` ：
+在 `@Get` 傳入字串會生成子路由的端點，如 `@Get('sub')`表示 `/todos/sub` ：
 
 ```ts
 @Controller('todos')
@@ -65,7 +67,7 @@ export class TodoController {
 
 ## 通用路由
 
-可以透過 `*`、`+`、`?` 等符號來匹配有滿足特定條件的路徑，如：
+透過 `*`、`+`、`?` 等匹配特定條件的路徑，如：
 
 ```ts
 // 這樣可以匹配 todos/bulk/goooooooood
@@ -86,9 +88,9 @@ getGood() {
 - `@Body`
 - `@Header`
 
-### @Param
+還有其他裝飾器，網路請求可以帶的物件資料都有對應的裝飾器可以解析。
 
-動態路由可以透過 `@Param` 來解出路由中的參數，例如下面的 `:id`：
+### @Param
 
 ```ts
 // 解析 /todos/:id
@@ -97,26 +99,10 @@ getTodo(@Param() param: { id: string }) {
   return `這是 id 為 ${param.id} 的子路由`;
 }
 
-// 更簡短的寫法，在裝飾器中指定 key 就不用取出整個物件
+// 更簡短的寫法，在裝飾器中指定 key
 @Get(':id')
 getTodo(@Param('id') id: string) {
   return `這是 id 為 ${id} 的子路由`;
-}
-```
-
-### @Body
-
-```ts
-@Post()
-createTodo(@Body() data: { content: string }) {
-  const newTodo = {
-    id: this.todos.length + 1,
-    content: data.content,
-  };
-
-  this.todos.push(newTodo);
-
-  return newTodo;
 }
 ```
 
@@ -144,9 +130,26 @@ getTodos(
 }
 ```
 
+### @Body
+
+```ts
+// 解析 request body
+@Post()
+createTodo(@Body() data: { content: string }) {
+  const newTodo = {
+    id: this.todos.length + 1,
+    content: data.content,
+  };
+
+  this.todos.push(newTodo);
+
+  return newTodo;
+}
+```
+
 ### @HttpCode
 
-除了 POST 請求會回應 `201` 之外，其他方法預設都會回應 `200`，如果要自訂回傳的狀態碼，可以使用 `@HttpCode` 裝飾器，並帶入內建的常數 `HttpStatus`：
+除了 POST 請求會回應 `201` 之外，其他方法預設都會回應 `200`，如果要自訂回傳的狀態碼，可以使用 `@HttpCode` 裝飾器，並傳入內建常數 `HttpStatus`：
 
 ```ts
 // 請求成功時使用 NO_CONTENT 映射出來的 204 作為狀態碼
@@ -157,7 +160,7 @@ getTodos() {
 }
 ```
 
-`HttpStatus` 裡面是用 `enum` 型別宣告的映射資料，包含了常見的狀態碼與語意匹配。
+`HttpStatus` 裡面是用 `enum` 型別宣告的狀態碼映射值。
 
 ---
 
@@ -192,9 +195,7 @@ async getAsyncData() {
 
 回傳一個 Observable 物件 `of`，NestJS 會訂閱這個物件的狀態，`of` 後面可以鏈式串上各種 RxJS 組織資料的方法，整個鏈式的任務結束後會將最後形成的資料送出。
 
-:::info
-對呼叫它的前端或是其他服務的請求來說，一樣會收到一個非同步的回應，RxJS 的任務只存在於應用程式內部。
-:::
+對外部來說，這個仍然是一個非同步的呼叫，在 RxJS 的任務走完到送出回應之前，都是 pending 的狀態。
 
 ```ts
 import { catchError, map, of } from 'rxjs';
@@ -219,7 +220,7 @@ getRxjsData() {
 
 ### 函式庫模式
 
-可以從底層的 API 來控制回應內容，需要在 handler 裡面加入裝飾器標記，如 `@Request`、`@Response`、`@Next`，對應到 Express 的 `req`、`res`、`next`，加上標記後就如使用 Express 一樣產生回應：
+從底層的 API 來控制回應內容，需要在 handler 裡面加入裝飾器標記，如 `@Request`、`@Response`、`@Next`，對應到 Express 的 `req`、`res`、`next`，加上標記後就如使用 Express 一樣：
 
 ```ts
 @Get('data/lib')
@@ -228,19 +229,19 @@ getLibraryData(@Res() res: Response) {
 }
 ```
 
-通常會在：
+通常會在以下情境使用函式庫模式：
 
 1. 串流任務 (streaming)
 2. 某些套件只支援 Express 的回應物件
 3. 完全控制回應程序的設定與資料
 
-才會使用到函式庫模式。因為會繞過 NestJS 的設定與元件流程，所以回應內容與格式要自行重新調整。
+因為會繞過 NestJS 的設定與元件流程，所以回應內容與格式要自行調整。
 
 ---
 
 ## 小結
 
-controller 的功能與一般 MVC 架構雷同，只是大部分的操作都需要用裝飾器取代，需要花點時間轉換，但只要記得 `裝飾器是一種函式`，給出對應的參數就能得到相應的操作，減少反覆宣告、賦值等等的程式碼。
+controller 的功能與一般 MVC 架構類似，只是大部分的操作都需要用裝飾器取代，但只要記得 `裝飾器是一種函式`，給出對應的參數就能得到相應的操作，減少反覆宣告、賦值等等的程式碼。
 
 ---
 

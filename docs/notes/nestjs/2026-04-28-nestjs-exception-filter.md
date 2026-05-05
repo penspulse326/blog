@@ -1,26 +1,19 @@
 ---
-title: 'Exception filter'
-description: 'NestJS 的 Exception filter 概念'
+title: 'Exception Filter'
+description: 'NestJS 的 Exception Filter 概念'
 date: 2025-05-02 17:55:00
 keywords: [程式語言, 後端框架, 設計模式, 物件導向, 依賴注入, JavaScript, TypeScript, NestJS, OOP, DI]
 tags: ['筆記', 'NestJS']
 slug: nestjs-exception-filter
 ---
 
-例外處理器 (Exception filter) 用來捕捉程序中發生的錯誤，也就是一般常見的 catch error 方法。
+![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1776849917000caugg4.png)
 
-NestJS 的全域錯誤處理層只會捕捉透過 `HttpException` 建立或繼承出來的實例，其他類型的 error 則需要自己設計 filter 元件，否則只會回傳 `Internal server error`：
-
-```json
-{
-  "statusCode": 500,
-  "message": "Internal server error"
-}
-```
+NestJS 的全域例外處理只會捕捉 `HttpException` 或它的子類別，所以接下來要先介紹這個 exception 的幾種用法。
 
 ## 標準 exception
 
-`throw` 一個 `HttpException` 實例，建構函式要帶入自訂訊息和狀態碼：
+`throw` 一個 `HttpException` 實例，建構函式傳入自訂訊息和狀態碼：
 
 ```ts
 @Get('test-standard-exception')
@@ -29,8 +22,6 @@ getStandardException() {
 }
 ```
 
-得到：
-
 ```json
 {
   "statusCode": 400,
@@ -38,7 +29,7 @@ getStandardException() {
 }
 ```
 
-自訂訊息也可以改為傳入物件，來蓋掉預設的格式：
+自訂訊息也可以傳入物件，覆蓋預設回應格式：
 
 ```ts
 @Get('test-standard-exception')
@@ -52,8 +43,6 @@ getStandardException() {
 }
 ```
 
-得到：
-
 ```json
 {
   "code": 400,
@@ -61,15 +50,11 @@ getStandardException() {
 }
 ```
 
-:::info
-建構函式帶入的代號也會作為 HTTP 回應物件的狀態碼，與自動產生 body 時的 `statusCode` 會是一致的，除非在自訂訊息中故意複寫一個不同的代碼。
-:::
-
 ---
 
 ## 內建 exception
 
-NestJS 有根據狀態碼的語意封裝好的 exception，例如可以實例化 `UnauthorizedException`，這樣產生的回應就會自動帶入這個 `401` 狀態碼 ：
+NestJS 有根據狀態碼的語意封裝好的 exception，例如 `UnauthorizedException`：
 
 ```ts
 @Get('test-built-in-exception')
@@ -113,7 +98,7 @@ getBuiltInException() {
 
 ## 自訂 exception
 
-需要統一格式時也可以自定義一個繼承某個 exception 的類別：
+需要統一格式時也可以繼承 `HttpException` 再自定義類別：
 
 ```ts
 export class CustomException extends HttpException {
@@ -134,13 +119,16 @@ getCustomException() {
 
 ## filter
 
-錯誤處理器也可以自己生成：
+不是 `HttpException` 的 error，需要另外設計 filter 元件才能自行處理，否則錯誤發生時一律回傳 `Internal server error`：
 
-```
-nest g filter filter/http
+```json
+{
+  "statusCode": 500,
+  "message": "Internal server error"
+}
 ```
 
-CLI 會生成一個帶有 `@Catch` 裝飾器的類別，泛型 `T` 再改寫成想要捕捉的類型：
+CLI 產生的初始架構是一個帶有 `@Catch` 裝飾器的類別：
 
 ```ts
 import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
@@ -151,7 +139,7 @@ export class MyHttpFilter<T> implements ExceptionFilter {
 }
 ```
 
-假設要做一個捕捉 HttpException 的 filter，就會在 `@Catch` 傳入 `HttpException`，並拓展泛型 T，確保 `exception: T` 能夠存取 `HttpException` 的屬性和方法：
+例如要做一個捕捉 `HttpException` 的 filter，就會在 `@Catch` 傳入 `HttpException`，並拓展泛型 T，讓 `exception: T` 可以合法存取 `HttpException`：
 
 ```ts
 @Catch(HttpException)
@@ -160,7 +148,7 @@ export class MyHttpFilter<T extends HttpException> implements ExceptionFilter {
 }
 ```
 
-`@Catch()` 用來指定要捕捉的錯誤類別，本質上是 `try&catch` 語法，所以大部分的錯誤都可以填入裝飾器：
+`@Catch()` 本質上是 `try&catch`，所以各種類型的 error 都可以接收：
 
 ```ts
 // 同時處理多個 HttpException 類型的 exception
@@ -171,7 +159,7 @@ export class MyHttpFilter<T extends HttpException> implements ExceptionFilter {
   NotFoundException
 )
 
-// JS 標準錯誤
+// JavaScript 的錯誤
 @Catch(ReferenceError)
 
 // 全部的錯誤都捕捉，此時 exception: unknown
@@ -180,17 +168,14 @@ export class MyHttpFilter<T extends HttpException> implements ExceptionFilter {
 
 ### ArgumentsHost
 
-`host` 定義了一些方法來處理不同網路架構的介面 (interface)，HTTP、RPC、WebSocket，這些架構的參數內容不同：
+`host` 定義了一些方法來存取不同網路架構的介面 (interface)：
 
 ```ts
 catch(exception: T, host: ArgumentsHost) {
-  // getType 可以知道是什麼架構，並根據對應架構撰寫邏輯
   console.log(host.getType()); // 'http' | 'rpc' | 'ws'
-
-  // 使用 switchToHttp 轉換架構內容，並指定型別為 HttpArgumentsHost
   const httpCtx: HttpArgumentsHost = host.switchToHttp();
 
-  // 取出 response 並指定為 Express 的 Response
+  // 指定為 Express 的 Response
   const response = httpCtx.getResponse<Response>();
   const message = exception.getResponse();
   const statusCode = exception.getStatus();
@@ -201,12 +186,12 @@ catch(exception: T, host: ArgumentsHost) {
     timestamp: new Date().toISOString(),
   };
 
-  // 同 Express 的 router，接上 .json 直接拋出回應
+  // 同 Express 的 router，接上 .json 拋出回應
   response.status(statusCode).json(responseBody);
 }
 ```
 
-`ArgumentsHost` 的定義檔裡面包含各架構的參數，像 `HttpArgumentsHost` 就是很標準的 HTTP 物件與函式：
+`ArgumentsHost` 的定義包含各網路架構，像 `HttpArgumentsHost` 就是標準的 HTTP 物件：
 
 ```ts
 export interface HttpArgumentsHost {
@@ -222,15 +207,16 @@ export interface HttpArgumentsHost {
 }
 ```
 
-:::warning
-`ctx.getResponse` 是取得 HTTP 物件，`exception.getResponse` 是取得 exception 的回應內容，也就是上面在 `throw` 各種 exception 實例時傳入建構函式的訊息 。
+:::info
+`ctx.getResponse` 是取得 HTTP 物件。  
+`exception.getResponse` 是取得 exception 的回應內容（來自 `throw` 一個 exception 時傳入建構函式的參數）。
 :::
 
 ---
 
 ### 部分套用
 
-使用 `@UseFilter` 標注在 controller 的方法上就可以套用指定的 filter：
+使用 `@UseFilter` 掛在 controller 的 handler 上就可以套用指定的 filter：
 
 ```ts
 @UseFilters(MyHttpFilter)
@@ -240,7 +226,7 @@ getHttpFilterException() {
 }
 ```
 
-也可以標注在 `@Controller` 上，讓整個 controller 都套用：
+掛在 `@Controller` 會套用到所有 handler：
 
 ```ts
 @UseFilters(MyHttpFilter)
@@ -254,7 +240,9 @@ export class AppController {
 
 ### 全域套用
 
-在根模組進行注入，有多個自訂 filter 需要套用時仍然共用 `APP_FILTER` 這個 token，如果多個 filter 都可以捕捉到同類型的錯誤，會依照這裡的陣列順序套用：
+在根模組進行注入，有多個自訂 filter 需要套用時仍然共用 `APP_FILTER` 這個 token。
+
+如果多個 filter 都可以捕捉到同類型的錯誤，會依照這裡的陣列順序套用：
 
 ```ts
 import { APP_FILTER } from '@nest/core';
@@ -275,7 +263,7 @@ import { APP_FILTER } from '@nest/core';
 export class AppModule {}
 ```
 
-或是在啟動程序裡面呼叫 `useGlobalFilters` 並傳入一個 filter 的實例：
+或是在啟動程序裡面呼叫 `useGlobalFilters` 並傳入 filter 實例：
 
 ```ts
 async function bootstrap() {
@@ -304,7 +292,7 @@ async function bootstrap() {
 }
 ```
 
-外層的 `message` 被塞入的是內建 exception 回應物件，需要調整 `exception.getResponse()` 輸出的內容：
+外層的 `message` 不是單純的字串，而是內建 exception 的回應物件，因此需要調整 `exception.getResponse()` 的內容：
 
 ```ts
 const message = (() => {
@@ -319,7 +307,7 @@ const message = (() => {
 })();
 ```
 
-這樣 `throw` 時傳入建構函式的字串會進行上面的判斷，字串會作為 `message` 的值輸出，傳入物件就取出物件裡面的 `message`：
+這樣 `throw` exception 時傳入建構函式的字串會作為 `message` 的值輸出，如果傳入物件就取出物件裡面的 `message`：
 
 ```ts
 @Get('test-http-filter')
@@ -337,7 +325,7 @@ getHttpFilterException() {
 }
 ```
 
-不傳任何東西時會自動帶入內建 exception 回應物件，所以也適用上面的斷言：
+不傳任何東西時會自動帶入內建 exception 的回應物件，所以也適用上面的斷言：
 
 ```ts
 @Get('test-http-filter')
@@ -347,7 +335,7 @@ getHttpFilterException() {
 }
 ```
 
-此時就會帶出內建 422 exception 的 `message`：
+此時就會內建 422 的 `message`：
 
 ```json
 {

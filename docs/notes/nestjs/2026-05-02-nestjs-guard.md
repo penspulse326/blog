@@ -7,7 +7,7 @@ tags: ['筆記', 'NestJS']
 slug: nestjs-guard
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1776849917000caugg4.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/17780355150001d7sqw.png)
 
 guard 會在 interceptor 前執行，通常會使用上下文來進行條件判斷，不符條件的請求就會被擋下。
 

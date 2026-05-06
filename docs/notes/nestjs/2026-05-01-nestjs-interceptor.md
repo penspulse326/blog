@@ -7,7 +7,7 @@ tags: ['筆記', 'NestJS']
 slug: nestjs-interceptor
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1776849917000caugg4.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/17780355150001d7sqw.png)
 
 interceptor 能取得上下文資訊來擴展邏輯，包含：
 

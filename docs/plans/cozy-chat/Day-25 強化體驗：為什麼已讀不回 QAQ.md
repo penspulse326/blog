@@ -7,7 +7,7 @@ tags: ['Cozy Chat', '專案開發', '即時通訊']
 slug: 'cozy-chat-day25'
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/17588745020001wmw1t.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/17588745020001wmw1t.png)
 
 你以為看到對方幾分鐘、幾小時前的訊息就夠焦慮了嗎？
 
@@ -70,7 +70,7 @@ client.on(CHAT_EVENT.READ, (messageId: string) => {
 
 當然，不要忘記為這些新的函式做單元測試！這邊就不列出每個模組的詳細測試內容了 XD
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1758857875000gnntvr.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1758857875000gnntvr.png)
 
 經過測試後已經有基本的運作保障，接下來進行前端的實作！
 
@@ -149,11 +149,11 @@ useEffect(() => {
 
 只要瀏覽器不在這個分頁或是縮小了，這個 API 會判定為不可視，`isIntersecting` 會是 `false`，所以不用擔心掛機也被當成已讀！
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1758865510000fmwkp2.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1758865510000fmwkp2.png)
 
 ~~當然你也可以等對方氣到亂打字再已讀 XD~~
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/17588658170003ww6cq.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/17588658170003ww6cq.png)
 
 Mantine 也有提供這個 Web API 的 hook，可以嘗試替換掉原本的邏輯，好用一直用（？）：
 

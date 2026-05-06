@@ -7,7 +7,7 @@ tags: ['Cozy Chat', '專案開發', '即時通訊']
 slug: 'cozy-chat-day21'
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/17584995960003lwcw9.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/17584995960003lwcw9.png)
 
 前端的單元測試大多是透過 `props` 和內部狀態的變化來測試不同狀況的元件，不過事前準備稍微多一點！
 

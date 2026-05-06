@@ -124,7 +124,7 @@ function addBillboard(data) {
 Cesium 預設點擊到實例是可以查看資訊的，直接點選剛剛生成的 `billboard`，  
 會彈出剛剛賦予它的 `name`：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/2023/1722249144000jzycib.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/2023/1722249144000jzycib.png)
 
 目前畫面上的資料量很多，一般會使用聚合的方式，讓這些圖示聚集起來，  
 等到要放大的時候才會全部顯示。
@@ -309,7 +309,7 @@ Cesium 透過 `ImageryProvider` 管理畫面的**底圖**，
 GIS 有國際規範，所以看不懂下圖這些密密麻麻的代號沒關係，  
 GPT 會告訴你解答（？），我們只需要擷取到這些資訊即可：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/2023/1722267426000age58o.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/2023/1722267426000age58o.png)
 
 `ImageryProvider` 有好幾種，第三方網路服務的底圖要使用 [WebMapServiceImageryProvider](https://cesium.com/learn/cesiumjs/ref-doc/WebMapServiceImageryProvider.html)：
 
@@ -332,7 +332,7 @@ viewer.imageryLayers.addImageryProvider(taiwanMap);
 如果有留意過 Google Map 的介面，應該會發現網頁版或 App 版都會有這個按鈕，  
 裡面就是開關圖層的邏輯：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/2023/1722268260000qoo0pn.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/2023/1722268260000qoo0pn.png)
 
 我們也可以實作一個按鈕來達到開關圖層的效果，  
 圖層有 `show` 這個屬性控制顯示與否，但是必須先把剛剛 `addImageryProvider` 的結果存起來，  

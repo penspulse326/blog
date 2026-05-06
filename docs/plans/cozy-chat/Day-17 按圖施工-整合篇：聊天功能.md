@@ -7,7 +7,7 @@ tags: ['Cozy Chat', '專案開發', '即時通訊']
 slug: 'cozy-chat-day17'
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1758129486000q34cql.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1758129486000q34cql.png)
 
 聊天功能來了！這部分開發完成後，本機端就差不多可以運行所有的核心功能了。
 
@@ -44,7 +44,7 @@ export default function Home() {
 
 接著試試看發送訊息，就會得到 Next 精美的報錯：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1755144960000hg8fe8.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1755144960000hg8fe8.png)
 
 這是因為即使在檔案開頭標記 `'use client'`，程式碼還是會在 hydration 階段執行一次，而 server 端是無法存取 `localStorage` 的，因此這段變數宣告會失敗。
 
@@ -66,7 +66,7 @@ const [roomId, setRoomId, removeRoomId] = useLocalStorage<string | null>({
 
 成功！
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1755151100000at6xe7.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1755151100000at6xe7.png)
 
 記得在離開配對時清空 `messages`，否則重新配對時，會跑出之前的訊息：
 
@@ -147,7 +147,7 @@ socket.on(CHAT_EVENT.LOAD, (data: ChatMessageDto[]) => {
 
 大功告成！
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1755164760000k0li46.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1755164760000k0li46.png)
 
 ## 加入音效
 
@@ -155,7 +155,7 @@ socket.on(CHAT_EVENT.LOAD, (data: ChatMessageDto[]) => {
 
 在試過 YouTube 和幾個素材網站後，最後我找到了[効果音ラボ](https://soundeffect-lab.info/)這個網站，標題也直接載明是免費自由使用，我們可以安心載下來：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1758092811000vtlht2.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1758092811000vtlht2.png)
 
 接下來要決定在什麼地方觸發這個音效：
 
@@ -202,7 +202,7 @@ function handleMessageReceive(newMessage: ChatMessageDto) {
 
 在測試的時候可能會收到這個警告：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/175810000400092drtq.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/175810000400092drtq.png)
 
 這是正常的，因為要防止使用者在關注其他分頁時，被這個分頁的自動播放機制嚇到，所以在使用者在完全沒有跟頁面互動過的情況下，[瀏覽器會禁止這些行為](https://developer.chrome.google.cn/blog/autoplay?hl=zh-tw#web_audio)，不管我們有沒有設定自動播放。
 

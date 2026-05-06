@@ -7,7 +7,7 @@ tags: ['Cozy Chat', '專案開發', '即時通訊']
 slug: 'cozy-chat-day29'
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1759218174000rltoyw.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1759218174000rltoyw.png)
 
 昨天我們提到**踩坑清單**，這個概念源自學生時期常聽到的「**錯題本**」，不過學生時期我其實很懶得做筆記......因為對學習模式沒有什麼概念，只知道就是要學、要考試，所以不知道「對自己有幫助的筆記」要怎麼做出來，最後就乾脆不做 XD
 

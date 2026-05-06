@@ -7,11 +7,11 @@ tags: ['Cozy Chat', 'WebSocket', '網路基礎']
 slug: cozy-chat-day2
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/17568642750002ow1fn.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/17568642750002ow1fn.png)
 
 前陣子在學習 NestJS 時，在 [Exception filters](https://docs.nestjs.com/exception-filters#arguments-host) 的章節有看到 `host` 這個參數，型別限制了 3 種值：`http`、`rpc`、`ws`，才知道 WebSocket 也是一種協定，而不是單指特定的函式或套件：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1756861964000nasaq9.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1756861964000nasaq9.png)
 
 ## 網路模型
 
@@ -27,7 +27,7 @@ slug: cozy-chat-day2
 
 ## 那個 Socket 到底是哪個 Socket
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/17568643950008l3d5z.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/17568643950008l3d5z.png)
 
 ### Socket
 

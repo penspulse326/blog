@@ -7,7 +7,7 @@ tags: ['Cozy Chat', '專案開發', '即時通訊']
 slug: 'cozy-chat-day4'
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/17570642610004dxnea.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/17570642610004dxnea.png)
 先前有提到 Socket.IO 封裝了 WebSocket 並加入一些實用的功能。接下來會跟著[官方範例](https://socket.io/get-started/chat)實作簡易聊天室，並補充一些知識。
 
 完整範例：[Stackblitz 連結](https://stackblitz.com/edit/stackblitz-starters-p9arorzu?file=index.html)
@@ -71,7 +71,7 @@ server.listen(3000, () => {
 
 啟動應用程式之後也可以看到只佔用了一個 port：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1750217688000pdrzeo.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1750217688000pdrzeo.png)
 
 所以 Socket.IO 其實也可以綁定到別的 server 實例，不過需要額外加入一些 CORS 的設定才能處理連線。
 
@@ -98,11 +98,11 @@ Stackblitz 的環境有一些連線限制，如果前端不是像先前使用 We
 
 這種情況下會自動退回到輪詢模式，query string 也可以看到 `transport=polling`：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1750226097000urn8sf.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1750226097000urn8sf.png)
 
 在自己電腦上開發就沒有這個問題了，初次連接中如果有成功升級協定，URL 就會從 `http://` 變成 `ws://`：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1750226193000fogmmt.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1750226193000fogmmt.png)
 
 因為共用同個實例，所以 `server.listen(...)` 啟動後 Express 也會正常運作，所以前端才能到達 `index.html` 這個畫面。
 
@@ -165,7 +165,7 @@ Socket.IO 傳輸資料的格式和 ws 套件也雷同，但是做了序列化的
 
 到這邊為止應該可以正常發送訊息了，~~除非官方在騙~~：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1757059863000bwtjom.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1757059863000bwtjom.png)
 
 ---
 

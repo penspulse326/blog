@@ -7,7 +7,7 @@ tags: ['Cozy Chat', '專案開發', '即時通訊']
 slug: 'cozy-chat-day7'
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1757323357000gnumr4.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1757323357000gnumr4.png)
 
 雖然這次的 side project 是致敬 WooTalk，但該有的規格還是要畫出來！沒有一些基本資料來對照的話，一邊開發一邊想流程對我來說還蠻困難的。
 
@@ -23,11 +23,11 @@ slug: 'cozy-chat-day7'
 
 如果能將流程盡量拆分好，無論是自己寫或是交由 AI Agent 執行，準確率也會更好：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1757319671000l0zptm.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1757319671000l0zptm.png)
 
 先將核心功能的流程畫出來，再看看其他功能是需要畫一組新的流程圖，或是在現有的圖上加工。使用者故事也可以列在旁邊做對照，方便盤點有什麼功能已經畫好：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1757319519000ims96o.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1757319519000ims96o.png)
 
 目前已經繪製：
 
@@ -42,7 +42,7 @@ slug: 'cozy-chat-day7'
 
 我打算用比較彈性（~~容易偷懶~~）的 MongoDB 來進行，根據上面的流程來看，大概有 4 個 collection：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/175732380700098zq8n.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/175732380700098zq8n.png)
 
 ### users
 
@@ -110,9 +110,9 @@ slug: 'cozy-chat-day7'
 
 一般的 RESTful API 就註記 HTTP 方法、URL 等屬性，WebSocket 的部分另外拉出來整理成事件表：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/17573258300000hxp2n.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/17573258300000hxp2n.png)
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1757325809000lae0nu.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1757325809000lae0nu.png)
 
 文件內文通常會再補上請求與回應的格式，但這邊我先偷懶不寫（欸
 

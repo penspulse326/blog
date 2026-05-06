@@ -7,11 +7,11 @@ tags: ['Cozy Chat', '專案開發', '即時通訊']
 slug: 'cozy-chat-day28'
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1759140576000rc5rby.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1759140576000rc5rby.png)
 
 記得我剛開始學前端的時候，也剛學會怎麼使用 Notion，所以每次看完一小節的課程影片，我就會寫筆記彙整一次：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1759135243000lhg6nq.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1759135243000lhg6nq.png)
 
 看起來好像很認真對吧？可是這其實不是我習慣的學習模式。
 
@@ -45,7 +45,7 @@ slug: 'cozy-chat-day28'
 
 第一次聽到 FOMO（錯失恐懼症）這個詞是在今年 4 月的關稅壁壘：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1759136789000fp1w1o.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1759136789000fp1w1o.png)
 
 在生成式 AI 被大量應用在日常生活中的這一兩年，獲取資訊的速度已經加速到「不會用 AI 就輸了」的境界，彷彿 GPT 的出現就是完成進化的普奇神父，每秒都在督促我們加速奔向資訊的天堂。
 
@@ -76,13 +76,13 @@ slug: 'cozy-chat-day28'
 
 開始看 Udemy 的課程惡補測試後，我甚至都不記得原來我很久以前寫過測試的筆記：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1759135313000vu41ik.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1759135313000vu41ik.png)
 
 所以偶爾也要放過自己！
 
 經常會用到的東西，慢慢就會記起來，反而是這些偶發性的問題，用短短的筆記簡單紀錄下來，讓未來的自己想起有這件事，就可以快速查閱、定位問題，最後成就滿滿地感謝當時有記下來的自己！
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/17591383510009wkk9x.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/17591383510009wkk9x.png)
 
 ---
 

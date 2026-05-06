@@ -7,7 +7,7 @@ tags: ['Cozy Chat', '專案開發', '即時通訊']
 slug: 'cozy-chat-day9'
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1757490531000yoqf26.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1757490531000yoqf26.png)
 
 這個專案我想把前後端都放在同個 repo，原因是：
 
@@ -27,13 +27,13 @@ Next 專案使用 [Automatic installation](https://nextjs.org/docs/app/getting-s
 
 目前的專案會有前後端兩包：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1752031702000ch3ykl.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1752031702000ch3ykl.png)
 
 接下來可以切換到前後端專案的目錄，試試看能否各自運行：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1752030838000yglrng.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1752030838000yglrng.png)
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/17520309080006dqp0n.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/17520309080006dqp0n.png)
 
 ---
 
@@ -129,9 +129,9 @@ pnpm 沒有 Nx 內建的 CLI 系統可以建置任意框架專案並自動調整
 
 ### 驗收成果
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1752048189000ai6ape.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1752048189000ai6ape.png)
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1752108844000c7gdwt.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1752108844000c7gdwt.png)
 
 我這次嘗試用使用免錢的 Gemini CLI 進行。任務結束後 Gemini 還有 97% 的上下文空間，所以理論上可以執行更久的長任務。但...免錢的最貴，除了執行到一半會從 Gemini Pro 切回 Gemini Flash 外，一定時間內能消耗的額度也是有限制的。可參考[配額與限制](https://cloud.google.com/gemini/docs/quotas?hl=zh-tw)
 
@@ -141,7 +141,7 @@ pnpm 沒有 Nx 內建的 CLI 系統可以建置任意框架專案並自動調整
 
 最容易遇到的問題大概是 `tsconfig` 或 `eslint.config` 路徑解析不正確，導致不管怎麼寫都會有紅字，可以留意 IDE 有沒有出現提示：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1753374313000pq0l0c.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1753374313000pq0l0c.png)
 
 有時候是 IDE 安裝的檢查器插件的問題，重開 IDE 之後紅字就會消失。有興趣的話也可以下指令 `Restart TS Server` 或 `Restart ESLint Server` 看看是誰在搞鬼！
 
@@ -157,15 +157,15 @@ pnpm 沒有 Nx 內建的 CLI 系統可以建置任意框架專案並自動調整
 
 大部分的 PaaS 都支援一鍵部署前端專案，Next 專案可以直接找它爹 Vercel，我甚至都還不用手動指定 Next 專案的目錄，它就已經找到了：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1752133566000tsbu49.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1752133566000tsbu49.png)
 
 完成！簡單、快速、且毫無波瀾......
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1752133681000ouc486.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1752133681000ouc486.png)
 
 才怪！Vercel 會提示找不到 `packages/lib` 的東西，要調整 `Build Command`，指示它必須先 build 共用庫才能接著 build 專案：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1752167400000yzvkwv.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1752167400000yzvkwv.png)
 
 ### 後端
 
@@ -173,11 +173,11 @@ pnpm 沒有 Nx 內建的 CLI 系統可以建置任意框架專案並自動調整
 
 Render 和 Vercel 一樣都可以指向特定資料夾做部署，不過實際行為會有點差異，例如在 Render 中必須自己加入 `pnpm install`，而 Vercel 不能讀取我在根目錄設定的指令，所以每個 PaaS 的部署規則還是要實際測試看看！
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1752170223000ltdz1j.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1752170223000ltdz1j.png)
 
 我的 Express 專案在 `package.json` 有這段指令 `"start": "node --env-file .env dist/index.js"`，要把 `.env` 的載入刪除，否則在 Render 部署時會報錯，表示找不到這個檔案，調整好就運行成功囉！
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1752170788000s3d80q.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1752170788000s3d80q.png)
 
 ---
 

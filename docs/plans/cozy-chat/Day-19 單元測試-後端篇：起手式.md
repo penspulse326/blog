@@ -7,7 +7,7 @@ tags: ['Cozy Chat', '專案開發', '即時通訊']
 slug: 'cozy-chat-day19'
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1758380127000paslve.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1758380127000paslve.png)
 
 不論是手動去操作產品，或是寫單元測試、腳本來測試，做出來的東西都需要被經過「驗證」，才算是做完了。在比較嚴格的委託中，乙方也會被要求專案必須通過一定程度的測試覆蓋率。
 
@@ -127,7 +127,7 @@ it('應該使用正確的資料建立使用者', async () => {
 
 試試看測試的結果吧！
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1755245486000bksps9.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1755245486000bksps9.png)
 
 ---
 
@@ -162,7 +162,7 @@ vi.mocked(userModel.createUser).mockResolvedValue(mockInsertResult);
 
 而 `userService.createUser` 原始的邏輯就會生成一個時間 `new Date()`，**所以 `actaul` 的時間絕對和 mock 資料時先宣告出來的時間不同**，最後測試失敗：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1758356729000mmwvqv.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1758356729000mmwvqv.png)
 
 如果一定要固定時間的話，可以搭配 hook 和 `vi` 方法設定定值：
 

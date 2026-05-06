@@ -7,7 +7,7 @@ tags: ['Cozy Chat', '專案開發', '即時通訊']
 slug: 'cozy-chat-day14'
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1757903543000132cuj.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1757903543000132cuj.png)
 
 知道如何定義資料之後，就可以將 Socket.IO 的事件和資料庫做串接了！
 
@@ -98,7 +98,7 @@ client.on(CHAT_EVENT.MATCH_START, (device: Device) => {
 
 開兩個無痕視窗測試看看配對邏輯是否正常：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1753691901000nuviqa.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1753691901000nuviqa.png)
 
 ### 分離 service
 
@@ -240,7 +240,7 @@ function handleMatchCancel(socketId: string) {
 
 在前端新增觸發取消配對 `MATCH_EVENT.CANCEL` 事件的按鈕，看看有沒有收到對應的廣播吧！
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1754319031000c3hqt9.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1754319031000c3hqt9.png)
 
 ---
 
@@ -301,7 +301,7 @@ async function updateUserStatus(userId: string, status: UserStatus): Promise<Use
 
 這時前面做過的反正規化就伏筆回收（？），因為 `user` 存了 `room_id`，執行 `updateUserStatus` 更新使用者的配對狀態後，就可以拿 `room_id` 對房間廣播「對方~~無情~~離開配對了」！
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1754364563000sfexs8.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1754364563000sfexs8.png)
 
 ---
 

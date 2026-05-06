@@ -7,7 +7,7 @@ tags: ['Cozy Chat', '專案開發', '即時通訊']
 slug: 'cozy-chat-day15'
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/17579245990002be3bb.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/17579245990002be3bb.png)
 
 接下來只剩聊天功能了！這部分的功能相對單純，但讀訊息的流程會稍微複雜一點。
 
@@ -63,7 +63,7 @@ async function sendChatMessage(data: SocketChatMessage): Promise<ChatMessageDto>
 
 測試送出訊息的邏輯：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1753781594000gojvlx.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1753781594000gojvlx.png)
 
 ## 讀取全部訊息
 
@@ -102,7 +102,7 @@ io.on('connection', (client: Socket) => {
 
 要留意執行 `handleCheckUser` 之前的判斷，透過 `socket.handshake.query` 拿出來的會是字串，從定義提示也可以看到：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/17579218190009dmksv.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/17579218190009dmksv.png)
 
 所以 `null` 實際上會轉成 `'null'`，這個值也要過濾掉。
 
@@ -177,7 +177,7 @@ if (isLeft) {
 
 調整 `index.html` 對應的事件，看看重新整理的對話紀錄是否還在：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1754466852000d4xsab.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1754466852000d4xsab.png)
 
 ---
 

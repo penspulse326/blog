@@ -7,7 +7,7 @@ tags: ['筆記', 'NestJS']
 slug: nestjs-custom-decorator
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1776849917000caugg4.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1776849917000caugg4.png)
 
 自訂裝飾器本身會在 class 定義時執行，主要用來設定 metadata 或建立參數解析邏輯。而這些結果會在請求流程中，例如 guard、pipe 被使用。
 

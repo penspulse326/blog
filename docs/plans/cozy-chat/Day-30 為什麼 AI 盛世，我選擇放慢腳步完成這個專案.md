@@ -7,7 +7,7 @@ tags: ['Cozy Chat', '專案開發', '即時通訊']
 slug: 'cozy-chat-day30'
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/17592868850007pnglb.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/17592868850007pnglb.png)
 
 不知不覺完賽了！目前的專案成果可以參考我的 [GitHub](https://github.com/penspulse326/cozy-chat)。
 
@@ -29,7 +29,7 @@ slug: 'cozy-chat-day30'
 
 那時終於理解，我只是在滿足別人的社會期待，所以他們越不爽我越開心（欸）......開玩笑的，我想我應該與自己和解了。
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1759286665000dq5cva.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1759286665000dq5cva.png)
 
 ---
 
@@ -47,7 +47,7 @@ slug: 'cozy-chat-day30'
 
 學習的確伴隨著痛苦，有很多細節或是原理可能至今也說不清、看不懂，但是寫程式讓我得到的成就感遠大於痛苦，我想這是我暫時還沒有想要離開這個領域的原因。
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1759286702000rcxyos.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1759286702000rcxyos.png)
 
 ---
 
@@ -61,7 +61,7 @@ slug: 'cozy-chat-day30'
 
 **體驗**也許是一段可以引起共鳴的回憶，但是沒有任何東西可以替代我們**親自體驗**。
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1759286510000fdl95h.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1759286510000fdl95h.png)
 
 ---
 

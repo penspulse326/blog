@@ -7,7 +7,7 @@ tags: ['Cozy Chat', '專案開發', '即時通訊']
 slug: 'cozy-chat-day8'
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/17574267810008439ra.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/17574267810008439ra.png)
 
 如果是個人研究、純屬玩玩，那麼開心就好！
 
@@ -51,7 +51,7 @@ slug: 'cozy-chat-day8'
 | 資源要求 | 低   | 高   |
 
 純聊天室的功能不需要 SEO，但後續可能會加入**尋人啟事**的功能，加上我懶得寫路由表，所以會以 SSR 框架為主。而我有實際使用 Next 拿來開發過小專案，Nuxt 完全沒碰過，因此勝出者就是......
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1751705376000eronfj.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1751705376000eronfj.png)
 
 （？？？
 
@@ -61,7 +61,7 @@ slug: 'cozy-chat-day8'
 
 SSR 框架的盛行讓 Tailwind 為基底的 UI 庫如雨後春筍般冒出，因為它們最終都會編譯出容量及小的靜態 CSS 檔，讓整體載入效率更好。同樣是靜態檔案，萬年不敗的 Bootstrap 則常被調侃過時了~~「老東西，你的技術最沒用啦」~~（JOJO 梗）。
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1757427595000b35cig.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1757427595000b35cig.png)
 
 從自學時期到正職工作這幾年，我都沒有真的持續使用一套 UI 庫，只有在臨時救火會碰到，大部分情況都是手刻。在 React 環境中我比較常用 styled-components 這類 CSS in JS 的技術。
 

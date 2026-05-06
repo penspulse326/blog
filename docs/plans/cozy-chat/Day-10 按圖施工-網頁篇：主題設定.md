@@ -7,7 +7,7 @@ tags: ['Cozy Chat', '專案開發', '即時通訊']
 slug: 'cozy-chat-day10'
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/17575591610004vrldg.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/17575591610004vrldg.png)
 
 ~~灌水了四天後~~終於來到實作階段了！這次選用的也是我沒使用過的 UI 庫，又回到學習新東西的新鮮感了 XD
 
@@ -53,7 +53,7 @@ export default function Home() {
 
 Mantine 的導入就完成啦！
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1752204687000zwfnkv.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1752204687000zwfnkv.png)
 
 ---
 
@@ -63,7 +63,7 @@ Mantine 的導入就完成啦！
 
 我之前會用 [Coolors](https://coolors.co/) 隨機抽顏色，但這樣有點難定位出一組滿意的顏色，所以最後是在 [Color Hunt](https://colorhunt.co/) 找到喜歡的色系，畢竟術業有專攻！
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1752299681000aij0cf.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1752299681000aij0cf.png)
 
 接著就可以把顏色帶到程式碼裡，可以使用 Mantine 提供的色階產生器 `generateColors` 產出色階陣列：
 
@@ -110,7 +110,7 @@ export const theme = createTheme({
 
 Mantine 的部分元件只要不指定顏色，預設會帶入剛剛在 `theme` 定義的 `primaryColor`，所以目前會呈現 `moss-green` 這個顏色：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1752303369000q8057e.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1752303369000q8057e.png)
 
 元件會以第 6 階作為顏色的預設值，但剛剛丟進去的顏色並不是每種都落在第 6 階，會經過明暗度計算公式進行偏移，像是 `navy-steel` 要到第 9 階才是原本傳入的顏色。
 
@@ -130,7 +130,7 @@ export const theme = createTheme({
 
 Mantine 提供 `AppShell` 這個好用的元件，正如其名，是一般常見的儀表板佈局：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/175258851800091drsl.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/175258851800091drsl.png)
 
 :::warning  
 注意這個元件的範例中有用到 `useDisclosure` 這個 hook，因此檔案開頭記得加上 `'use client'` 才不會跑出 hydrate 失敗的報錯。在剛剛的 `theme.ts` 也有用到這個標記。
@@ -164,7 +164,7 @@ Mantine 提供 `AppShell` 這個好用的元件，正如其名，是一般常見
 
 這時選單就能透過 `Burger` 來控制了，但 `AppShell.Navbar` 的行為會把 `AppShell.Main` 往右推，`AppShell.Header` 則是固定在畫面上緣不動，所以原本的 `Burger` 會被蓋住：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1752591267000y52qba.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1752591267000y52qba.png)
 
 這邊有幾種可能的解決方案：
 
@@ -199,7 +199,7 @@ Mantine 提供 `AppShell` 這個好用的元件，正如其名，是一般常見
 
 `AppShell.Navbar` 原本預設在 `mobile` 佈局會是滿版的，必須設定 `max-width` 來控制，但剛剛將 `breakpoint` 設為 0 之後永遠不會被觸發，那麼這個寬度就會維持在 `AppShell` 上寫好的 280px：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1752592483000n48nbb.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1752592483000n48nbb.png)
 
 導覽列到這邊差不多能運作啦！
 
@@ -239,7 +239,7 @@ Mantine 提供 `AppShell` 這個好用的元件，正如其名，是一般常見
 </AppShell.Main>
 ```
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1752650366000zrj4x7.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1752650366000zrj4x7.png)
 
 ---
 
@@ -261,7 +261,7 @@ const notoSansTC = Noto_Sans_TC({
 
 設定完會發現字體沒有載入，是顯示作業系統的預設字體：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1752652112000d151ry.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1752652112000d151ry.png)
 
 原因是 Mantine 的 provider 會注入全域樣式，所以 `theme` 這裡也要載入字體：
 
@@ -318,7 +318,7 @@ export const theme = createTheme({
 
 好久沒有用其他中文字體了！
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1757557343000gqaeyf.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1757557343000gqaeyf.png)
 
 ---
 
@@ -328,7 +328,7 @@ export const theme = createTheme({
 
 我在 Canva 上找了一些免費範本微調後輸出圖片，但免費會員只能輸出有背景的 PNG 檔，需要自己去背：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1752655970000pbfjbf.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1752655970000pbfjbf.png)
 
 :::info  
 初期還抓不太到網站整體的設計風格時，我會選一些簡單的線條、色塊組成圖案，能夠呈現基本概念和方便套顏色就好。

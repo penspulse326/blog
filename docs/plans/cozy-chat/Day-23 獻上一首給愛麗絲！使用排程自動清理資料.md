@@ -7,7 +7,7 @@ tags: ['Cozy Chat', '專案開發', '即時通訊']
 slug: 'cozy-chat-day23'
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1758706257000cupymj.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1758706257000cupymj.png)
 
 大家有追垃圾車的經驗嗎？無論是《少女的祈禱》還是《給愛麗絲》，我們聽到垃圾車的鈴聲，身體就會自己動起來 XD（並沒有）
 
@@ -26,7 +26,7 @@ async function bootstrap() {
 await bootstrap();
 ```
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1758652599000y23sxz.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1758652599000y23sxz.png)
 
 就這樣？對......所以理論上可以用 `setInterval` 做到類似的事：
 
@@ -118,7 +118,7 @@ export function setupCronJobs() {
 
 現在可以啟動本機伺服器來試試看：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1758683248000x1gduy.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1758683248000x1gduy.png)
 
 可以看到第一次的排程有執行到刪除，這時本機的使用者應該都清空了，後面就沒有刪除成功的 log，到此就完成第一個清理資料的排程設計啦！
 
@@ -160,7 +160,7 @@ async function removeUserFromChatRoom(roomId: string, userId: string): Promise<C
 
 在 `removeInactiveUsers` 中呼叫這個方法，多開幾個聊天室後就可以去泡咖啡了（？），再回來看看排程有沒有正常執行：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/17586935590007s69ei.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/17586935590007s69ei.png)
 
 最後再實作移除聊天室的邏輯：
 
@@ -202,7 +202,7 @@ export function setupCronJobs() {
 }
 ```
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1758695489000haskm7.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1758695489000haskm7.png)
 
 ---
 
@@ -242,11 +242,11 @@ async function removeEmptyChatRooms(): Promise<void> {
 
 最後啟動伺服器觀察排程執行：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1758701833000rjdtnx.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1758701833000rjdtnx.png)
 
 在本機做完，當然也要測試一下線上的環境！Render 的終端如果也有執行排程，就算成功了：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/17587028260001ekgck.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/17587028260001ekgck.png)
 
 ---
 
@@ -302,7 +302,7 @@ PaaS 雖然部署方便，不過天下沒有白吃的午餐！大部分的服務
 
 從 Render 的終端也可以看到，只要進行過冷啟動或重新部署，中間的代號也會更換：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1758704511000u15i9x.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1758704511000u15i9x.png)
 
 這時候又有免費午餐（？）可以吃了，線上也有免費的排程服務可以定時發出請求！這裡我使用 [cron-job.org](https://cron-job.org/en/)。
 
@@ -317,13 +317,13 @@ app.get('/health', () => {
 
 然後將 Render 的 URL 加上這個路由，填入 cron-job.org 的表單：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1758705359000cvcpz2.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1758705359000cvcpz2.png)
 
 （~~熟悉的 MUI~~）
 
 正式啟動排程之前也可以先按 TEST RUN，如果成功的話，排程就沒什麼問題了！
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1758705278000071ioa.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1758705278000071ioa.png)
 
 ---
 

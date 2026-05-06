@@ -7,7 +7,7 @@ tags: ['Cozy Chat', '專案規劃', '即時通訊']
 slug: cozy-chat-day1
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1756704469000wh6xmh.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1756704469000wh6xmh.png)
 
 大家多少都聽過或是用過網路聊天室、交友軟體之類的吧？像是台灣人一定知道的 PTT，或是 Skout、BeeTalk、Tinder 等等族繁不及備載。
 
@@ -53,7 +53,7 @@ slug: cozy-chat-day1
 
 真的，就只有一點點......
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1756743290000t6o8lj.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1756743290000t6o8lj.png)
 
 「在開發過程中慢慢摸索」才是隕石開發的醍醐味^O^
 

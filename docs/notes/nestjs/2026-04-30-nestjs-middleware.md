@@ -7,7 +7,7 @@ tags: ['筆記', 'NestJS']
 slug: nestjs-middleware
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/17780355150001d7sqw.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/17780355150001d7sqw.png)
 
 功能同 Express 的 middleware，可以存取請求物件、回應物件，並透過 `next` 繼續運行流程。
 

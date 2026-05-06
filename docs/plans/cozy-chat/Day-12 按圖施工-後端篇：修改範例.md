@@ -7,7 +7,7 @@ tags: ['Cozy Chat', '專案開發', '即時通訊']
 slug: 'cozy-chat-day12'
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/17577740130000kk4z6.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/17577740130000kk4z6.png)
 
 基本的配對邏輯在先前已經有 [Stackblitz 的範例](https://stackblitz.com/edit/stackblitz-starters-na3vanlj?file=index.js)
 了，來先試著搬過來！範例中的命名會取得比較簡短好懂，但接下來會有比較多交互行為，命名就不能太隨意，所以重構的過程中也會一併調整。
@@ -26,7 +26,7 @@ slug: 'cozy-chat-day12'
 
 最後確認 `index.html` 能在指定的 port 中渲染出來就算初步遷移完成囉：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1753167796000gut2we.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1753167796000gut2we.png)
 
 ---
 
@@ -197,7 +197,7 @@ function addUserToPool(newUserId: string) {
 
 調整一下 `index.html` 的事件，出現 `配對失敗` 就算是成功囉！
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1753240936000n8mav6.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1753240936000n8mav6.png)
 
 ---
 

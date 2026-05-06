@@ -7,7 +7,7 @@ tags: ['Cozy Chat', '專案開發', '即時通訊']
 slug: 'cozy-chat-day5'
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1757164512000zqagql.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1757164512000zqagql.png)
 
 昨天我們已經了解 Socket.IO 的基本事件流程，今天要運用 Socket.IO 的房間機制，實作一對一聊天配對的功能！完整範例：[連結](https://stackblitz.com/edit/stackblitz-starters-na3vanlj?file=index.js)
 
@@ -268,7 +268,7 @@ server.listen(3000, () => {
 
 實際運行結果：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1757167627000st35we.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1757167627000st35we.png)
 
 ---
 

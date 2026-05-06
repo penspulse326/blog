@@ -7,7 +7,7 @@ tags: ['Cozy Chat', '專案開發', '即時通訊']
 slug: 'cozy-chat-day26'
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/17589877640003x0877.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/17589877640003x0877.png)
 
 ~~蛤啦？說話啊？啞吧哦？沒廣了哦哈哈洗洗睡吧 Zz~~
 
@@ -138,7 +138,7 @@ io.to(roomId).emit(CHAT_EVENT.UNBLOCK, { userId });
 
 成功的話前端就可以先試著洗頻，看後端的 log 有沒有顯示觸發限流：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1758985018000v965p6.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1758985018000v965p6.png)
 
 蛤後端的邏輯就這樣而已嗎？對......只是限流要經過的判斷稍微多一點，所以寫的過程不一定會很順利，我自己一開始就漏掉最基本的 `if(isBlocked)`，結果在前端測試的時候發現被限流還是能傳訊息 XDDD
 
@@ -252,11 +252,11 @@ export interface SocketInstance {
 
 最後來實測警告提示與輸入框的狀態吧！
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1758984621000vp2k73.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1758984621000vp2k73.png)
 
 收到警告後 10 秒應該會解除限流，這段期間請做一個深呼吸，然後發誓不要再洗頻，~~不然人家真的會被嚇跑~~：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1758984654000ylghv3.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1758984654000ylghv3.png)
 
 ---
 

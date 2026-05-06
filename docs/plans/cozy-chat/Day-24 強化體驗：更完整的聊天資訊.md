@@ -7,7 +7,7 @@ tags: ['Cozy Chat', '專案開發', '即時通訊']
 slug: 'cozy-chat-day24'
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1758747609000tr886q.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1758747609000tr886q.png)
 
 這次的鐵人賽感覺一直在後端打滾，但其實我是一名前端工程師，~~所以應該多洗一點前端的主題~~，致力於打造更好的操作體驗，也是我當初的選擇走這一行的原因！
 
@@ -90,11 +90,11 @@ const lastYear = new Date(2024, 0, 1); // 2024年1月1日
 <Text size="xs">{formatMessageTime(lastYear)}</Text>
 ```
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1758739663000e32rxf.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1758739663000e32rxf.png)
 
 看起來沒什麼問題，但實際操作的時候......過了多久都還是顯示「剛剛」：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1758737696000lx3q4m.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1758737696000lx3q4m.png)
 
 元件從接收到時間資料後，內部並沒有狀態變化，所以在畫面的時間顯示也就不會持續刷新。
 
@@ -114,7 +114,7 @@ useEffect(() => {
 
 好耶！
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1758742495000wf3zr6.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1758742495000wf3zr6.png)
 
 ---
 
@@ -142,7 +142,7 @@ export function getDeviceType() {
 
 雖然在本機可以用瀏覽器的 DevTools 模擬非電腦的裝置，讓配對資訊顯示 `'行動裝置'`，不過線上使用的情況才是我們想知道的，所以部署成功後用真的手機~~自言自語~~測試看看吧！
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1758746972000tbzoho.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1758746972000tbzoho.png)
 
 ---
 

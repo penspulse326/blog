@@ -7,7 +7,7 @@ tags: ['Cozy Chat', '專案開發', '即時通訊']
 slug: 'cozy-chat-day18'
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1758269138000rv5dat.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1758269138000rv5dat.png)
 
 目前已經順利做到 MVP 的程度了，今天就來點輕鬆回（ㄐㄧㄢˇ）顧（ㄊㄠˇ）吧！
 
@@ -37,7 +37,7 @@ slug: 'cozy-chat-day18'
 
 最後我也用 AI 生成了 Mermaid 語法圖表，重新梳理目前實作出來的事件流程，與規劃的方向有沒有符合。發現問題的話也可以在此階段統整出待調整的項目：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1758255125000vxhi8l.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1758255125000vxhi8l.png)
 
 ```mermaid
 sequenceDiagram
@@ -121,7 +121,7 @@ sequenceDiagram
 
 不信嗎？問問看 AI：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1758260032000szvhys.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1758260032000szvhys.png)
 
 （~~史詩級吹捧~~）
 

@@ -55,7 +55,7 @@ slug: css-grid-system
 到下面的圖卡、文字等，它們距離畫面左右邊界的距離是一樣的，  
 這是因為這些元素都放在**容器**（container）裡面：
 
-![PCHOME 首頁](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/2023/202317132893520007hjrlf.png)
+![PCHOME 首頁](https://raw.githubusercontent.com/penspulse326/blog/images/2023/202317132893520007hjrlf.png)
 
 在遇到螢幕較寬的情況下，設計上會希望內容不會因為螢幕的寬度變寬，  
 導致圖片或區塊的編排也被橫向拉扯，這時會設定最大寬度來保證元素不會超出這個範圍。
@@ -102,7 +102,7 @@ slug: css-grid-system
 比如下面的設計稿可以看到，導覽列的 logo 設定為 1 格寬，  
 畫面右邊的大 logo 與按鈕則是佔了 4 格，並且要在第 8 格出現：
 
-![2022F2E UI 組小菜的稿件](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/2023/20231713289176000p3tk0v.png)
+![2022F2E UI 組小菜的稿件](https://raw.githubusercontent.com/penspulse326/blog/images/2023/20231713289176000p3tk0v.png)
 
 格子之間會有一個間距而不是緊緊相連的，設計稿通常也會設定這個間距的大小，  
 稱為 gutter，gutter 在不同的版面設計上有可能是不同寬度的，所以在撰寫時要注意。
@@ -191,7 +191,7 @@ row 就是一個有 flex 屬性的容器，必須搭配上 `flex-wrap: wrap` 的
 
 （因為前面設定手機是 4 格，所以如果元素是 4 格寬就是滿版了）
 
-![兩個版型的 row 變化](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/2023/20231713289256000933swj.png)
+![兩個版型的 row 變化](https://raw.githubusercontent.com/penspulse326/blog/images/2023/20231713289256000933swj.png)
 
 這時 row 或是其他具有 flex 屬性的容器，搭配 gap 屬性就可以起到很好的分隔效果，  
 這些元素會依照 gap 的數值分開，並且頭尾元素也不會產生額外的間距。

@@ -7,7 +7,7 @@ tags: ['Cozy Chat', '專案開發', '即時通訊']
 slug: 'cozy-chat-day16'
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1758077395000i37za7.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1758077395000i37za7.png)
 
 終於來到 MVP 的最後一關！
 
@@ -83,7 +83,7 @@ export type MatchStatus = 'standby' | 'waiting' | 'matched' | 'error' | 'left' |
 
 接著會發現後端完全沒有連線後的 log，前端這裡則是顯示了幾個 error：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/17545468370007w21xo.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/17545468370007w21xo.png)
 
 這是因為後端沒有任何跨域設定，而且很常使用的 `cors` 套件，只對 HTTP 協定生效，Socket.IO 的部分要自行設定：
 
@@ -138,7 +138,7 @@ function handleMatchSuccess(data: MatchSuccessData) {
 
 狀態轉移到 `'matched'` 後只有 UI 呈現會變動，所以 `useEffect` 還不用偵測這個狀態。
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1754553355000n3ul7d.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1754553355000n3ul7d.png)
 
 ---
 
@@ -253,7 +253,7 @@ socketRef.current.on(MATCH_EVENT.LEAVE, () => {
 }
 ```
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/175498286000099oq6q.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/175498286000099oq6q.png)
 
 ---
 

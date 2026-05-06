@@ -7,7 +7,7 @@ tags: ['Cozy Chat', '專案開發', '即時通訊']
 slug: 'cozy-chat-day11'
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1757647396000qrdxuy.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1757647396000qrdxuy.png)
 
 接下來要實作聊天功能的元件！切版部分就不會提太多細節，會以元件的設計思路為主～
 
@@ -279,7 +279,7 @@ export default function ChatActionBar({ matchStatus, onSendMessage, onLeaveMatch
 
 看起來好多了～也不會因為突然出現的 Y 軸造成畫面推擠！
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1752765680000hx4ooj.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1752765680000hx4ooj.png)
 
 還有一個相當影響使用體驗的問題：每次輸入新的訊息時容器高度會不斷改變，但 scrollbar thumb 並不會自動移動到底部。
 
@@ -316,7 +316,7 @@ useEffect(() => {
 }, [matchStatus, messages]);
 ```
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1753091086000c26a67.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1753091086000c26a67.png)
 
 :::info  
 用 `useRef` 操作 DOM 時，一定是在相關的狀態更新後，DOM 重新渲染結束才去操作，所以會搭配 `useEffect`。在比較複雜的容器中要留意狀態更新的問題，不然會變成先操作了 DOM 結果又被刷掉的狀況，這時候可能會懷疑人生 XD
@@ -591,11 +591,11 @@ export default function Blobs() {
 
 我不是在 `Blob` 的 JSX 中透過 `className` 注入樣式，而是在 `initBlob` 中加入：`blobRef.current.classList.add(styles.blob)`，因為我發現泡泡位置的初始化會稍微晚一點才執行，如果這時候已經注入樣式的話，會先帶入裡面設定的位置，讓泡泡停在左上角一下下：
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1752728831000qn0i8n.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1752728831000qn0i8n.png)
 
 將顏色調整到滿意後就完成囉！
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1752742265000iomf1r.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1752742265000iomf1r.png)
 
 ---
 

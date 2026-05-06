@@ -11,7 +11,7 @@ slug: react-taiwan-map
 不過我們志在參加，不在得獎，有入圍真的是萬幸！  
 ~~（還好沒有砸火箭隊的招牌）~~
 
-![入圍名單](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/2023/1713373269000uw3de8.png)
+![入圍名單](https://raw.githubusercontent.com/penspulse326/blog/images/2023/1713373269000uw3de8.png)
 
 獻醜一下我們的[開票地圖](https://penspulse326.github.io/F2E2023-2/)，要感謝 UI 同學幫我們畫香香的設計稿，  
 也願意配合需求幫忙修改稿件，彼此都學到很多東西呢^\_^
@@ -55,7 +55,7 @@ id 這個屬性可以透過這兩種方式加上去：
 考量到會有個別控制每個 path 的情況，所以選用這種 inline-style 的方式寫樣式，  
 如果 SVG 是用 AI 做的，輸出時記得把樣式設定改為**內嵌樣式**才會變成這個寫法。
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/2023/1713373384000dq9opg.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/2023/1713373384000dq9opg.png)
 
 ---
 

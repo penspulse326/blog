@@ -7,7 +7,7 @@ tags: ['Cozy Chat', '專案開發', '即時通訊']
 slug: 'cozy-chat-day6'
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1750173926000shit85.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1750173926000shit85.png)
 
 在了解 WebScoket 與 Socket.IO 的運作方式後，就......該止癢了吧？接下來就要老老實實規劃專案該有的樣貌了！
 
@@ -25,7 +25,7 @@ slug: 'cozy-chat-day6'
 
 ## 使用者故事
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1757251109000mddmnt.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/1757251109000mddmnt.png)
 
 使用者故事是以貼近日常口語的概念（自然語言）來描述功能需求。通常會在與客戶、利害關係人的需求訪談中進行一系列的歸納，最後梳理幾項必須要有的核心功能。
 
@@ -65,7 +65,7 @@ slug: 'cozy-chat-day6'
 2. 市場變動太快，已經不需要原先的需求
 3. 利害關係人不玩了
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/175725215600086tsbp.png)
+![gh](https://raw.githubusercontent.com/penspulse326/blog/images/175725215600086tsbp.png)
 
 ......等等各種原因，導致原先談好的需求都一一被推翻。所以開發初期要快速試錯、捕捉市場或利害關係人的需求之外，這些功能的開發順序也需要釐清，才能有效率地推出一個可供使用的 MVP。
 

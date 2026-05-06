@@ -1,10 +1,10 @@
 ---
-title: 'Interceptor'
+title: '[元件] Interceptor'
 description: 'NestJS 的 Interceptor 概念'
-date: 2025-05-02 19:33:00
+date: 2026-05-01 19:33:00
 keywords: [程式語言, 後端框架, 設計模式, 物件導向, 依賴注入, JavaScript, TypeScript, NestJS, OOP, DI]
 tags: ['筆記', 'NestJS']
-slug: nestjs-middleware
+slug: nestjs-interceptor
 ---
 
 ![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1776849917000caugg4.png)
@@ -33,16 +33,16 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class TestInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-		console.log('請求階段的 TestInterceptor');
+    console.log('請求階段的 TestInterceptor');
 
-		return next.handle().pipe(
-		  map((data) => {
-				console.log('回傳 Data: ', data);
-				console.log('回傳階段的 TestInterceptor');
-				return data;
-		}),
-	);
-}
+    return next.handle().pipe(
+      map((data) => {
+        console.log('回傳 Data: ', data);
+        console.log('回傳階段的 TestInterceptor');
+        return data;
+      }),
+    );
+  }
 ```
 
 利用 `context` 取得的資料，就可以在 `pipe` 中重組回應物件的格式：

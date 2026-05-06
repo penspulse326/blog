@@ -1,13 +1,13 @@
 ---
-title: 'Pipe'
+title: '[元件] Pipe'
 description: 'NestJS 的 Pipe 概念'
-date: 2025-05-02 19:33:00
+date: 2026-04-29 19:33:00
 keywords: [程式語言, 後端框架, 設計模式, 物件導向, 依賴注入, JavaScript, TypeScript, NestJS, OOP, DI]
 tags: ['筆記', 'NestJS']
 slug: nestjs-pipe
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1776849917000caugg4.png)
+![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/17780355150001d7sqw.png)
 
 pipe 可以驗證輸入輸出的格式並進行**轉型**。
 

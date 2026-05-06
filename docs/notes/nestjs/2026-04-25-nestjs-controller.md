@@ -1,13 +1,11 @@
 ---
-title: 'Controller'
+title: '[元件] Controller'
 description: 'NestJS 的 Controller 概念'
-date: 2025-04-29 17:55:00
+date: 2026-04-25 17:55:00
 keywords: [程式語言, 後端框架, 設計模式, 物件導向, 依賴注入, JavaScript, TypeScript, NestJS, OOP, DI]
 tags: ['筆記', 'NestJS']
 slug: nestjs-controller
 ---
-
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1776849917000caugg4.png)
 
 ## 路由
 

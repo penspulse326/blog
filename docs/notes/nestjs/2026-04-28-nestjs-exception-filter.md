@@ -1,13 +1,11 @@
 ---
-title: 'Exception Filter'
+title: '[元件] Exception Filter'
 description: 'NestJS 的 Exception Filter 概念'
-date: 2025-05-02 17:55:00
+date: 2026-04-28 17:55:00
 keywords: [程式語言, 後端框架, 設計模式, 物件導向, 依賴注入, JavaScript, TypeScript, NestJS, OOP, DI]
 tags: ['筆記', 'NestJS']
 slug: nestjs-exception-filter
 ---
-
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1776849917000caugg4.png)
 
 NestJS 的全域例外處理只會捕捉 `HttpException` 或它的子類別，所以接下來要先介紹這個 exception 的幾種用法。
 

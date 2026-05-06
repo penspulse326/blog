@@ -1,10 +1,10 @@
 ---
-title: 'Guard'
+title: '[元件] Guard'
 description: 'NestJS 的 Guard 概念'
-date: 2025-05-02 19:33:00
+date: 2026-05-02 19:33:00
 keywords: [程式語言, 後端框架, 設計模式, 物件導向, 依賴注入, JavaScript, TypeScript, NestJS, OOP, DI]
 tags: ['筆記', 'NestJS']
-slug: nestjs-middleware
+slug: nestjs-guard
 ---
 
 ![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1776849917000caugg4.png)
@@ -52,7 +52,7 @@ export class TestAuthGuard implements CanActivate {
 @Get('/:id')
 @UseGuards(TestAuthGuard)
 testId(@Param('id') id: string) {
-	return `test ${id}`;
+  return `test ${id}`;
 }
 ```
 

@@ -1,13 +1,13 @@
 ---
-title: 'Middleware'
+title: '[元件] Middleware'
 description: 'NestJS 的 Middleware 概念'
-date: 2025-05-02 19:33:00
+date: 2026-04-30 19:33:00
 keywords: [程式語言, 後端框架, 設計模式, 物件導向, 依賴注入, JavaScript, TypeScript, NestJS, OOP, DI]
 tags: ['筆記', 'NestJS']
 slug: nestjs-middleware
 ---
 
-![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1776849917000caugg4.png)
+![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/17780355150001d7sqw.png)
 
 功能同 Express 的 middleware，可以存取請求物件、回應物件，並透過 `next` 繼續運行流程。
 

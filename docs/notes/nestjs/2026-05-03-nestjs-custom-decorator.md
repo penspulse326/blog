@@ -1,10 +1,10 @@
 ---
-title: 'Custom Decorator'
+title: '[元件] Custom Decorator'
 description: 'NestJS 的 Custom Decorator 概念'
-date: 2025-05-02 19:33:00
+date: 2026-05-03 19:33:00
 keywords: [程式語言, 後端框架, 設計模式, 物件導向, 依賴注入, JavaScript, TypeScript, NestJS, OOP, DI]
 tags: ['筆記', 'NestJS']
-slug: nestjs-middleware
+slug: nestjs-custom-decorator
 ---
 
 ![gh](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/images/1776849917000caugg4.png)
@@ -28,7 +28,7 @@ export const TestMetadata = (...args: string[]) => SetMetadata('test', args);
 @UseGuards(TestAuthGuard)
 @TestMetadata('test', 'test2')
 test() {
-	return 'test';
+  return 'test';
 }
 ```
 
@@ -121,7 +121,7 @@ export const TestComposition = (...args: string[]) => applyDecorators(UseGuards(
 @Get()
 @TestComposition('Here is metadata from TestComposition')
 test() {
-	return 'test';
+  return 'test';
 }
 ```
 

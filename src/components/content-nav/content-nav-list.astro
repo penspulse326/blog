@@ -5,11 +5,11 @@ import type { CategoryContentItem, CategoryWithContent } from '../../utils/conte
 interface Props {
   aAttrs?: (item: CategoryContentItem) => Record<string, boolean | string | undefined>;
   activeId?: string;
-  navigation: CategoryWithContent[];
   isDrawerMode?: boolean;
+  navigation: CategoryWithContent[];
 }
 
-const { aAttrs, activeId, navigation, isDrawerMode = false } = Astro.props;
+const { aAttrs, activeId, isDrawerMode = false, navigation } = Astro.props;
 ---
 
 <div class={isDrawerMode ? 'space-y-1' : 'space-y-2'}>
@@ -45,7 +45,7 @@ const { aAttrs, activeId, navigation, isDrawerMode = false } = Astro.props;
                       'rounded-lg text-sm transition-all duration-200',
                       isDrawerMode ? 'py-2 px-3 flex items-center gap-3' : 'block py-2 px-3',
                       item.id === activeId
-                        ? isDrawerMode && 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white font-bold'
+                        ? 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white font-bold'
                         : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white',
                     ]}
                     href={item.url}

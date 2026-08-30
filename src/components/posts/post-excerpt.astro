@@ -6,7 +6,7 @@ interface Props {
 const { Content } = Astro.props;
 ---
 
-<post-excerpt class="post-excerpt-wrapper block">
+<post-excerpt class="block text-slate-600 dark:text-slate-400 leading-relaxed">
   <Content />
 </post-excerpt>
 
@@ -15,12 +15,10 @@ const { Content } = Astro.props;
     connectedCallback() {
       const walker = document.createTreeWalker(this, NodeFilter.SHOW_COMMENT, null);
       let comment;
-      let truncateFound = false;
 
       // 尋找 truncate 註解
       while ((comment = walker.nextNode())) {
         if (comment.textContent?.trim() === 'truncate') {
-          truncateFound = true;
           // 隱藏此註解之後的所有兄弟元素
           let sibling = comment.nextSibling;
 
@@ -48,14 +46,3 @@ const { Content } = Astro.props;
 
   customElements.define('post-excerpt', PostExcerpt);
 </script>
-
-<style>
-  .post-excerpt-wrapper {
-    color: var(--color-slate-500);
-    line-height: 1.6;
-  }
-
-  :global(:where(.dark, .dark *) post-excerpt) {
-    color: var(--color-slate-400);
-  }
-</style>

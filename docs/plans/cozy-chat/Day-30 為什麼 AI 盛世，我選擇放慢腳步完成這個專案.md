@@ -77,4 +77,4 @@ slug: 'cozy-chat-day30'
 
 最後感謝約好一起參與這次鐵人賽的夥伴們，不論是六角學院還是火箭隊。鐵人賽的期間我經常會在晚餐後的小睡中驚醒，然後才想起來自己凌晨或白天已經發過文了。只有自己一個人的話，大概在中途的某一天就會因為睡過頭而慘遭斷賽了吧 XD
 
-![](https://raw.githubusercontent.com/penspulse326/penspulse326.github.io/refs/heads/images/1-pk_t.gif)
+![](https://raw.githubusercontent.com/penspulse326/blog/images/1-pk_t.gif)

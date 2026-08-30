@@ -1,0 +1,21 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  currentPage?: number;
+  tag: string;
+  total: number;
+}
+
+const { currentPage, tag, total } = Astro.props;
+---
+
+<div class="mb-4">
+  <h2 class="text-3xl font-black text-slate-900 dark:text-white mb-2 flex items-center gap-3 mt-0!">
+    <Icon class="text-primary" name="bi:tag" />
+    標籤：{tag}
+  </h2>
+  <p class="text-slate-500 dark:text-slate-400 font-medium">
+    共 {total} 篇文章{currentPage ? ` (第 ${currentPage} 頁)` : ''}
+  </p>
+</div>

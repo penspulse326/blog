@@ -1,0 +1,25 @@
+---
+interface Props {
+  skills?: string[];
+}
+
+const defaultSkills = ['JavaScript / TypeScript', 'Vue / Nuxt', 'React / Next', 'Node.js / Express / NestJS'];
+
+const { skills = defaultSkills } = Astro.props;
+---
+
+<article
+  class="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 transition-all duration-300"
+>
+  <h2 class="text-lg font-bold text-slate-900 dark:text-white card-title-underline mb-4">使用技術</h2>
+  <ul class="grid grid-cols-1 gap-2 text-sm text-slate-700 dark:text-slate-300 font-medium">
+    {
+      skills.map((skill) => (
+        <li class="flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-primary" />
+          {skill}
+        </li>
+      ))
+    }
+  </ul>
+</article>

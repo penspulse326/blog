@@ -1,169 +1,21 @@
 ---
-import { Image } from 'astro:assets';
-
-import PspWaves from '../components/effects/psp-waves.astro';
+import AboutSection from '../components/home/about-section.astro';
+import FeatureCards from '../components/home/feature-cards.astro';
+import HeroSection from '../components/home/hero-section.astro';
 import Layout from '../layouts/default-layout.astro';
-
-import avatarImage from '/public/avatar.png';
-import { Icon } from 'astro-icon/components';
 ---
 
 <Layout>
   <!-- 主標題區域 -->
-  <section
-    aria-labelledby="site-title-heading"
-    class="relative h-[300px] flex items-center justify-center bg-slate-900 overflow-hidden"
-  >
-    <h1
-      class="relative z-10 text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-widest text-shadow-lg"
-      id="site-title-heading"
-    >
-      Pen's Pulse
-    </h1>
-    <PspWaves />
-  </section>
+  <HeroSection />
 
   <div class="max-w-5xl mx-auto px-4 lg:px-8 py-12">
     <div class="space-y-3">
       <!-- 三欄式功能連結 -->
-      <section aria-labelledby="about-site-heading">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <article
-            class="flex flex-col bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 transition-all duration-300"
-          >
-            <h2 class="text-xl font-bold text-slate-900 dark:text-white card-title-underline mb-4">文章</h2>
-            <p class="flex-1 text-slate-600 dark:text-slate-400 mb-6 text-sm leading-relaxed">
-              與職涯、活動、產業趨勢等相關的文章。
-            </p>
-            <a
-              class="inline-flex items-center text-primary font-semibold text-sm group-hover:gap-2 transition-all"
-              href="/posts"
-            >
-              閱讀更多 <Icon class="ml-1" name="bi:arrow-right" />
-            </a>
-          </article>
-
-          <article
-            class="flex flex-col bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 transition-all duration-300"
-          >
-            <h2 class="text-xl font-bold text-slate-900 dark:text-white card-title-underline mb-4">研究筆記</h2>
-            <p class="flex-1 text-slate-600 dark:text-slate-400 mb-6 text-sm leading-relaxed">
-              簡短的摘要，通常不會寫太長，主要寫給自己快速回顧。
-            </p>
-            <a
-              class="inline-flex items-center text-primary font-semibold text-sm group-hover:gap-2 transition-all"
-              href="/notes"
-            >
-              閱讀更多 <Icon class="ml-1" name="bi:arrow-right" />
-            </a>
-          </article>
-
-          <article
-            class="flex flex-col bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 transition-all duration-300"
-          >
-            <h2 class="text-xl font-bold text-slate-900 dark:text-white card-title-underline mb-4">挑戰計畫</h2>
-            <p class="flex-1 text-slate-600 dark:text-slate-400 mb-6 text-sm leading-relaxed">
-              紀錄個人 side project 心路歷程的系列文章。
-            </p>
-            <a
-              class="inline-flex items-center text-primary font-semibold text-sm group-hover:gap-2 transition-all"
-              href="/plans"
-            >
-              閱讀更多 <Icon class="ml-1" name="bi:arrow-right" />
-            </a>
-          </article>
-        </div>
-      </section>
+      <FeatureCards />
 
       <!-- 個人介紹與技能區域 -->
-      <section aria-labelledby="about-me-heading">
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-3">
-          <!-- 左側介紹 -->
-          <article
-            class="md:col-span-8 relative overflow-hidden bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 transition-all duration-300"
-          >
-            <div class="relative z-10">
-              <h2 class="text-xl font-bold text-slate-900 dark:text-white card-title-underline mb-6">個人介紹</h2>
-              <div class="text-slate-700 dark:text-slate-300 space-y-4 text-base leading-relaxed max-w-xl">
-                <p>我是 Shin，在 2024 年 6 月轉職成為前端工程師，至今仍在工作崗位上努力不被 AI 淘汰 XD</p>
-                <p>
-                  有一點點設計背景，也在 <a
-                    class="text-primary font-bold hover:underline"
-                    href="https://ithelp.ithome.com.tw/users/20169019/ironman/8482">2025 iT 邦幫忙鐵人賽</a
-                  > 寫過小型的全端專案，所以對跨領域溝通還算是有心得。
-                </p>
-                <p>
-                  2024 年 7 月開始與六角學院合作，擔任約聘專題教練，輔導過<strong>切版專題班</strong>、<strong
-                    >React 專題班</strong
-                  >、<strong>Node.js 全端專題班</strong>，主要以<strong>專案規劃</strong>、<strong>可行性評估</strong
-                  >、<strong>產品展示</strong>等管理層面來協助學生完成網站專題。
-                </p>
-              </div>
-            </div>
-
-            <Image
-              alt="Shin"
-              class="absolute bottom-[-10%] right-[-10%] md:bottom-[-20%] md:right-[-5%] w-[250px] md:w-[350px] opacity-10 dark:opacity-20 pointer-events-none rounded-full"
-              format="webp"
-              height={300}
-              loading="lazy"
-              quality={80}
-              src={avatarImage}
-              width={300}
-            />
-          </article>
-
-          <!-- 右側小卡片 -->
-          <div class="md:col-span-4 flex flex-col gap-3">
-            <article
-              class="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 transition-all duration-300"
-            >
-              <h2 class="text-lg font-bold text-slate-900 dark:text-white card-title-underline mb-4">經歷</h2>
-              <ul class="space-y-3 text-sm text-slate-700 dark:text-slate-300">
-                <li class="flex items-center gap-3">
-                  <span class="text-xl">💻</span>
-                  <span class="font-medium">前端工程師</span>
-                </li>
-                <li class="flex items-center gap-3">
-                  <span class="text-xl">✡️</span>
-                  <span class="font-medium">六角學院 - 專題教練</span>
-                </li>
-              </ul>
-            </article>
-
-            <article
-              class="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 transition-all duration-300"
-            >
-              <h2 class="text-lg font-bold text-slate-900 dark:text-white card-title-underline mb-4">使用技術</h2>
-              <ul class="grid grid-cols-1 gap-2 text-sm text-slate-700 dark:text-slate-300 font-medium">
-                <li class="flex items-center gap-2">
-                  <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
-                  JavaScript / TypeScript
-                </li>
-                <li class="flex items-center gap-2">
-                  <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
-                  Vue / Nuxt
-                </li>
-                <li class="flex items-center gap-2">
-                  <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
-                  React / Next
-                </li>
-                <li class="flex items-center gap-2">
-                  <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
-                  Node.js / Express / NestJS
-                </li>
-              </ul>
-            </article>
-          </div>
-        </div>
-      </section>
+      <AboutSection />
     </div>
   </div>
-
-  <style>
-    /* 標題陰影自定義 */
-    .text-shadow-lg {
-      text-shadow: 0 4px 12px rgb(0 0 0 / 50%);
-    }
-  </style>
 </Layout>

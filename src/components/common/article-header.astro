@@ -1,0 +1,58 @@
+---
+import { Icon } from 'astro-icon/components';
+
+import { formatDate } from '../../utils/date';
+import BackButton from './back-button.astro';
+
+interface Props {
+  backHref?: string;
+  backText?: string;
+  date?: Date;
+  showBackButton?: boolean;
+  tags?: string[];
+  title: string;
+}
+
+const { backHref = '/posts', backText = '返回', date, showBackButton = false, tags = [], title } = Astro.props;
+---
+
+<header class="mb-8">
+  {
+    showBackButton && (
+      <BackButton class="mb-6" enableHistoryBack={true} href={backHref} text={backText} variant="compact" />
+    )
+  }
+
+  <h1 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mt-0! leading-tight">
+    {title}
+  </h1>
+
+  <div class="flex flex-wrap items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
+    {
+      date && (
+        <time class="flex items-center gap-1.5" datetime={date.toISOString()}>
+          <Icon name="bi:calendar3" />
+          {formatDate(date)} 發布
+        </time>
+      )
+    }
+
+    {
+      tags && tags.length > 0 && (
+        <div class="flex items-center gap-2">
+          <Icon name="bi:tags" />
+          <div class="flex flex-wrap gap-2">
+            {tags.map((tag: string, index: number) => (
+              <>
+                <a class="hover:text-primary transition-colors" href={`/posts/tag/${encodeURIComponent(tag)}`}>
+                  #{tag}
+                </a>
+                {index < tags.length - 1 && <span class="opacity-30">|</span>}
+              </>
+            ))}
+          </div>
+        </div>
+      )
+    }
+  </div>
+</header>

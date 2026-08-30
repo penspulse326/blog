@@ -1,8 +1,7 @@
 ---
-import { Icon } from 'astro-icon/components';
-
 import type { NoteEntry } from '../../utils/notes';
 
+import ArticleHeader from '../../components/common/article-header.astro';
 import GiscusComment from '../../components/common/giscus-comment.astro';
 import TableOfContents from '../../components/toc/table-of-contents.astro';
 import ArticleLayout from '../../layouts/article-layout.astro';
@@ -41,21 +40,7 @@ const headings = await note.getHeadings();
   title={pageTitle}
 >
   <article class="px-2">
-    <header class="mb-8">
-      <h1 class="text-3xl lg:text-4xl font-black text-slate-900 dark:text-white mb-4 mt-0! leading-tight">
-        {note.frontmatter.title}
-      </h1>
-      <div class="flex items-center gap-4 text-sm font-medium text-slate-500 dark:text-slate-400">
-        {
-          note.frontmatter.date && (
-            <time class="flex items-center gap-2" datetime={note.frontmatter.date.toISOString()}>
-              <Icon class="text-primary" name="bi:calendar3" />
-              {note.frontmatter.date.toLocaleDateString('zh-TW')} 發布
-            </time>
-          )
-        }
-      </div>
-    </header>
+    <ArticleHeader date={note.frontmatter.date} title={note.frontmatter.title} />
 
     <TableOfContents headings={headings} variant="mobile" />
 

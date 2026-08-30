@@ -1,0 +1,29 @@
+---
+import PspWaves from '../effects/psp-waves.astro';
+
+interface Props {
+  title?: string;
+}
+
+const { title = "Pen's Pulse" } = Astro.props;
+---
+
+<section
+  aria-labelledby="site-title-heading"
+  class="relative h-[300px] flex items-center justify-center bg-slate-900 overflow-hidden"
+>
+  <h1
+    class="relative z-10 text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-widest text-shadow-lg"
+    id="site-title-heading"
+  >
+    {title}
+  </h1>
+  <PspWaves />
+</section>
+
+<style>
+  /* 標題陰影自定義 */
+  .text-shadow-lg {
+    text-shadow: 0 4px 12px rgb(0 0 0 / 50%);
+  }
+</style>

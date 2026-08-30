@@ -1,0 +1,77 @@
+---
+import type { Page } from 'astro';
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  ariaLabel?: string;
+  baseUrl?: string;
+  page: Page<unknown>;
+}
+
+const { ariaLabel = '文章分頁', baseUrl = '/posts', page } = Astro.props;
+
+function getPageUrl(pageNum: number): string {
+  if (pageNum === 1) {
+    return baseUrl;
+  }
+  return `${baseUrl}/${pageNum}`;
+}
+---
+
+{
+  page.lastPage > 1 && (
+    <nav aria-label={ariaLabel} class="mt-12 flex justify-center not-prose">
+      <ul class="flex items-center gap-2 list-none p-0 m-0">
+        <li class="list-none m-0 p-0">
+          <a
+            aria-label="上一頁"
+            class:list={[
+              'flex items-center justify-center w-10 h-10 rounded-lg border border-slate-200 dark:border-slate-800 transition-colors text-slate-700 dark:text-slate-300 no-underline',
+              {
+                'pointer-events-none opacity-50': !page.url.prev,
+                'hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-600':
+                  page.url.prev,
+              },
+            ]}
+            href={page.url.prev || '#'}
+          >
+            <Icon name="bi:chevron-left" />
+          </a>
+        </li>
+
+        {Array.from({ length: page.lastPage }, (_, i) => i + 1).map((pageNum) => (
+          <li class="list-none m-0 p-0">
+            <a
+              class:list={[
+                'flex items-center justify-center w-10 h-10 rounded-lg border font-medium transition-colors no-underline',
+                pageNum === page.currentPage
+                  ? 'bg-slate-900 dark:bg-slate-100 border-slate-900 dark:border-slate-100 text-white dark:text-slate-900 shadow-sm'
+                  : 'border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-600',
+              ]}
+              href={getPageUrl(pageNum)}
+            >
+              {pageNum}
+            </a>
+          </li>
+        ))}
+
+        <li class="list-none m-0 p-0">
+          <a
+            aria-label="下一頁"
+            class:list={[
+              'flex items-center justify-center w-10 h-10 rounded-lg border border-slate-200 dark:border-slate-800 transition-colors text-slate-700 dark:text-slate-300 no-underline',
+              {
+                'pointer-events-none opacity-50': !page.url.next,
+                'hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-600':
+                  page.url.next,
+              },
+            ]}
+            href={page.url.next || '#'}
+          >
+            <Icon name="bi:chevron-right" />
+          </a>
+        </li>
+      </ul>
+    </nav>
+  )
+}

@@ -1,0 +1,18 @@
+---
+import ExperienceCard from './experience-card.astro';
+import ProfileCard from './profile-card.astro';
+import TechStackCard from './tech-stack-card.astro';
+---
+
+<section aria-labelledby="about-me-heading">
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-3">
+    <!-- 左側介紹 -->
+    <ProfileCard />
+
+    <!-- 右側小卡片 -->
+    <div class="md:col-span-4 flex flex-col gap-3">
+      <ExperienceCard />
+      <TechStackCard />
+    </div>
+  </div>
+</section>

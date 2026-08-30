@@ -1,12 +1,12 @@
 ---
 import type { GetStaticPaths, Page } from 'astro';
 
-import PostExcerpt from '../../../../components/posts/post-excerpt.astro';
+import Pagination from '../../../../components/common/pagination.astro';
+import PostCard from '../../../../components/posts/post-card.astro';
 import PostsSidebar from '../../../../components/posts/posts-sidebar.astro';
+import TagHeader from '../../../../components/posts/tag-header.astro';
 import ArticleLayout from '../../../../layouts/article-layout.astro';
-import { getPostsSortedByDate, getRecentPosts, getTagCloud, getAllTags, type PostEntry } from '../../../../utils/posts';
-
-import { Icon } from 'astro-icon/components';
+import { getAllTags, getPostsSortedByDate, getRecentPosts, getTagCloud, type PostEntry } from '../../../../utils/posts';
 
 export const getStaticPaths = (async ({ paginate }) => {
   const allPosts = getPostsSortedByDate();
@@ -15,8 +15,8 @@ export const getStaticPaths = (async ({ paginate }) => {
   return tags.flatMap((tag) => {
     const filteredPosts = allPosts.filter((post) => post.frontmatter.tags?.some((t) => t === tag));
     return paginate(filteredPosts, {
-      params: { tag },
       pageSize: 5,
+      params: { tag },
     });
   });
 }) satisfies GetStaticPaths;
@@ -31,15 +31,6 @@ const { tag } = Astro.params as { tag: string };
 // 側邊欄資料
 const recentPosts = getRecentPosts(5);
 const tagCloud = getTagCloud();
-
-// 格式化日期
-function formatDate(date?: Date): string {
-  if (!date) return '';
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}/${month}/${day}`;
-}
 ---
 
 <ArticleLayout
@@ -51,132 +42,14 @@ function formatDate(date?: Date): string {
 
   <div class="px-2">
     <!-- 標籤標題 -->
-    <div class="mb-4">
-      <h2 class="text-3xl font-black text-slate-900 dark:text-white mb-2 flex items-center gap-3 mt-0!">
-        <Icon class="text-primary" name="bi:tag" />
-        標籤：{tag}
-      </h2>
-      <p class="text-slate-500 dark:text-slate-400 font-medium">共 {page.total} 篇文章 (第 {page.currentPage} 頁)</p>
-    </div>
+    <TagHeader currentPage={page.currentPage} tag={tag} total={page.total} />
 
     <!-- 文章列表 -->
     <div class="divide-y divide-slate-200 dark:divide-slate-800">
-      {
-        page.data.map((post) => {
-          const { Content } = post;
-
-          return (
-            <article class="group py-8 first:pt-0 last:pb-0 transition-all">
-              <h2 class="text-2xl font-bold mb-4 mt-0!">
-                <a
-                  class="text-slate-900 dark:text-white hover:text-primary dark:hover:text-primary transition-colors leading-tight block"
-                  href={post.url}
-                >
-                  {post.frontmatter.title}
-                </a>
-              </h2>
-
-              {post.frontmatter.date && (
-                <div class="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400 mb-4">
-                  <span class="flex items-center gap-1.5">
-                    <Icon name="bi:calendar3" />
-                    {formatDate(post.frontmatter.date)}
-                  </span>
-                  {post.frontmatter.tags && post.frontmatter.tags.length > 0 && (
-                    <span class="flex items-center gap-1.5 overflow-hidden">
-                      <Icon name="bi:tags" />
-                      <div class="flex gap-2">
-                        {post.frontmatter.tags.map((postTag: string) => (
-                          <a
-                            class="hover:text-primary transition-colors"
-                            href={`/posts/tag/${encodeURIComponent(postTag)}`}
-                          >
-                            #{postTag}
-                          </a>
-                        ))}
-                      </div>
-                    </span>
-                  )}
-                </div>
-              )}
-
-              <div class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6 prose dark:prose-invert max-w-none">
-                <PostExcerpt Content={Content} />
-              </div>
-
-              <a
-                class="inline-flex items-center font-bold text-primary group-hover:gap-2 transition-all"
-                href={post.url}
-              >
-                閱讀更多 <Icon class="ml-1" name="bi:arrow-right" />
-              </a>
-            </article>
-          );
-        })
-      }
+      {page.data.map((post) => <PostCard post={post} />)}
     </div>
 
     <!-- 分頁 -->
-    {
-      page.lastPage > 1 && (
-        <nav aria-label="文章分頁" class="mt-12 flex justify-center">
-          <ul class="flex items-center gap-2">
-            <li>
-              <a
-                aria-label="上一頁"
-                class:list={[
-                  'flex items-center justify-center w-10 h-10 rounded-lg border border-slate-200 dark:border-slate-800 transition-colors',
-                  {
-                    'pointer-events-none opacity-50': !page.url.prev,
-                    'hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-600':
-                      page.url.prev,
-                  },
-                ]}
-                href={page.url.prev || '#'}
-              >
-                <Icon name="bi:chevron-left" />
-              </a>
-            </li>
-
-            {Array.from({ length: page.lastPage }, (_, i) => i + 1).map((pageNum) => (
-              <li>
-                <a
-                  class:list={[
-                    'flex items-center justify-center w-10 h-10 rounded-lg border font-medium transition-colors',
-                    pageNum === page.currentPage
-                      ? 'bg-slate-900 dark:bg-slate-100 border-slate-900 dark:border-slate-100 text-white dark:text-slate-900 shadow-sm'
-                      : 'border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-600',
-                  ]}
-                  href={
-                    pageNum === 1
-                      ? `/posts/tag/${encodeURIComponent(tag)}`
-                      : `/posts/tag/${encodeURIComponent(tag)}/${pageNum}`
-                  }
-                >
-                  {pageNum}
-                </a>
-              </li>
-            ))}
-
-            <li>
-              <a
-                aria-label="下一頁"
-                class:list={[
-                  'flex items-center justify-center w-10 h-10 rounded-lg border border-slate-200 dark:border-slate-800 transition-colors',
-                  {
-                    'pointer-events-none opacity-50': !page.url.next,
-                    'hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-600':
-                      page.url.next,
-                  },
-                ]}
-                href={page.url.next || '#'}
-              >
-                <Icon name="bi:chevron-right" />
-              </a>
-            </li>
-          </ul>
-        </nav>
-      )
-    }
+    <Pagination baseUrl={`/posts/tag/${encodeURIComponent(tag)}`} page={page} />
   </div>
 </ArticleLayout>

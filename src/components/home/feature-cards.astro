@@ -1,0 +1,52 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface FeatureItem {
+  description: string;
+  href: string;
+  title: string;
+}
+
+interface Props {
+  features?: FeatureItem[];
+}
+
+const defaultFeatures: FeatureItem[] = [
+  {
+    description: '與職涯、活動、產業趨勢等相關的文章。',
+    href: '/posts',
+    title: '文章',
+  },
+  {
+    description: '簡短的摘要，通常不會寫太長，主要寫給自己快速回顧。',
+    href: '/notes',
+    title: '研究筆記',
+  },
+  {
+    description: '紀錄個人 side project 心路歷程的系列文章。',
+    href: '/plans',
+    title: '挑戰計畫',
+  },
+];
+
+const { features = defaultFeatures } = Astro.props;
+---
+
+<section aria-labelledby="about-site-heading">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+    {
+      features.map((item) => (
+        <article class="flex flex-col bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 transition-all duration-300">
+          <h2 class="text-xl font-bold text-slate-900 dark:text-white card-title-underline mb-4">{item.title}</h2>
+          <p class="flex-1 text-slate-600 dark:text-slate-400 mb-6 text-sm leading-relaxed">{item.description}</p>
+          <a
+            class="inline-flex items-center text-primary font-semibold text-sm group-hover:gap-2 transition-all"
+            href={item.href}
+          >
+            閱讀更多 <Icon class="ml-1" name="bi:arrow-right" />
+          </a>
+        </article>
+      ))
+    }
+  </div>
+</section>

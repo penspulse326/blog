@@ -75,8 +75,12 @@ const hasCustomSidebar = Astro.slots.has('sidebar');
     }
 
     &::-webkit-scrollbar-thumb {
-      background: color-mix(in srgb, var(--color-primary) 30%, transparent);
+      background: var(--color-slate-300);
       border-radius: 99px;
+
+      &:where(.dark, .dark *) {
+        background: var(--color-slate-700);
+      }
     }
   }
 
@@ -103,8 +107,12 @@ const hasCustomSidebar = Astro.slots.has('sidebar');
     }
 
     &::-webkit-scrollbar-thumb {
-      background: color-mix(in srgb, var(--color-primary) 20%, transparent);
+      background: var(--color-slate-300);
       border-radius: 99px;
+
+      &:where(.dark, .dark *) {
+        background: var(--color-slate-700);
+      }
     }
   }
 </style>

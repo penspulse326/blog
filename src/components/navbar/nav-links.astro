@@ -15,32 +15,32 @@ const { isMobile = false, isPostsRoute = false, isNotesRoute = false, isPlansRou
   isMobile ? (
     <div class="grid grid-cols-2 gap-3 pb-4 pt-2">
       <a
-        class="flex items-center p-3 rounded-xl bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-200 border border-slate-100 dark:border-slate-800"
+        class="flex items-center p-3 rounded-lg bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-200 border border-slate-100 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition-all"
         href="/posts"
       >
-        <Icon class="mr-3 text-lg text-primary" name="bi:file-earmark-text" />
+        <Icon class="mr-3 text-lg text-slate-700 dark:text-slate-300" name="bi:file-earmark-text" />
         <span class="font-medium text-sm">文章</span>
       </a>
       <a
-        class="flex items-center p-3 rounded-xl bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-200 border border-slate-100 dark:border-slate-800"
+        class="flex items-center p-3 rounded-lg bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-200 border border-slate-100 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition-all"
         href="/notes"
       >
-        <Icon class="mr-3 text-lg text-primary" name="bi:journal-text" />
+        <Icon class="mr-3 text-lg text-slate-700 dark:text-slate-300" name="bi:journal-text" />
         <span class="font-medium text-sm">研究筆記</span>
       </a>
       <a
-        class="flex items-center p-3 rounded-xl bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-200 border border-slate-100 dark:border-slate-800"
+        class="flex items-center p-3 rounded-lg bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-200 border border-slate-100 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition-all"
         href="/plans"
       >
-        <Icon class="mr-3 text-lg text-primary" name="bi:trophy" />
+        <Icon class="mr-3 text-lg text-slate-700 dark:text-slate-300" name="bi:trophy" />
         <span class="font-medium text-sm">挑戰計畫</span>
       </a>
       <a
-        class="flex items-center p-3 rounded-xl bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-200 border border-slate-100 dark:border-slate-800"
+        class="flex items-center p-3 rounded-lg bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-200 border border-slate-100 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition-all"
         href="https://github.com/penspulse326"
         target="_blank"
       >
-        <Icon class="mr-3 text-lg text-primary" name="bi:github" />
+        <Icon class="mr-3 text-lg text-slate-700 dark:text-slate-300" name="bi:github" />
         <span class="font-medium text-sm">GitHub</span>
       </a>
     </div>
@@ -48,7 +48,7 @@ const { isMobile = false, isPostsRoute = false, isNotesRoute = false, isPlansRou
     <ul class="flex items-center gap-1">
       <li>
         <a
-          class={`px-3 py-2 text-sm font-medium transition-colors hover:text-primary ${isPostsRoute ? 'text-primary' : 'text-slate-600 dark:text-slate-400'}`}
+          class={`px-3 py-2 text-sm font-medium transition-colors hover:text-slate-900 dark:hover:text-white ${isPostsRoute ? 'text-slate-900 dark:text-white font-semibold' : 'text-slate-600 dark:text-slate-400'}`}
           href="/posts"
         >
           文章
@@ -56,7 +56,7 @@ const { isMobile = false, isPostsRoute = false, isNotesRoute = false, isPlansRou
       </li>
       <li>
         <a
-          class={`px-3 py-2 text-sm font-medium transition-colors hover:text-primary ${isNotesRoute ? 'text-primary' : 'text-slate-600 dark:text-slate-400'}`}
+          class={`px-3 py-2 text-sm font-medium transition-colors hover:text-slate-900 dark:hover:text-white ${isNotesRoute ? 'text-slate-900 dark:text-white font-semibold' : 'text-slate-600 dark:text-slate-400'}`}
           href="/notes"
         >
           研究筆記
@@ -64,7 +64,7 @@ const { isMobile = false, isPostsRoute = false, isNotesRoute = false, isPlansRou
       </li>
       <li>
         <a
-          class={`px-3 py-2 text-sm font-medium transition-colors hover:text-primary ${isPlansRoute ? 'text-primary' : 'text-slate-600 dark:text-slate-400'}`}
+          class={`px-3 py-2 text-sm font-medium transition-colors hover:text-slate-900 dark:hover:text-white ${isPlansRoute ? 'text-slate-900 dark:text-white font-semibold' : 'text-slate-600 dark:text-slate-400'}`}
           href="/plans"
         >
           挑戰計畫

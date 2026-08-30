@@ -21,13 +21,16 @@ const { aAttrs, activeId, navigation, isDrawerMode = false } = Astro.props;
         <details class="group border-b border-slate-200 dark:border-slate-800 pb-2 last:border-0" open={isExpanded}>
           <summary
             class:list={[
-              'flex items-center justify-between cursor-pointer list-none font-bold text-sm text-primary hover:opacity-80 transition-opacity',
+              'flex items-center justify-between cursor-pointer list-none font-bold text-sm text-slate-900 dark:text-white hover:text-slate-600 dark:hover:text-slate-300 transition-colors',
               isDrawerMode ? 'py-3 px-1' : 'py-2 px-1',
             ]}
           >
             <span class="flex items-center gap-2">
               {isDrawerMode && (
-                <Icon class="text-xs opacity-50 group-open:text-primary transition-colors" name="bi:folder2-open" />
+                <Icon
+                  class="text-xs opacity-50 group-open:text-slate-900 dark:group-open:text-white transition-colors"
+                  name="bi:folder2-open"
+                />
               )}
               {category.label}
             </span>
@@ -39,11 +42,11 @@ const { aAttrs, activeId, navigation, isDrawerMode = false } = Astro.props;
                 <li>
                   <a
                     class:list={[
-                      'rounded-xl text-sm transition-all duration-200',
+                      'rounded-lg text-sm transition-all duration-200',
                       isDrawerMode ? 'py-2 px-3 flex items-center gap-3' : 'block py-2 px-3',
                       item.id === activeId
-                        ? isDrawerMode && 'bg-primary/10 text-primary font-bold'
-                        : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary dark:hover:text-primary',
+                        ? isDrawerMode && 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white font-bold'
+                        : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white',
                     ]}
                     href={item.url}
                     {...(aAttrs?.(item) || {})}
@@ -52,7 +55,9 @@ const { aAttrs, activeId, navigation, isDrawerMode = false } = Astro.props;
                       <div
                         class:list={[
                           'w-1.5 h-1.5 rounded-full transition-colors',
-                          item.id === activeId ? 'bg-primary' : 'bg-slate-300 dark:bg-slate-700 group-hover:bg-primary',
+                          item.id === activeId
+                            ? 'bg-slate-900 dark:bg-slate-100'
+                            : 'bg-slate-300 dark:bg-slate-700 group-hover:bg-slate-900 dark:group-hover:bg-slate-100',
                         ]}
                       />
                     )}

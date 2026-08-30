@@ -41,7 +41,7 @@ const showMobile = variant === 'mobile' || variant === 'both';
             if (entry.isIntersecting) {
               this.tocLinks?.forEach((link) => {
                 link.classList.remove('active-toc');
-                link.closest('li')?.classList.remove('border-primary');
+                link.closest('li')?.classList.remove('border-slate-900', 'dark:border-slate-100');
                 link.closest('li')?.classList.add('border-transparent');
               });
 
@@ -50,7 +50,7 @@ const showMobile = variant === 'mobile' || variant === 'both';
                 const li = link.closest('li');
                 if (li) {
                   li.classList.remove('border-transparent');
-                  li.classList.add('border-primary');
+                  li.classList.add('border-slate-900', 'dark:border-slate-100');
                 }
               });
             }
@@ -114,9 +114,14 @@ const showMobile = variant === 'mobile' || variant === 'both';
 
 <style>
   :global(.active-toc) {
-    color: var(--color-primary) !important;
+    color: var(--color-slate-900) !important;
     font-weight: 700;
-    background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    background-color: var(--color-slate-100);
+  }
+
+  :global(:where(.dark, .dark *) .active-toc) {
+    color: var(--color-slate-100) !important;
+    background-color: var(--color-slate-800);
   }
 
   :global(summary::-webkit-details-marker) {

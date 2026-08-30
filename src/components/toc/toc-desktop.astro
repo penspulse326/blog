@@ -10,7 +10,7 @@ const { tocHeadings } = Astro.props;
 
 <div class="hidden lg:block">
   <nav aria-label="段落">
-    <h2 class="text-sm font-bold text-primary mb-2">段落</h2>
+    <h2 class="text-sm font-bold text-slate-900 dark:text-white mb-2">段落</h2>
     <ul class="space-y-1">
       {
         tocHeadings.map((heading) => (
@@ -21,7 +21,7 @@ const { tocHeadings } = Astro.props;
             ]}
           >
             <a
-              class="toc-link block py-1.5 px-3 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors truncate"
+              class="toc-link block py-1.5 px-3 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors truncate"
               href={`#${heading.slug}`}
             >
               {heading.text}

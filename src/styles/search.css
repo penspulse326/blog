@@ -103,7 +103,7 @@
 
 .pagefind-custom-modal .pagefind-ui__result:hover {
   background-color: white !important;
-  border-color: var(--color-primary) !important;
+  border-color: var(--color-slate-300) !important;
   box-shadow:
     0 4px 6px -1px rgb(0 0 0 / 10%),
     0 2px 4px -2px rgb(0 0 0 / 10%) !important;
@@ -111,6 +111,7 @@
 
   &:where(.dark) {
     background-color: var(--color-slate-800) !important;
+    border-color: var(--color-slate-600) !important;
   }
 }
 
@@ -136,11 +137,16 @@
 }
 
 .pagefind-custom-modal mark {
-  background-color: color-mix(in srgb, var(--color-primary) 20%, transparent) !important;
-  color: var(--color-primary) !important;
+  background-color: var(--color-slate-200) !important;
+  color: var(--color-slate-900) !important;
   font-weight: 600;
   border-radius: 2px;
   padding: 0 2px;
+
+  &:where(.dark, .dark *) {
+    background-color: var(--color-slate-700) !important;
+    color: var(--color-slate-100) !important;
+  }
 }
 
 /* Hide some elements we don't need in modal */

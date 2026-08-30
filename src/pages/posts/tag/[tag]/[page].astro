@@ -51,8 +51,8 @@ function formatDate(date?: Date): string {
 
   <div class="px-2">
     <!-- 標籤標題 -->
-    <div class="mb-12">
-      <h2 class="text-3xl font-black text-slate-900 dark:text-white mb-2 flex items-center gap-3">
+    <div class="mb-4">
+      <h2 class="text-3xl font-black text-slate-900 dark:text-white mb-2 flex items-center gap-3 mt-0!">
         <Icon class="text-primary" name="bi:tag" />
         標籤：{tag}
       </h2>
@@ -67,7 +67,7 @@ function formatDate(date?: Date): string {
 
           return (
             <article class="group py-8 first:pt-0 last:pb-0 transition-all">
-              <h2 class="text-2xl font-bold mb-4">
+              <h2 class="text-2xl font-bold mb-4 mt-0!">
                 <a
                   class="text-slate-900 dark:text-white hover:text-primary dark:hover:text-primary transition-colors leading-tight block"
                   href={post.url}
@@ -125,10 +125,11 @@ function formatDate(date?: Date): string {
               <a
                 aria-label="上一頁"
                 class:list={[
-                  'flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors',
+                  'flex items-center justify-center w-10 h-10 rounded-lg border border-slate-200 dark:border-slate-800 transition-colors',
                   {
                     'pointer-events-none opacity-50': !page.url.prev,
-                    'hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-primary': page.url.prev,
+                    'hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-600':
+                      page.url.prev,
                   },
                 ]}
                 href={page.url.prev || '#'}
@@ -141,10 +142,10 @@ function formatDate(date?: Date): string {
               <li>
                 <a
                   class:list={[
-                    'flex items-center justify-center w-10 h-10 rounded-xl border font-medium transition-colors',
+                    'flex items-center justify-center w-10 h-10 rounded-lg border font-medium transition-colors',
                     pageNum === page.currentPage
-                      ? 'bg-primary border-primary text-white shadow-sm'
-                      : 'border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-primary',
+                      ? 'bg-slate-900 dark:bg-slate-100 border-slate-900 dark:border-slate-100 text-white dark:text-slate-900 shadow-sm'
+                      : 'border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-600',
                   ]}
                   href={
                     pageNum === 1
@@ -161,10 +162,11 @@ function formatDate(date?: Date): string {
               <a
                 aria-label="下一頁"
                 class:list={[
-                  'flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors',
+                  'flex items-center justify-center w-10 h-10 rounded-lg border border-slate-200 dark:border-slate-800 transition-colors',
                   {
                     'pointer-events-none opacity-50': !page.url.next,
-                    'hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-primary': page.url.next,
+                    'hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-600':
+                      page.url.next,
                   },
                 ]}
                 href={page.url.next || '#'}

@@ -8,11 +8,11 @@
 @variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-primary: #057f94;
-  --color-secondary: #0861c5;
+  --color-primary: #0f172a;
+  --color-secondary: #475569;
   --color-bg: #f8fafc;
-  --color-text: #1e293b;
-  --color-primary-rgb: 5, 127, 148;
+  --color-text: #0f172a;
+  --color-primary-rgb: 15, 23, 42;
 
   /* 統一間距規格 (Spacing System) */
   --spacing-section: 2rem; /* 32px - 區域間隔 */
@@ -29,9 +29,11 @@
 
 @layer base {
   .dark {
-    --color-primary: #20ecec;
-    --color-bg: #030712;
-    --color-text: #f1f5f9;
+    --color-primary: #f8fafc;
+    --color-secondary: #94a3b8;
+    --color-bg: #020617;
+    --color-text: #f8fafc;
+    --color-primary-rgb: 248, 250, 252;
   }
 
   html {
@@ -40,8 +42,8 @@
 
   body {
     background:
-      radial-gradient(circle at 10% 20%, rgb(5 127 148 / 5%) 0%, transparent 40%),
-      radial-gradient(circle at 90% 80%, rgb(8 97 197 / 5%) 0%, transparent 40%);
+      radial-gradient(circle at 10% 20%, rgb(15 23 42 / 2.5%) 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, rgb(30 41 59 / 2.5%) 0%, transparent 40%);
     background-color: var(--color-bg);
     color: var(--color-text);
     min-height: 100vh;
@@ -52,6 +54,13 @@
       'Segoe UI',
       Roboto,
       sans-serif;
+  }
+
+  .dark body {
+    background:
+      radial-gradient(circle at 10% 20%, rgb(30 41 59 / 18%) 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, rgb(15 23 42 / 18%) 0%, transparent 40%);
+    background-color: var(--color-bg);
   }
 }
 

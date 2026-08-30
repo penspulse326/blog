@@ -10,17 +10,17 @@ const { activeId, recentPosts } = Astro.props;
 ---
 
 <nav aria-label="近期文章" class="mb-8">
-  <h3 class="text-sm font-bold text-primary pb-2">近期文章</h3>
+  <h3 class="text-sm font-bold text-slate-900 dark:text-white pb-2">近期文章</h3>
   <ul class="space-y-1">
     {
       recentPosts.map((post) => (
         <li>
           <a
             class:list={[
-              'block p-3 rounded-xl transition-all duration-200 group',
+              'block p-2 rounded-lg transition-all duration-200 group',
               activeId === post.id
-                ? 'bg-primary/10 text-primary font-bold '
-                : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary dark:hover:text-primary',
+                ? 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white font-bold'
+                : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white',
             ]}
             href={post.url}
             title={post.title}

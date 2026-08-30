@@ -7,17 +7,17 @@ const { tagCloud } = Astro.props;
 ---
 
 <nav aria-label="標籤雲">
-  <h3 class="text-sm font-bold text-primary mb-2 pb-2">標籤</h3>
+  <h3 class="text-sm font-bold text-slate-900 dark:text-white mb-2 pb-2">標籤</h3>
   <div class="flex flex-wrap gap-2">
     {
       tagCloud.map(({ count, tag }) => (
         <a
-          class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:border-primary hover:text-primary dark:hover:text-primary hover:bg-primary/5 transition-all"
+          class="group inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:text-slate-900 dark:hover:text-white transition-all shadow-xs"
           href={`/posts/tag/${encodeURIComponent(tag)}`}
           title={`${tag} (${count})`}
         >
-          {tag}
-          <span class="ml-1.5 opacity-50 px-1.5 bg-slate-200 dark:bg-slate-800 rounded-full group-hover:bg-primary/20">
+          <span>{tag}</span>
+          <span class="inline-flex items-center justify-center px-1.5 py-0.2 text-[11px] font-semibold rounded-full bg-slate-300 dark:bg-slate-700 text-slate-900 dark:text-slate-200 group-hover:bg-slate-300 dark:group-hover:bg-slate-700 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
             {count}
           </span>
         </a>

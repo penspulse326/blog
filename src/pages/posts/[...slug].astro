@@ -52,14 +52,14 @@ function formatDate(date?: Date): string {
   <article class="px-2 lg:px-4">
     <header class="mb-8">
       <a
-        class="inline-flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors mb-4 group text-sm font-medium cursor-pointer"
+        class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/90 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-sm font-medium transition-all shadow-xs mb-6 group cursor-pointer"
         href="/posts"
         id="back-button"
       >
         <Icon class="group-hover:-translate-x-1 transition-transform" name="bi:arrow-left" />
-        返回
+        <span>返回</span>
       </a>
-      <h1 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">{post.frontmatter.title}</h1>
+      <h1 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mt-0!">{post.frontmatter.title}</h1>
 
       <div class="flex flex-wrap items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
         {
@@ -96,8 +96,11 @@ function formatDate(date?: Date): string {
       <Content />
     </div>
 
-    <footer class="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800">
-      <a class="inline-flex items-center gap-2 text-primary font-medium hover:underline group" href="/posts">
+    <footer class="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 flex justify-start">
+      <a
+        class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white font-medium text-sm transition-all group shadow-xs"
+        href="/posts"
+      >
         <Icon class="group-hover:-translate-x-1 transition-transform" name="bi:arrow-left" />
         返回文章列表
       </a>

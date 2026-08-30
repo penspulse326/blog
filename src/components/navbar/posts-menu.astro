@@ -13,7 +13,7 @@ const { activeId, recentPosts, tagCloud } = Astro.props;
 ---
 
 <button
-  class="flex items-center w-full px-4 py-3 mb-4 text-sm font-bold text-left text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 hover:bg-primary/10 hover:text-primary rounded-xl transition-all"
+  class="flex items-center w-full px-4 py-3 mb-4 text-sm font-bold text-left text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-all"
   id="back-to-main-menu"
   type="button"
 >
@@ -31,9 +31,9 @@ const { activeId, recentPosts, tagCloud } = Astro.props;
           <li>
             <a
               class:list={[
-                'block p-2.5 rounded-xl text-sm transition-all hover:bg-primary/10 hover:text-primary',
+                'block p-2.5 rounded-lg text-sm transition-all hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white',
                 {
-                  'bg-primary/10 text-primary font-bold': activeId === post.id,
+                  'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white font-bold': activeId === post.id,
                   'text-slate-700 dark:text-slate-300': activeId !== post.id,
                 },
               ]}
@@ -56,12 +56,12 @@ const { activeId, recentPosts, tagCloud } = Astro.props;
         tagCloud.map(({ count, tag }) => (
           <li>
             <a
-              class="flex items-center justify-between p-2.5 rounded-xl text-sm text-slate-700 dark:text-slate-300 hover:bg-primary/10 hover:text-primary transition-all group"
+              class="flex items-center justify-between p-2.5 rounded-lg text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-all group"
               href={`/posts?tag=${encodeURIComponent(tag)}`}
               title={`${tag} (${count})`}
             >
               <span class="font-medium">{tag}</span>
-              <span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-500 group-hover:bg-primary group-hover:text-white transition-colors">
+              <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 group-hover:bg-slate-300 dark:group-hover:bg-slate-700 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
                 {count}
               </span>
             </a>

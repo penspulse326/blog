@@ -1,0 +1,30 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+  variant?:
+    | "note"
+    | "abstract"
+    | "tip"
+    | "question"
+    | "warning"
+    | "caution"
+    | "important"
+    | "quote";
+  title?: string;
+  open?: boolean;
+}
+
+const { variant = "note", title, open = true } = Astro.props;
+
+const displayTitle = title || variant.charAt(0).toUpperCase() + variant.slice(1);
+---
+
+<details data-callout={variant} open={open}>
+  <summary>
+    <Icon name={variant} />
+    <span>{displayTitle}</span>
+    <Icon name="chevron-down" />
+  </summary>
+  <slot />
+</details>

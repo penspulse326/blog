@@ -1,0 +1,250 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-23T11:25:00Z",
+  "title": "Design System: Scholar SWE Codex",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Pine & Mint",
+        "canonical": "oklch(45% 0.13 148deg)",
+        "tonalRamp": [
+          "oklch(20% 0.04 148deg)",
+          "oklch(32% 0.08 148deg)",
+          "oklch(45% 0.13 148deg)",
+          "oklch(58% 0.14 148deg)",
+          "oklch(70% 0.15 145deg)",
+          "oklch(78% 0.15 145deg)",
+          "oklch(88% 0.10 145deg)",
+          "oklch(95% 0.04 145deg)"
+        ]
+      },
+      "accent": {
+        "role": "secondary",
+        "displayName": "Emerald & Jade",
+        "canonical": "oklch(42% 0.14 148deg)",
+        "tonalRamp": [
+          "oklch(18% 0.05 148deg)",
+          "oklch(30% 0.09 148deg)",
+          "oklch(42% 0.14 148deg)",
+          "oklch(55% 0.15 148deg)",
+          "oklch(68% 0.15 145deg)",
+          "oklch(76% 0.15 145deg)",
+          "oklch(86% 0.09 145deg)",
+          "oklch(94% 0.04 145deg)"
+        ]
+      },
+      "background": {
+        "role": "neutral",
+        "displayName": "Sage Paper / Deep Pine Midnight",
+        "canonical": "oklch(96.5% 0.006 150deg)",
+        "tonalRamp": [
+          "oklch(15% 0.01 155deg)",
+          "oklch(20% 0.015 155deg)",
+          "oklch(35% 0.015 155deg)",
+          "oklch(55% 0.01 150deg)",
+          "oklch(75% 0.008 150deg)",
+          "oklch(88% 0.006 150deg)",
+          "oklch(96.5% 0.006 150deg)",
+          "oklch(98.5% 0.003 150deg)"
+        ]
+      },
+      "foreground": {
+        "role": "neutral",
+        "displayName": "Cypress Slate / Pale Sage",
+        "canonical": "oklch(40% 0.03 150deg)",
+        "tonalRamp": [
+          "oklch(15% 0.02 150deg)",
+          "oklch(26% 0.025 150deg)",
+          "oklch(40% 0.03 150deg)",
+          "oklch(55% 0.025 145deg)",
+          "oklch(70% 0.025 145deg)",
+          "oklch(88% 0.03 145deg)",
+          "oklch(94% 0.015 145deg)",
+          "oklch(98% 0.005 145deg)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted Canvas",
+        "canonical": "oklch(92.5% 0.006 150deg)",
+        "tonalRamp": [
+          "oklch(18% 0.008 155deg)",
+          "oklch(26% 0.012 155deg)",
+          "oklch(40% 0.01 150deg)",
+          "oklch(60% 0.008 150deg)",
+          "oklch(75% 0.006 150deg)",
+          "oklch(85% 0.006 150deg)",
+          "oklch(92.5% 0.006 150deg)",
+          "oklch(96% 0.004 150deg)"
+        ]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Hairline Border",
+        "canonical": "oklch(88% 0.005 150deg)",
+        "tonalRamp": [
+          "oklch(15% 0.005 155deg)",
+          "oklch(25% 0.008 155deg)",
+          "oklch(45% 0.006 150deg)",
+          "oklch(65% 0.005 150deg)",
+          "oklch(80% 0.005 150deg)",
+          "oklch(88% 0.005 150deg)",
+          "oklch(93% 0.003 150deg)",
+          "oklch(98% 0.001 150deg)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Post hero titles and masthead brand."
+      },
+      "headline": {
+        "displayName": "Headline (H2)",
+        "purpose": "Major essay section headings."
+      },
+      "title": {
+        "displayName": "Title (H3)",
+        "purpose": "Subsections, case study phases, card titles."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Long-form technical prose and explanations."
+      },
+      "label": {
+        "displayName": "Label / Code",
+        "purpose": "Inline code, metadata tags, and dates."
+      }
+    },
+    "shadows": [
+      {
+        "name": "flat-rest",
+        "value": "none",
+        "purpose": "Flat-by-default design with no ambient drop shadows."
+      },
+      {
+        "name": "focus-ring",
+        "value": "0 0 0 2px oklch(42% 0.14 148deg)",
+        "purpose": "Accessible high-contrast keyboard focus ring."
+      }
+    ],
+    "motion": [
+      {
+        "name": "motion-duration-fast",
+        "value": "180ms",
+        "purpose": "Quick state transitions (buttons, icons)."
+      },
+      {
+        "name": "motion-duration",
+        "value": "260ms",
+        "purpose": "Standard underline wipes and color transitions."
+      },
+      {
+        "name": "motion-ease",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Decelerated editorial easing curve."
+      }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1200px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Pill Tag Badge",
+      "kind": "chip",
+      "refersTo": "badge-tag",
+      "description": "Metadata tag for blog topics and status indicators.",
+      "html": "<span class=\"ds-badge-tag\">#systems-architecture</span>",
+      "css": ".ds-badge-tag { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 9999px; background: oklch(92.5% 0.006 150deg); color: oklch(56% 0.02 150deg); font-family: 'Lilex', monospace; font-size: 0.875rem; border: 1px solid oklch(88% 0.005 150deg); text-decoration: none; transition: color 180ms ease, border-color 180ms ease; } .ds-badge-tag:hover { color: oklch(40% 0.03 150deg); border-color: oklch(42% 0.14 148deg); }"
+    },
+    {
+      "name": "Primary Action Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Primary action button with green forest/mint accent highlight.",
+      "html": "<button class=\"ds-btn-primary\">Read Post &rarr;</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; padding: 8px 16px; border-radius: 6px; background: oklch(45% 0.13 148deg); color: #fff; font-family: 'DM Sans', sans-serif; font-size: 0.9375rem; font-weight: 600; border: none; cursor: pointer; transition: opacity 180ms ease; } .ds-btn-primary:hover { opacity: 0.9; }"
+    },
+    {
+      "name": "Continuous Wipe Text Link",
+      "kind": "custom",
+      "refersTo": "link-prose",
+      "description": "Prose link with continuous underline wipe.",
+      "html": "<a href=\"#\" class=\"ds-prose-link\">distributed consensus protocol</a>",
+      "css": ".ds-prose-link { color: oklch(40% 0.03 150deg); text-decoration: underline; text-decoration-color: oklch(56% 0.02 150deg); text-decoration-thickness: 1px; text-underline-offset: 3px; background-image: linear-gradient(oklch(42% 0.14 148deg), oklch(42% 0.14 148deg)); background-repeat: no-repeat; background-position: 0 100%; background-size: 0% 1.5px; transition: color 260ms cubic-bezier(0.22, 1, 0.36, 1), background-size 260ms cubic-bezier(0.22, 1, 0.36, 1); } .ds-prose-link:hover { color: oklch(42% 0.14 148deg); text-decoration-color: transparent; background-size: 100% 1.5px; }"
+    },
+    {
+      "name": "Technical Callout Box",
+      "kind": "card",
+      "refersTo": "callout-note",
+      "description": "Obsidian/directive style admonition box with green accent edge.",
+      "html": "<aside class=\"ds-callout ds-callout-note\"><div class=\"ds-callout-title\">Architectural Invariant</div><p class=\"ds-callout-body\">Leader election requires a strict majority quorum (N/2 + 1) to prevent split-brain states during network partitions.</p></aside>",
+      "css": ".ds-callout { margin: 1.5rem 0; padding: 1rem 1.25rem; border-radius: 6px; background: oklch(92.5% 0.006 150deg); border: 1px solid oklch(88% 0.005 150deg); border-inline-start: 1px solid oklch(42% 0.14 148deg); } .ds-callout-title { font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.9375rem; color: oklch(40% 0.03 150deg); margin-bottom: 0.35rem; } .ds-callout-body { margin: 0; font-family: 'DM Sans', sans-serif; font-size: 0.9375rem; line-height: 1.6; color: oklch(56% 0.02 150deg); }"
+    },
+    {
+      "name": "Expressive Code Block Header",
+      "kind": "card",
+      "refersTo": "code-block",
+      "description": "Code snippet header bar with language badge and copy button.",
+      "html": "<div class=\"ds-code-header\"><span class=\"ds-code-lang\">RUST</span><span class=\"ds-code-filename\">raft/core.rs</span><button class=\"ds-code-copy\">Copy</button></div>",
+      "css": ".ds-code-header { display: flex; align-items: center; justify-content: space-between; padding: 6px 12px; background: oklch(92.5% 0.006 150deg); border: 1px solid oklch(88% 0.005 150deg); border-bottom: none; border-radius: 8px 8px 0 0; font-family: 'Lilex', monospace; font-size: 0.8125rem; color: oklch(56% 0.02 150deg); } .ds-code-lang { font-weight: 600; color: oklch(45% 0.13 148deg); } .ds-code-filename { opacity: 0.8; } .ds-code-copy { background: transparent; border: 1px solid oklch(88% 0.005 150deg); border-radius: 4px; padding: 2px 8px; font-size: 0.75rem; color: inherit; cursor: pointer; } .ds-code-copy:hover { color: oklch(40% 0.03 150deg); border-color: oklch(42% 0.14 148deg); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Scholar-Engineer's Codex",
+    "overview": "Scholar SWE Codex is an editorial, high-craft design system tailored for long-form engineering essays, systems postmortems, architecture dissections, and technical notebooks. Inspired by the calm digital-garden aesthetic of My Scholar and academic typography traditions, the interface is deliberately quiet and restrained, centered around an editorial green theme.",
+    "keyCharacteristics": [
+      "Quiet Editorial Authority: Typography and whitespace take precedence over decorative containers.",
+      "Academic & Digital-Garden Hybrid: Rigorous typography paired with modern interactive affordances.",
+      "Editorial Green Palette: Pine, emerald, and mint accents grounded by calm sage-paper and deep pine midnight neutrals.",
+      "First-Class Technical Notation: Monospace code blocks, formulas, and diagrams integrated with equal care as body text.",
+      "Bilingual Typographic Harmony: Seamless visual balance across English and Traditional Chinese (CJK) letterforms."
+    ],
+    "rules": [
+      {
+        "name": "The Rarity Rule",
+        "body": "Primary and secondary accent colors (--primary and --accent) must occupy less than 5% of any viewport. Their restraint ensures that code highlights and prose remain the focal point.",
+        "section": "colors"
+      },
+      {
+        "name": "The Pure Black Prohibition",
+        "body": "Never use #000000 for backgrounds or #ffffff for pure white text in dark mode. Always use calibrated OKLCH neutral tokens to preserve reading comfort over prolonged sessions.",
+        "section": "colors"
+      },
+      {
+        "name": "The 44rem Measure Rule",
+        "body": "Running prose must never stretch beyond 44rem (704px). Wide viewports place balanced outer whitespace in the margins rather than stretching paragraph line length.",
+        "section": "typography"
+      },
+      {
+        "name": "The Continuous Underline Wipe",
+        "body": "Inline prose links have a subtle muted underline at rest. On hover, a solid accent stroke sweeps continuously from inline-start to inline-end (background-size: 0% to 100%). Under prefers-reduced-motion: reduce, this smoothly falls back to an instant color transition.",
+        "section": "typography"
+      },
+      {
+        "name": "The Shadowless Discipline",
+        "body": "No fuzzy multi-layer drop shadows. Surfaces declare depth exclusively through subtle background lightness deltas and razor-sharp 1px borders.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do maintain a strict 44rem (~704px) maximum measure for prose paragraphs to guarantee effortless readability.",
+      "Do test every code block, callout, and table in both light and dark modes to verify WCAG AAA contrast.",
+      "Do provide copy buttons on all code snippets and include syntax highlighting language tags.",
+      "Do use light-dark() with OKLCH colors for all color declarations.",
+      "Do ensure Chinese characters (Traditional Chinese) render with appropriate line-height (1.75+) and fall back gracefully through system CJK fonts."
+    ],
+    "donts": [
+      "Don't use pure #000000 or #ffffff high-glare surfaces; always use the calibrated paper and midnight slate tokens.",
+      "Don't add decorative floating blob gradients, noisy background textures, or intrusive scrolling animations that distract from reading.",
+      "Don't allow lines of technical prose to stretch across wide 1440px+ viewports without constraining the container.",
+      "Don't wrap links in generic heavy buttons unless they trigger explicit state actions; use text links with the continuous underline wipe.",
+      "Don't ship code blocks without an easy one-click copy mechanism."
+    ]
+  }
+}

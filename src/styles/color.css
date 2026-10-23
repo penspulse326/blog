@@ -1,0 +1,40 @@
+:root {
+  --background: light-dark(oklch(96.5% 0.006 150deg), oklch(20% 0.015 155deg));
+  --foreground: light-dark(oklch(40% 0.03 150deg), oklch(88% 0.03 145deg));
+  --primary: light-dark(oklch(45% 0.13 148deg), oklch(78% 0.15 145deg));
+  --primary-foreground: light-dark(oklch(98% 0 0deg), oklch(18% 0.02 155deg));
+  --muted: light-dark(oklch(92.5% 0.006 150deg), oklch(26% 0.012 155deg));
+  --muted-foreground: light-dark(oklch(56% 0.02 150deg), oklch(70% 0.02 145deg));
+  --accent: light-dark(oklch(42% 0.14 148deg), oklch(76% 0.15 145deg));
+  --accent-foreground: light-dark(oklch(98% 0 0deg), oklch(16% 0.02 155deg));
+  --interactive-background: color-mix(in oklab, var(--accent) 15%, transparent);
+  --interactive-border: color-mix(in oklab, var(--accent) 45%, var(--border));
+  --interactive-foreground: var(--foreground);
+  --destructive: light-dark(oklch(55% 0.216 19.8deg), oklch(73.7% 0.125 11.2deg));
+  --border: light-dark(oklch(88% 0.005 150deg), oklch(100% 0 0deg / 18%));
+  --ring: light-dark(oklch(45% 0.13 148deg), oklch(78% 0.15 145deg));
+
+  color-scheme: light dark;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+}
+
+[data-theme="dark"],
+:root:has(#theme-toggle:checked) {
+  color-scheme: dark;
+}
+
+*,
+::before,
+::after,
+::backdrop,
+::file-selector-button {
+  border-color: var(--border);
+
+  &:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+}

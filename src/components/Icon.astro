@@ -1,0 +1,60 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { resolveIcon } from "../lib/icons";
+
+interface Props extends HTMLAttributes<"svg"> {
+  /** Semantic alias (e.g. 'copy', 'sun') or MingCute id (e.g. 'copy-line') */
+  name: string;
+  /** Accessible title for assistive tech */
+  title?: string;
+  /** Accessible description */
+  desc?: string;
+  /** Shorthand for setting both width and height */
+  size?: number | string;
+  /** Sets the width of the icon */
+  width?: number | string;
+  /** Sets the height of the icon */
+  height?: number | string;
+  /** CSS class names */
+  class?: string;
+}
+
+const { name, title, desc, size, width, height, class: className, ...props } = Astro.props;
+
+const formatSize = (value: number | string | undefined) =>
+  value === undefined ? undefined : String(value);
+
+const { attributes, body } = resolveIcon(name);
+const { width: intrinsicWidth, height: intrinsicHeight, ...svgAttributes } = attributes;
+
+const computedWidth = formatSize(width ?? size) ?? intrinsicWidth ?? "1em";
+const computedHeight = formatSize(height ?? size) ?? intrinsicHeight ?? "1em";
+
+const accessibility: Record<string, string> = {};
+if (!title && !desc) {
+  accessibility.role = "presentation";
+  accessibility["aria-hidden"] = "true";
+}
+
+const escapeHTML = (value: string) =>
+  value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+
+const titleElement = title ? `<title>${escapeHTML(title)}</title>` : "";
+const descElement = desc ? `<desc>${escapeHTML(desc)}</desc>` : "";
+const iconBody = `${titleElement}${descElement}${body}`;
+---
+
+<svg
+  {...svgAttributes}
+  {...props}
+  width={computedWidth}
+  height={computedHeight}
+  class={className}
+  {...accessibility}
+>
+  <Fragment set:html={iconBody} />
+</svg>

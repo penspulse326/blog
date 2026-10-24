@@ -143,15 +143,15 @@ const noteTopics = [
 
 <style>
   .section-header {
-    margin-bottom: 2.5rem;
+    margin-block: var(--space-s);
   }
 
   .page-title {
     font-size: var(--step-3);
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-medium);
     letter-spacing: var(--tracking-tight);
     line-height: var(--line-height-tight);
-    margin-bottom: 0.75rem;
+    margin-block-end: var(--space-2xs);
   }
 
   .page-tagline {
@@ -163,36 +163,35 @@ const noteTopics = [
   .topics-container {
     display: flex;
     flex-direction: column;
-    gap: 3rem;
-    margin-top: 3rem;
+    gap: var(--space-l);
   }
 
   .topic-group {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: var(--space-s);
   }
 
   .topic-heading {
     font-size: var(--step-1);
     font-weight: var(--font-weight-bold);
     color: var(--foreground);
-    padding-bottom: 0.5rem;
+    padding-bottom: var(--space-2xs);
     border-bottom: 1px solid var(--border);
   }
 
   .note-cards-list {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: var(--space-s);
   }
 
   .note-entry {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    padding: 1.125rem 1.25rem;
-    border-radius: var(--radius-lg);
+    gap: var(--space-xs);
+    padding: var(--space-s);
+    border-radius: var(--radius-xl);
     background-color: var(--muted);
     border: 1px solid var(--border);
     transition:

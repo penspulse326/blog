@@ -1,0 +1,633 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = Astro.url.pathname } = Astro.props;
+
+export interface NavLink {
+  href: string;
+  label: string;
+}
+
+export const NAV_LINKS: NavLink[] = [
+  { href: "/blog", label: "文章" },
+  { href: "/projects", label: "專案" },
+  { href: "/notes", label: "筆記" },
+];
+
+const normalizePath = (path: string) => path.replace(/\/$/, "") || "/";
+const activeNormalized = normalizePath(currentPath);
+---
+
+<div id="main-header" class="menu-bar">
+  <header class="site-header">
+    <div class="site-brand">
+      <a href="/" class="site-title" aria-label="Pen's Pulse 首頁">
+        <span>Pen's Pulse</span>
+      </a>
+    </div>
+
+    <div class="site-actions">
+      <!-- Desktop Navigation -->
+      <nav class="desktop-nav" aria-label="主要導航">
+        {NAV_LINKS.map((item) => {
+          const itemNormalized = normalizePath(item.href);
+          const isActive =
+            activeNormalized === itemNormalized ||
+            (itemNormalized !== "/" && activeNormalized.startsWith(itemNormalized));
+          return (
+            <a
+              href={item.href}
+              class:list={["nav-link", isActive && "nav-active"]}
+              aria-current={isActive ? "page" : undefined}
+            >
+              {item.label}
+            </a>
+          );
+        })}
+      </nav>
+
+      <!-- Mobile Menu Dropdown -->
+      <div data-dropdown-root class="mobile-menu-wrapper" data-state="closed">
+        <button
+          type="button"
+          class="control-btn mobile-menu-trigger"
+          title="選單"
+          aria-label="開啟導航選單"
+          data-dropdown-trigger
+        >
+          <Icon name="menu" size="1.5rem" />
+          <span class="sr-only">Toggle menu</span>
+        </button>
+
+        <div data-dropdown-content class="mobile-menu-content" role="menu">
+          <div>
+            {NAV_LINKS.map((item) => {
+              const itemNormalized = normalizePath(item.href);
+              const isActive =
+                activeNormalized === itemNormalized ||
+                (itemNormalized !== "/" && activeNormalized.startsWith(itemNormalized));
+              return (
+                <a
+                  href={item.href}
+                  data-dropdown-item
+                  data-nav-link={item.href}
+                  aria-current={isActive ? "page" : undefined}
+                >
+                  {item.label}
+                </a>
+              );
+            })}
+            <hr class="mobile-menu-separator" />
+            <button type="button" data-dropdown-item id="mobile-theme-toggle">
+              <div class="theme-icon-stack" aria-hidden="true">
+                <Icon name="sun" size="1.25rem" class="theme-icon-light" />
+                <Icon name="moon" size="1.25rem" class="theme-icon-dark" />
+              </div>
+              <span>切換主題</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Desktop Theme Toggle (Direct Click) -->
+      <div class="desktop-theme">
+        <button
+          type="button"
+          class="control-btn"
+          id="theme-toggle"
+          title="切換主題"
+          aria-label="切換主題"
+        >
+          <div class="theme-icon-stack" aria-hidden="true">
+            <Icon name="sun" size="1.5rem" class="theme-icon-light" />
+            <Icon name="moon" size="1.5rem" class="theme-icon-dark" />
+          </div>
+          <span class="sr-only">Toggle theme</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="menu-bar-progress" aria-hidden="true">
+    <span data-scroll-progress></span>
+  </div>
+</div>
+
+<script is:inline>
+  (() => {
+    const stored = localStorage?.getItem("theme");
+    const resolved =
+      stored === "dark" || stored === "light"
+        ? stored
+        : window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+
+    document.documentElement.setAttribute("data-theme", resolved);
+    document.documentElement.classList.add(resolved === "dark" ? "scheme-dark" : "scheme-light");
+  })();
+</script>
+
+<script>
+  // 1. Scroll Progress Logic
+  let fill: HTMLElement | null = null;
+  let frame = 0;
+
+  function updateScrollProgress() {
+    frame = 0;
+    if (!fill) return;
+
+    const { scrollHeight, clientHeight } = document.documentElement;
+    const range = scrollHeight - clientHeight;
+    const progress = range > 0 ? Math.min(1, Math.max(0, window.scrollY / range)) : 0;
+    fill.style.scale = `${progress} 1`;
+  }
+
+  function scheduleProgress() {
+    if (!frame) frame = requestAnimationFrame(updateScrollProgress);
+  }
+
+  function bindProgress() {
+    fill = document.querySelector<HTMLElement>("[data-scroll-progress]");
+    updateScrollProgress();
+  }
+
+  window.addEventListener("scroll", scheduleProgress, { passive: true });
+  window.addEventListener("resize", scheduleProgress, { passive: true });
+  document.addEventListener("astro:page-load", bindProgress);
+  document.addEventListener("astro:after-swap", bindProgress);
+  bindProgress();
+
+  // 2. Dropdown Logic
+  class DropdownMenu {
+    private trigger: HTMLElement | null;
+    private content: HTMLElement | null;
+    private isOpen = false;
+
+    constructor(private container: HTMLElement) {
+      this.trigger = container.querySelector("[data-dropdown-trigger]");
+      this.content = container.querySelector("[data-dropdown-content]");
+      if (!this.trigger || !this.content) return;
+      this.trigger.addEventListener("click", this.handleTriggerClick);
+      this.content.addEventListener("click", this.handleContentClick);
+      document.addEventListener("click", this.handleOutsideClick);
+      document.addEventListener("keydown", this.handleKeyDown);
+      this.container.addEventListener("dropdown-close", () => this.close());
+      this.container.addEventListener("dropdown-open", () => this.open());
+      if (container.dataset.state === "open") this.open();
+    }
+
+    private handleTriggerClick = (event: Event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      if (this.isOpen) this.close();
+      else this.open();
+    };
+
+    private handleContentClick = (event: Event) => {
+      if ((event.target as Element).closest("[data-dropdown-item]")) {
+        this.close();
+      }
+    };
+
+    private handleOutsideClick = (event: Event) => {
+      if (!this.container.contains(event.target as Node)) this.close();
+    };
+
+    private handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && this.isOpen) {
+        this.close();
+        this.trigger?.focus();
+      }
+    };
+
+    private open() {
+      document.querySelectorAll<HTMLElement>("[data-dropdown-root]").forEach((root) => {
+        if (root !== this.container && root.dataset.state === "open") {
+          root.dispatchEvent(new CustomEvent("dropdown-close"));
+        }
+      });
+      if (!this.content) return;
+      this.isOpen = true;
+      this.container.dataset.state = "open";
+      this.trigger?.setAttribute("aria-expanded", "true");
+      this.position();
+    }
+
+    private close() {
+      this.isOpen = false;
+      this.container.dataset.state = "closed";
+      this.trigger?.setAttribute("aria-expanded", "false");
+    }
+
+    private position() {
+      if (!this.trigger || !this.content) return;
+      const trigger = this.trigger.getBoundingClientRect();
+      const content = this.content.getBoundingClientRect();
+      const margin = 10;
+      let left = trigger.width - content.width;
+      left = Math.min(left, window.innerWidth - trigger.left - content.width - margin);
+      left = Math.max(left, margin - trigger.left);
+      this.content.style.left = `${left}px`;
+    }
+  }
+
+  function initDropdowns() {
+    document.querySelectorAll<HTMLElement>("[data-dropdown-root]").forEach((container) => {
+      if (container.dataset.dropdownInitialized) return;
+      new DropdownMenu(container);
+      container.dataset.dropdownInitialized = "true";
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initDropdowns);
+  } else {
+    initDropdowns();
+  }
+  document.addEventListener("astro:after-swap", initDropdowns);
+
+  // 3. Theme Toggle (Direct Toggle)
+  function applyTheme(theme: string) {
+    const el = document.documentElement;
+    el.classList.add("theme-no-transition");
+    el.setAttribute("data-theme", theme);
+    el.classList.remove("scheme-dark", "scheme-light");
+    el.classList.add(theme === "dark" ? "scheme-dark" : "scheme-light");
+
+    window.getComputedStyle(el).getPropertyValue("opacity");
+
+    requestAnimationFrame(() => {
+      el.classList.remove("theme-no-transition");
+    });
+  }
+
+  function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
+    const newTheme = currentTheme === "dark" ? "light" : "dark";
+    localStorage.setItem("theme", newTheme);
+    applyTheme(newTheme);
+  }
+
+  function bindThemeToggle() {
+    const desktopBtn = document.getElementById("theme-toggle");
+    const mobileBtn = document.getElementById("mobile-theme-toggle");
+
+    if (desktopBtn && !desktopBtn.dataset.bound) {
+      desktopBtn.dataset.bound = "true";
+      desktopBtn.addEventListener("click", toggleTheme);
+    }
+    if (mobileBtn && !mobileBtn.dataset.bound) {
+      mobileBtn.dataset.bound = "true";
+      mobileBtn.addEventListener("click", toggleTheme);
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bindThemeToggle);
+  } else {
+    bindThemeToggle();
+  }
+  document.addEventListener("astro:after-swap", bindThemeToggle);
+</script>
+
+<style>
+  .menu-bar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    isolation: isolate;
+    margin-inline: calc(-1 * var(--grid-gutter));
+    padding-inline: var(--grid-gutter);
+  }
+
+  .menu-bar::before {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 50%;
+    z-index: -1;
+    inline-size: 100vw;
+    border-block-end: 1px solid var(--border);
+    background: color-mix(in oklab, var(--background) 86%, transparent);
+    backdrop-filter: blur(10px);
+    pointer-events: none;
+    transform: translateX(-50%);
+  }
+
+  .menu-bar-progress {
+    position: absolute;
+    inset-block-end: 0;
+    inset-inline-start: 50%;
+    inline-size: 100vw;
+    block-size: 0.125rem;
+    overflow: hidden;
+    pointer-events: none;
+    transform: translateX(-50%);
+  }
+
+  .menu-bar-progress span {
+    display: block;
+    block-size: 100%;
+    background: var(--primary);
+    transform-origin: 0 50%;
+    scale: 0 1;
+  }
+
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-s);
+    min-height: 3rem;
+    padding-block: var(--space-2xs);
+  }
+
+  .site-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3xs);
+    min-inline-size: 0;
+  }
+
+  .site-title {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 1;
+    min-inline-size: 0;
+    overflow: hidden;
+    color: var(--foreground);
+    font-size: var(--step-0);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: color var(--motion-duration-fast) var(--motion-ease);
+
+    &:hover {
+      color: var(--primary);
+    }
+  }
+
+  .site-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3xs);
+  }
+
+  .desktop-nav {
+    display: none;
+    align-items: center;
+    gap: var(--space-3xs);
+    font-size: var(--step-xs);
+
+    @media (width >= 40rem) {
+      display: flex;
+    }
+  }
+
+  .nav-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding-inline: var(--space-2xs);
+    color: var(--muted-foreground);
+    text-decoration: none;
+    text-transform: capitalize;
+    transition: color var(--motion-duration-fast) var(--motion-ease);
+
+    &:hover {
+      color: var(--accent);
+    }
+  }
+
+  .nav-active {
+    color: var(--foreground);
+    font-weight: var(--font-weight-medium);
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset-block-end: 0;
+      inset-inline-start: 50%;
+      transform: translateX(-50%);
+      inline-size: 4px;
+      block-size: 4px;
+      border-radius: var(--radius-full);
+      background: var(--primary);
+      opacity: 0.9;
+      transition:
+        opacity var(--motion-duration) var(--motion-ease),
+        transform var(--motion-duration) var(--motion-ease);
+    }
+
+    &:hover::after {
+      opacity: 1;
+      transform: translateX(-50%) scale(1.25);
+    }
+  }
+
+  /* Control button styling */
+  .control-btn {
+    --button-line-width: 0.5px;
+
+    display: inline-flex;
+    inline-size: var(--control-size);
+    min-block-size: var(--control-size);
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: var(--button-line-width) solid transparent;
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--foreground);
+    font-size: var(--step-xs);
+    font-weight: var(--font-weight-medium);
+    touch-action: manipulation;
+    user-select: none;
+    cursor: pointer;
+    transition:
+      background-color var(--motion-duration) var(--motion-ease),
+      border-color var(--motion-duration) var(--motion-ease),
+      color var(--motion-duration-fast) var(--motion-ease),
+      transform var(--motion-duration-fast) var(--motion-ease);
+
+    &:active {
+      transform: scale(0.96);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        border-color: var(--interactive-border);
+        background: var(--interactive-background);
+        color: var(--interactive-foreground);
+      }
+    }
+  }
+
+  /* Theme Icon Stack */
+  .theme-icon-stack {
+    display: grid;
+    place-items: center;
+  }
+
+  .theme-icon-light,
+  .theme-icon-dark {
+    grid-area: 1 / 1;
+    transition:
+      transform var(--motion-duration) var(--motion-ease),
+      opacity var(--motion-duration) var(--motion-ease);
+  }
+
+  .theme-icon-dark {
+    opacity: 0;
+    transform: scale(0.6) rotate(-45deg);
+  }
+
+  :global([data-theme="dark"]) .theme-icon-light {
+    opacity: 0;
+    transform: scale(0.6) rotate(-45deg);
+  }
+
+  :global([data-theme="dark"]) .theme-icon-dark {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+
+  /* Dropdown Styles matching myscholar */
+  [data-dropdown-root] {
+    position: relative;
+    display: inline-block;
+  }
+
+  [data-dropdown-content] {
+    position: absolute;
+    inset-block-start: calc(100% + var(--dropdown-offset, 4px));
+    inset-inline-start: 0;
+    z-index: 50;
+    min-inline-size: 10rem;
+    max-inline-size: calc(100vw - 1.25rem);
+    max-block-size: min(24rem, calc(100dvh - 6rem));
+    overflow: auto;
+    padding-block: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--background);
+    color: var(--foreground);
+    opacity: 0;
+    visibility: hidden;
+    scale: 0.98;
+    transform-origin: top right;
+    transition:
+      opacity var(--motion-duration) var(--motion-ease),
+      visibility var(--motion-duration) var(--motion-ease),
+      scale var(--motion-duration) var(--motion-ease);
+  }
+
+  [data-dropdown-root][data-state="open"] [data-dropdown-content] {
+    opacity: 1;
+    visibility: visible;
+    scale: 1;
+  }
+
+  [data-dropdown-item] {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-sizing: border-box;
+    inline-size: 100%;
+    min-block-size: var(--control-size);
+    margin: 0;
+    padding: var(--space-2xs) var(--space-xs);
+    border: 1px solid transparent;
+    appearance: none;
+    background: transparent;
+    color: var(--foreground);
+    font: inherit;
+    font-size: var(--step-xs);
+    text-align: start;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      background-color var(--motion-duration) var(--motion-ease),
+      border-color var(--motion-duration) var(--motion-ease),
+      color var(--motion-duration-fast) var(--motion-ease);
+
+    &:first-child {
+      border-start-start-radius: calc(var(--radius-md) - 1px);
+      border-start-end-radius: calc(var(--radius-md) - 1px);
+    }
+
+    &:last-child {
+      border-end-start-radius: calc(var(--radius-md) - 1px);
+      border-end-end-radius: calc(var(--radius-md) - 1px);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        border-color: color-mix(in oklab, var(--accent) 55%, var(--border));
+        background-color: color-mix(in oklab, var(--accent) 24%, transparent);
+        color: var(--foreground);
+      }
+    }
+
+    &[aria-current],
+    &[data-active] {
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+      font-weight: var(--font-weight-medium);
+
+      @media (hover: hover) and (pointer: fine) {
+        &:hover {
+          background-color: color-mix(in oklab, var(--primary) 88%, var(--accent));
+          color: var(--primary-foreground);
+        }
+      }
+    }
+  }
+
+  .mobile-menu-separator {
+    margin: 0;
+    border: 0;
+    border-block-start: 1px solid var(--border);
+  }
+
+  .mobile-menu-wrapper {
+    @media (width >= 40rem) {
+      display: none;
+    }
+  }
+
+  .desktop-theme {
+    display: none;
+
+    @media (width >= 40rem) {
+      display: flex;
+    }
+  }
+
+  :global(.theme-no-transition *),
+  :global(.theme-no-transition *::before),
+  :global(.theme-no-transition *::after) {
+    transition: none !important;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border-width: 0;
+  }
+</style>

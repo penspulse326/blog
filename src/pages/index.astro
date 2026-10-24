@@ -1,13 +1,15 @@
 ---
 import "../styles/global.css";
-import Callout from "../components/Callout.astro";
 import Icon from "../components/Icon.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Tag from "../components/Tag.astro";
 
 const essays = [
   {
     title: "Building a Fault-Tolerant Raft Consensus Engine in Rust",
-    slug: "#raft-engine",
-    date: "Oct 18, 2026",
+    slug: "/blog",
+    date: "2026-10-18",
     readingTime: "14 min read",
     tags: ["systems", "rust", "consensus"],
     excerpt:
@@ -15,8 +17,8 @@ const essays = [
   },
   {
     title: "Zero-Copy Deserialization and Memory Alignment in Storage Pipelines",
-    slug: "#zero-copy-storage",
-    date: "Sep 02, 2026",
+    slug: "/blog",
+    date: "2026-09-02",
     readingTime: "18 min read",
     tags: ["storage", "performance", "memory"],
     excerpt:
@@ -24,8 +26,8 @@ const essays = [
   },
   {
     title: "Postmortem: Debugging a Cascading Tail-Latency Spike in Distributed Cache",
-    slug: "#tail-latency-postmortem",
-    date: "Aug 14, 2026",
+    slug: "/blog",
+    date: "2026-08-14",
     readingTime: "11 min read",
     tags: ["postmortem", "sre", "networking"],
     excerpt:
@@ -33,32 +35,37 @@ const essays = [
   },
 ];
 
-const sampleCode = `pub async fn elect_leader(&mut self) -> Result<Leadership, RaftError> {
-    self.state = NodeState::Candidate;
-    self.current_term += 1;
-    self.voted_for = Some(self.node_id);
-
-    let votes = self.broadcast_request_vote().await?;
-    if votes.is_majority(self.cluster_size) {
-        self.become_leader();
-        Ok(Leadership::Won)
-    } else {
-        Err(RaftError::ElectionSplit)
-    }
-}`;
+const featuredProjects = [
+  {
+    name: "Raft-Engine-RS",
+    summary:
+      "A high-performance, asynchronous Raft consensus engine implemented in Rust with zero external runtime dependencies.",
+    tech: ["Rust", "Tokio", "gRPC", "LSM-Tree"],
+    github: "https://github.com",
+    metrics: "Sub-millisecond election timeout · 85k ops/sec replication",
+  },
+  {
+    name: "ZeroCopy-Storage",
+    summary:
+      "Direct I/O NVMe storage streaming pipeline utilizing io_uring and SIMD serialization for Linux kernel bypass operations.",
+    tech: ["C++20", "io_uring", "Linux", "SIMD"],
+    github: "https://github.com",
+    metrics: "Zero heap allocations in fast-path · 4.8 GB/s sustained",
+  },
+];
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="zh-Hant">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
     <meta
       name="description"
-      content="Vincent — Software Engineer. Systems architecture, distributed engines, and technical essays."
+      content="Pen's Pulse — Software engineering journal, systems architecture, distributed engines, and digital garden notes."
     />
-    <title>Vincent — Scholar SWE Codex</title>
+    <title>Pen's Pulse — Software Engineer Journal</title>
     <script is:inline>
       (function () {
         const storedTheme = localStorage.getItem("theme");
@@ -73,115 +80,93 @@ const sampleCode = `pub async fn elect_leader(&mut self) -> Result<Leadership, R
     </script>
   </head>
   <body>
-    <header class="masthead">
-      <div class="masthead-inner">
-        <a href="/" class="brand-link" aria-label="Vincent Homepage">
-          <span class="monogram">V</span>
-          <span class="brand-title">vincent.dev</span>
-        </a>
+    <Header currentPath="/" />
 
-        <nav class="masthead-nav" aria-label="Primary navigation">
-          <a href="#essays" class="nav-link">
-            Essays
-          </a>
-          <a href="#design-system" class="nav-link">
-            Design System
-          </a>
-          <a
-            href="https://github.com/mychiffonn/myscholar"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="nav-link"
-          >
-            My Scholar
-          </a>
-
-          <button
-            type="button"
-            id="theme-toggle"
-            class="theme-toggle"
-            aria-label="Toggle color theme"
-            title="Toggle color theme"
-          >
-            <!-- Sun icon (for dark mode) -->
-            <Icon name="sun" class="icon-sun" size={18} />
-            <!-- Moon icon (for light mode) -->
-            <Icon name="moon" class="icon-moon" size={18} />
-          </button>
-        </nav>
-      </div>
-    </header>
-
-    <main class="page-container">
-      <!-- Profile Intro Section -->
-      <section class="profile-section">
-        <div class="profile-header">
-          <h1 class="profile-name">
-            Vincent
-            <span class="status-pill">SWE</span>
-          </h1>
-          <p class="profile-tagline">
-            Systems engineer exploring distributed consensus, high-throughput storage engines, and
-            low-latency runtime architecture.
-          </p>
-        </div>
+    <main id="main-content">
+      <!-- Profile Article Matching My Scholar -->
+      <article id="profile">
+        <header class="profile-header">
+          <div class="profile-avatar">
+            <Icon name="quill" size={32} />
+          </div>
+          <div class="profile-content">
+            <div class="profile-heading">
+              <h1 class="profile-name">Vincent</h1>
+              <p class="profile-tagline">
+                Systems engineer exploring distributed consensus, high-throughput storage engines,
+                and low-latency runtime architecture.
+              </p>
+            </div>
+          </div>
+        </header>
 
         <div class="prose">
           <p>
             Welcome to my digital workshop. This site operates as an editorial archive for rigorous
             engineering essays, postmortems, and technical investigations. Designed with academic
-            restraint, high-contrast code notation, and zero marketing clutter.
-          </p>
-          <p>
-            You can verify the active design guidelines, inspect live OKLCH theming, test typography
-            measure, or toggle color themes below.
+            restraint, high-contrast typography, and zero marketing clutter.
           </p>
         </div>
 
-        <div class="profile-actions">
-          <button
-            type="button"
-            id="copy-email-btn"
-            class="action-button action-button-secondary"
-            data-copy="vincent@example.dev"
-            title="Copy email address"
-          >
-            <Icon name="copy" size={16} />
-            <span id="copy-email-text">Copy Email</span>
-          </button>
+        <footer class="profile-footer">
+          <span class="email-link">
+            <Icon name="mail" size={16} />
+            <button
+              type="button"
+              id="copy-email-btn"
+              class="copy-email-button"
+              data-copy="vincent@example.dev"
+              title="Copy email address"
+            >
+              <span id="copy-email-text">vincent@example.dev</span>
+            </button>
+          </span>
+          <ul class="profile-social-links">
+            <li>
+              <a
+                href="https://github.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="profile-icon-btn"
+                aria-label="GitHub"
+              >
+                <Icon name="github" size={16} />
+              </a>
+            </li>
+            <li>
+              <a href="/blog" class="profile-icon-btn" aria-label="Articles Feed">
+                <Icon name="rss" size={16} />
+              </a>
+            </li>
+          </ul>
+        </footer>
+      </article>
 
-          <a
-            href="https://github.com/mychiffonn/myscholar"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="action-button action-button-primary"
-          >
-            <span>Reference Theme</span>
-            <Icon name="external-link" size={15} />
+      <!-- Latest Technical Essays Section -->
+      <section id="essays" class="section-block">
+        <div class="section-heading">
+          <h2 class="section-title">最新文章</h2>
+          <a href="/blog" class="section-more">
+            <span>see all</span>
+            <Icon name="arrow-right" size={13} />
           </a>
         </div>
-      </section>
 
-      <hr class="divider" />
-
-      <!-- Essays List Section -->
-      <section id="essays" class="section-block">
-        <h2 class="section-title">Technical Essays</h2>
-        <div class="essay-list">
+        <div class="card-list">
           {essays.map((essay) => (
-            <article class="essay-card">
-              <div class="essay-meta">
-                <time class="essay-date">{essay.date}</time>
-                <span class="meta-separator">·</span>
-                <span class="essay-reading-time">{essay.readingTime}</span>
+            <article class="interactive-card">
+              <div class="card-meta">
+                <time class="meta-date">{essay.date}</time>
+                <span class="meta-dot">·</span>
+                <span class="meta-time">{essay.readingTime}</span>
               </div>
-              <h3 class="essay-title">
+              <h3 class="card-title">
                 <a href={essay.slug}>{essay.title}</a>
               </h3>
-              <p class="essay-excerpt">{essay.excerpt}</p>
-              <div class="tag-row">
+              <p class="card-summary">{essay.excerpt}</p>
+              <div class="card-tags">
                 {essay.tags.map((tag) => (
-                  <span class="tag-pill">#{tag}</span>
+                  <Tag prefix="#" label={tag} href="/blog" />
                 ))}
               </div>
             </article>
@@ -189,138 +174,57 @@ const sampleCode = `pub async fn elect_leader(&mut self) -> Result<Leadership, R
         </div>
       </section>
 
-      <hr class="divider" />
-
-      <!-- Design System Calibration Showcase Section -->
-      <section id="design-system" class="section-block">
-        <h2 class="section-title">Design System & Settings Check</h2>
-        <p class="section-description">
-          This surface exercises the core guidelines defined in <code>DESIGN.md</code>
-          and <code>PRODUCT.md</code>:
-        </p>
-
-        <!-- Live Color Palette Check -->
-        <div class="swatch-grid">
-          <div class="swatch-item">
-            <div class="swatch-box swatch-bg"></div>
-            <div class="swatch-label">Canvas Background</div>
-            <div class="swatch-token">--background</div>
-          </div>
-          <div class="swatch-item">
-            <div class="swatch-box swatch-fg"></div>
-            <div class="swatch-label">Prose Foreground</div>
-            <div class="swatch-token">--foreground</div>
-          </div>
-          <div class="swatch-item">
-            <div class="swatch-box swatch-primary"></div>
-            <div class="swatch-label">Pine Mint</div>
-            <div class="swatch-token">--primary</div>
-          </div>
-          <div class="swatch-item">
-            <div class="swatch-box swatch-accent"></div>
-            <div class="swatch-label">Emerald Jade</div>
-            <div class="swatch-token">--accent</div>
-          </div>
-          <div class="swatch-item">
-            <div class="swatch-box swatch-muted"></div>
-            <div class="swatch-label">Muted Recessed</div>
-            <div class="swatch-token">--muted</div>
-          </div>
-          <div class="swatch-item">
-            <div class="swatch-box swatch-border"></div>
-            <div class="swatch-label">Hairline Border</div>
-            <div class="swatch-token">--border</div>
-          </div>
+      <!-- Selected Projects Section -->
+      <section id="projects" class="section-block">
+        <div class="section-heading">
+          <h2 class="section-title">精選專案</h2>
+          <a href="/projects" class="section-more">
+            <span>see all</span>
+            <Icon name="arrow-right" size={13} />
+          </a>
         </div>
 
-        <!-- Expressive Code Block Component -->
-        <div class="code-component-container">
-          <div class="code-header">
-            <div class="code-header-left">
-              <span class="code-lang-pill">RUST</span>
-              <span class="code-file-name">consensus/raft.rs</span>
-            </div>
-            <button type="button" id="copy-code-btn" class="code-copy-btn" title="Copy code">
-              <Icon id="copy-code-icon" name="copy" size={14} />
-              <span id="copy-code-text">Copy</span>
-            </button>
-          </div>
-          <pre class="code-pre"><code><span class="code-line"><span class="code-num">1</span> <span class="tok-keyword">pub async fn</span> <span class="tok-fn">elect_leader</span>(&amp;<span class="tok-keyword">mut self</span>) -&gt; <span class="tok-type">Result</span>&lt;<span class="tok-type">Leadership</span>, <span class="tok-type">RaftError</span>&gt; &#123;</span>
-<span class="code-line"><span class="code-num">2</span>     <span class="tok-keyword">self</span>.state = <span class="tok-type">NodeState</span>::Candidate;</span>
-<span class="code-line"><span class="code-num">3</span>     <span class="tok-keyword">self</span>.current_term += <span class="tok-num">1</span>;</span>
-<span class="code-line"><span class="code-num">4</span>     <span class="tok-keyword">self</span>.voted_for = <span class="tok-type">Some</span>(<span class="tok-keyword">self</span>.node_id);</span>
-<span class="code-line code-line-highlight"><span class="code-num">5</span>     <span class="tok-keyword">let</span> votes = <span class="tok-keyword">self</span>.<span class="tok-fn">broadcast_request_vote</span>().<span class="tok-keyword">await</span>?;</span>
-<span class="code-line"><span class="code-num">6</span>     <span class="tok-keyword">if</span> votes.<span class="tok-fn">is_majority</span>(<span class="tok-keyword">self</span>.cluster_size) &#123;</span>
-<span class="code-line"><span class="code-num">7</span>         <span class="tok-keyword">self</span>.<span class="tok-fn">become_leader</span>();</span>
-<span class="code-line"><span class="code-num">8</span>         <span class="tok-type">Ok</span>(<span class="tok-type">Leadership</span>::Won)</span>
-<span class="code-line"><span class="code-num">9</span>     &#125; <span class="tok-keyword">else</span> &#123;</span>
-<span class="code-line"><span class="code-num">10</span>        <span class="tok-type">Err</span>(<span class="tok-type">RaftError</span>::ElectionSplit)</span>
-<span class="code-line"><span class="code-num">11</span>    &#125;</span>
-<span class="code-line"><span class="code-num">12</span> &#125;</span></code></pre>
-        </div>
-
-        <!-- Callout Box Component (Extracted from myscholar) -->
-        <Callout variant="note" title="Architectural Invariant (Rarity & Quorum Rule)">
-          <p>
-            Leader election requires a strict majority quorum
-            <code class="inline-code">N/2 + 1</code>. Accent highlights like
-            <strong class="text-primary">Pine Mint</strong> and{" "}
-            <strong class="text-accent">Emerald Jade</strong> are deliberately restricted to &le;5%
-            of the viewport area to safeguard uninterrupted reading immersion.
-          </p>
-        </Callout>
-
-        <!-- Bilingual CJK Typographic Harmony Test -->
-        <div class="cjk-test-box">
-          <div class="cjk-badge">Bilingual Typography Test (繁體中文 / CJK)</div>
-          <p class="cjk-prose">
-            分散式系統的一致性協議旨在異步網路中達成確定性決策。本站採用
-            <code>DM Sans</code> 搭配 <code>PingFang TC</code> 與 <code>Noto Sans CJK TC</code>
-            ，確保繁體中文排版在 1.75 倍行高、自然字距與雙向對齊上，皆能與英文技術術語無縫契合。
-          </p>
+        <div class="card-list">
+          {featuredProjects.map((project) => (
+            <article class="interactive-card">
+              <div class="project-head">
+                <h3 class="card-title">
+                  <a href={project.github} target="_blank" rel="noopener noreferrer">
+                    {project.name}
+                  </a>
+                </h3>
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="source-link"
+                  aria-label={`View ${project.name} source code on GitHub`}
+                >
+                  <Icon name="github" size={14} />
+                  <span>Source</span>
+                  <Icon name="external-link" size={12} />
+                </a>
+              </div>
+              <p class="card-summary">{project.summary}</p>
+              <div class="project-metrics">
+                <span class="metrics-label">Metrics:</span>
+                <span class="metrics-value">{project.metrics}</span>
+              </div>
+              <div class="card-tags">
+                {project.tech.map((t) => (
+                  <Tag label={t} />
+                ))}
+              </div>
+            </article>
+          ))}
         </div>
       </section>
     </main>
 
-    <footer class="site-footer">
-      <div class="footer-inner">
-        <p class="footer-copy">
-          &copy; 2026 Vincent. Built with Astro 7 &amp; OKLCH tokens. Inspired by{" "}
-          <a
-            href="https://github.com/mychiffonn/myscholar"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            My Scholar
-          </a>
-          .
-        </p>
-        <div class="footer-links">
-          <a href="#essays">Essays</a>
-          <span class="footer-dot">·</span>
-          <a href="#design-system">Guidelines</a>
-          <span class="footer-dot">·</span>
-          <a href="https://myscholar.pages.dev/" target="_blank" rel="noopener noreferrer">
-            Reference Demo
-          </a>
-        </div>
-      </div>
-    </footer>
+    <Footer />
 
-    <!-- Interactive script for Theme Toggle & Copy Buttons -->
-    <script is:inline define:vars={{ sampleCode }}>
-      // Theme toggle functionality
-      const toggleBtn = document.getElementById("theme-toggle");
-      if (toggleBtn) {
-        toggleBtn.addEventListener("click", () => {
-          const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
-          const newTheme = currentTheme === "dark" ? "light" : "dark";
-          document.documentElement.setAttribute("data-theme", newTheme);
-          localStorage.setItem("theme", newTheme);
-        });
-      }
-
-      // Copy Email functionality
+    <!-- Copy Email Script -->
+    <script is:inline>
       const copyEmailBtn = document.getElementById("copy-email-btn");
       const copyEmailText = document.getElementById("copy-email-text");
       if (copyEmailBtn && copyEmailText) {
@@ -328,29 +232,12 @@ const sampleCode = `pub async fn elect_leader(&mut self) -> Result<Leadership, R
           const email = copyEmailBtn.getAttribute("data-copy") || "";
           try {
             await navigator.clipboard.writeText(email);
-            copyEmailText.textContent = "Copied!";
+            copyEmailText.textContent = "Copied to clipboard!";
             setTimeout(() => {
-              copyEmailText.textContent = "Copy Email";
+              copyEmailText.textContent = "vincent@example.dev";
             }, 2000);
           } catch {
             copyEmailText.textContent = email;
-          }
-        });
-      }
-
-      // Copy Code functionality
-      const copyCodeBtn = document.getElementById("copy-code-btn");
-      const copyCodeText = document.getElementById("copy-code-text");
-      if (copyCodeBtn && copyCodeText) {
-        copyCodeBtn.addEventListener("click", async () => {
-          try {
-            await navigator.clipboard.writeText(sampleCode);
-            copyCodeText.textContent = "Copied!";
-            setTimeout(() => {
-              copyCodeText.textContent = "Copy";
-            }, 2000);
-          } catch {
-            copyCodeText.textContent = "Copied";
           }
         });
       }
@@ -359,246 +246,208 @@ const sampleCode = `pub async fn elect_leader(&mut self) -> Result<Leadership, R
 </html>
 
 <style>
-  /* Header & Masthead */
-  .masthead {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    border-bottom: 1px solid var(--border);
-    background-color: color-mix(in oklab, var(--background) 90%, transparent);
-    backdrop-filter: blur(12px);
-  }
-
-  .masthead-inner {
-    max-width: var(--measure);
-    margin: 0 auto;
-    padding: 0.875rem 1.25rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .brand-link {
-    display: flex;
-    align-items: center;
-    gap: 0.625rem;
-    text-decoration: none;
-    color: var(--foreground);
-    font-weight: var(--font-weight-bold);
-    font-size: var(--step-0);
-  }
-
-  .monogram {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.75rem;
-    height: 1.75rem;
-    border-radius: var(--radius-sm);
-    background: var(--muted);
-    border: 1px solid var(--border);
-    font-family: var(--font-mono);
-    font-size: var(--step-xs);
-    color: var(--primary);
-  }
-
-  .masthead-nav {
-    display: flex;
-    align-items: center;
-    gap: 1.25rem;
-  }
-
-  .nav-link {
-    font-size: var(--step-xs);
-    color: var(--muted-foreground);
-    text-decoration: none;
-    transition: color var(--motion-duration-fast) var(--motion-ease);
-
-    &:hover {
-      color: var(--foreground);
-    }
-  }
-
-  /* Theme Toggle Button */
-  .theme-toggle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: var(--control-size-compact);
-    height: var(--control-size-compact);
-    border-radius: var(--radius-md);
-    background: var(--muted);
-    border: 1px solid var(--border);
-    color: var(--foreground);
-    cursor: pointer;
-    transition:
-      background-color var(--motion-duration-fast) var(--motion-ease),
-      border-color var(--motion-duration-fast) var(--motion-ease);
-
-    &:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-  }
-
-  :global([data-theme="dark"]) .icon-moon {
-    display: none;
-  }
-
-  :global([data-theme="dark"]) .icon-sun {
-    display: block;
-  }
-
-  :global([data-theme="light"]) .icon-sun {
-    display: none;
-  }
-
-  :global([data-theme="light"]) .icon-moon {
-    display: block;
-  }
-
-  /* Page Container */
-  .page-container {
-    max-width: var(--measure);
-    margin: 0 auto;
-    padding: 3rem 1.25rem 5rem;
-  }
-
-  /* Profile Header */
-  .profile-section {
+  /* Profile Layout Matching My Scholar */
+  #profile {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    margin-bottom: 3.5rem;
   }
 
   .profile-header {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    align-items: flex-start;
+    gap: 1.25rem;
+
+    @media (width >= 40rem) {
+      flex-direction: row;
+      align-items: center;
+      gap: 1.5rem;
+    }
+  }
+
+  .profile-avatar {
+    flex-shrink: 0;
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: color-mix(in oklab, var(--primary) 12%, var(--muted));
+    border: 1px solid color-mix(in oklab, var(--primary) 28%, var(--border));
+    color: var(--primary);
+  }
+
+  .profile-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .profile-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
   }
 
   .profile-name {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: var(--step-4);
+    font-size: var(--step-3);
     font-weight: var(--font-weight-bold);
     letter-spacing: var(--tracking-tight);
     line-height: var(--line-height-tight);
-  }
-
-  .status-pill {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.125rem 0.625rem;
-    border-radius: var(--radius-full);
-    background: color-mix(in oklab, var(--primary) 15%, var(--muted));
-    color: var(--primary);
-    border: 1px solid color-mix(in oklab, var(--primary) 35%, var(--border));
-    font-family: var(--font-mono);
-    font-size: var(--step-xs);
-    font-weight: var(--font-weight-semibold);
+    margin: 0;
   }
 
   .profile-tagline {
-    font-size: var(--step-1);
+    font-size: var(--step-0);
     color: var(--muted-foreground);
-    line-height: 1.45;
+    line-height: 1.5;
+    margin: 0;
   }
 
-  .profile-actions {
+  .profile-footer {
     display: flex;
     align-items: center;
-    gap: 0.875rem;
-    margin-top: 0.5rem;
+    justify-content: space-between;
+    gap: 1rem;
     flex-wrap: wrap;
+    padding-top: 1rem;
+    border-top: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
   }
 
-  .action-button {
+  .email-link {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    border-radius: var(--radius-md);
     font-size: var(--step-xs);
-    font-weight: var(--font-weight-medium);
-    text-decoration: none;
+    color: var(--muted-foreground);
+    font-family: var(--font-mono);
+  }
+
+  .copy-email-button {
+    font: inherit;
+    color: inherit;
+    background: transparent;
+    border: none;
+    padding: 0;
     cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: color-mix(in oklab, var(--muted-foreground) 40%, transparent);
+    transition: color var(--motion-duration-fast) var(--motion-ease);
+
+    &:hover {
+      color: var(--primary);
+      text-decoration-color: var(--primary);
+    }
+  }
+
+  .profile-social-links {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .profile-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: var(--radius-sm);
+    color: var(--muted-foreground);
+    text-decoration: none;
+    border: 1px solid var(--border);
     transition:
+      color var(--motion-duration-fast) var(--motion-ease),
       border-color var(--motion-duration-fast) var(--motion-ease),
       background-color var(--motion-duration-fast) var(--motion-ease);
-  }
-
-  .action-button-primary {
-    background: var(--primary);
-    color: var(--primary-foreground);
-    border: 1px solid transparent;
 
     &:hover {
-      opacity: 0.9;
+      color: var(--primary);
+      border-color: color-mix(in oklab, var(--primary) 40%, var(--border));
+      background-color: color-mix(in oklab, var(--primary) 8%, transparent);
     }
   }
 
-  .action-button-secondary {
-    background: var(--muted);
-    color: var(--foreground);
-    border: 1px solid var(--border);
-
-    &:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-  }
-
-  .divider {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 3.5rem 0;
-  }
-
-  /* Section Styling */
+  /* Section Styling with My Scholar Section-Heading & see all */
   .section-block {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-  }
+    gap: 1.25rem;
+    margin-bottom: 3.5rem;
 
-  .section-title {
-    font-size: var(--step-2);
-    font-weight: var(--font-weight-bold);
-    letter-spacing: var(--tracking-tight);
-    line-height: 1.25;
-  }
-
-  .section-description {
-    color: var(--muted-foreground);
-    font-size: var(--step-0);
-    margin-top: -0.5rem;
-
-    code {
-      font-family: var(--font-mono);
-      font-size: var(--step-xs);
-      padding: 0.15em 0.35em;
-      background: var(--muted);
-      border-radius: var(--radius-xs);
-      border: 1px solid var(--border);
+    &:last-child {
+      margin-bottom: 0;
     }
   }
 
-  /* Essay List & Cards */
-  .essay-list {
+  .section-heading {
     display: flex;
-    flex-direction: column;
-    gap: 2rem;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
   }
 
-  .essay-card {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+  .section-title {
+    font-size: var(--step-1);
+    font-weight: var(--font-weight-semibold);
+    color: var(--foreground);
+    margin: 0;
   }
 
-  .essay-meta {
+  .section-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: var(--step-xs);
+    color: var(--muted-foreground);
+    text-decoration: none;
+    transition:
+      color var(--motion-duration-fast) var(--motion-ease),
+      gap var(--motion-duration-fast) var(--motion-ease);
+
+    &:hover {
+      color: var(--primary);
+      gap: 0.5rem;
+    }
+  }
+
+  /* Card Lists with My Scholar subtle hover depth */
+  .card-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .interactive-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    padding: 1.25rem;
+    margin-inline: -1.25rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid transparent;
+    transition:
+      border-color var(--motion-duration) var(--motion-ease),
+      background-color var(--motion-duration) var(--motion-ease),
+      box-shadow var(--motion-duration) var(--motion-ease);
+
+    &:hover {
+      border-color: color-mix(in oklab, var(--primary) 34%, transparent);
+      background-color: color-mix(in oklab, var(--muted) 45%, transparent);
+      box-shadow:
+        0 0 0 1px color-mix(in oklab, var(--primary) 6%, transparent),
+        0 0.75rem 2rem -1.25rem color-mix(in oklab, var(--ring) 24%, transparent);
+    }
+  }
+
+  .card-meta {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -607,32 +456,35 @@ const sampleCode = `pub async fn elect_leader(&mut self) -> Result<Leadership, R
     font-family: var(--font-mono);
   }
 
-  .meta-separator {
+  .meta-dot {
     opacity: 0.5;
   }
 
-  .essay-title {
+  .card-title {
     font-size: var(--step-1);
     font-weight: var(--font-weight-semibold);
     line-height: 1.35;
+    margin: 0;
 
     a {
       color: var(--foreground);
-      text-decoration-color: var(--muted-foreground);
+      text-decoration: none;
+      transition: color var(--motion-duration-fast) var(--motion-ease);
 
       &:hover {
-        color: var(--accent);
+        color: var(--primary);
       }
     }
   }
 
-  .essay-excerpt {
+  .card-summary {
     font-size: var(--step-0);
-    color: var(--prose-foreground);
-    line-height: 1.6;
+    color: var(--muted-foreground);
+    line-height: 1.65;
+    margin: 0;
   }
 
-  .tag-row {
+  .card-tags {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -640,278 +492,42 @@ const sampleCode = `pub async fn elect_leader(&mut self) -> Result<Leadership, R
     flex-wrap: wrap;
   }
 
-  .tag-pill {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.125rem 0.5rem;
-    border-radius: var(--radius-full);
-    background: var(--muted);
-    border: 1px solid var(--border);
-    font-family: var(--font-mono);
-    font-size: var(--step-xs);
-    color: var(--muted-foreground);
-  }
-
-  /* Swatch Grid for live theme test */
-  .swatch-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-    gap: 0.75rem;
-    margin-top: 0.5rem;
-  }
-
-  .swatch-item {
+  .project-head {
     display: flex;
-    flex-direction: column;
-    gap: 0.375rem;
-    padding: 0.625rem;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    background: var(--background);
-  }
-
-  .swatch-box {
-    height: 32px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--border);
-  }
-
-  .swatch-bg {
-    background: var(--background);
-  }
-
-  .swatch-fg {
-    background: var(--foreground);
-  }
-
-  .swatch-primary {
-    background: var(--primary);
-  }
-
-  .swatch-accent {
-    background: var(--accent);
-  }
-
-  .swatch-muted {
-    background: var(--muted);
-  }
-
-  .swatch-border {
-    background: var(--border);
-  }
-
-  .swatch-label {
-    font-size: var(--step-xs);
-    font-weight: var(--font-weight-medium);
-    color: var(--foreground);
-  }
-
-  .swatch-token {
-    font-family: var(--font-mono);
-    font-size: var(--step-xs);
-    color: var(--muted-foreground);
-  }
-
-  /* Code Component */
-  .code-component-container {
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    background: var(--muted);
-    margin-top: 0.5rem;
-  }
-
-  .code-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.5rem 0.875rem;
-    border-bottom: 1px solid var(--border);
-    background: var(--muted);
-  }
-
-  .code-header-left {
-    display: flex;
-    align-items: center;
-    gap: 0.625rem;
-  }
-
-  .code-lang-pill {
-    font-family: var(--font-mono);
-    font-size: var(--step-xs);
-    font-weight: var(--font-weight-bold);
-    color: var(--primary);
-    padding: 0.1rem 0.35rem;
-    border-radius: var(--radius-xs);
-    border: 1px solid color-mix(in oklab, var(--primary) 40%, var(--border));
-  }
-
-  .code-file-name {
-    font-family: var(--font-mono);
-    font-size: var(--step-xs);
-    color: var(--muted-foreground);
-  }
-
-  .code-copy-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.25rem 0.5rem;
-    border-radius: var(--radius-xs);
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--muted-foreground);
-    font-family: var(--font-mono);
-    font-size: var(--step-xs);
-    cursor: pointer;
-    transition:
-      color var(--motion-duration-fast) var(--motion-ease),
-      border-color var(--motion-duration-fast) var(--motion-ease);
-
-    &:hover {
-      color: var(--foreground);
-      border-color: var(--accent);
-    }
-  }
-
-  .code-pre {
-    padding: 0.875rem 1rem;
-    margin: 0;
-    overflow-x: auto;
-    font-family: var(--font-mono);
-    font-size: var(--step-xs);
-    line-height: 1.6;
-    color: var(--foreground);
-  }
-
-  .code-line {
-    display: block;
-    padding: 0 0.25rem;
-    border-radius: var(--radius-xs);
-  }
-
-  .code-line-highlight {
-    background: color-mix(in oklab, var(--accent) 15%, transparent);
-    border-left: 2px solid var(--accent);
-    padding-left: calc(0.25rem - 2px);
-  }
-
-  .code-num {
-    display: inline-block;
-    width: 1.75rem;
-    user-select: none;
-    color: var(--muted-foreground);
-    opacity: 0.6;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .tok-keyword {
-    color: var(--accent);
-    font-weight: var(--font-weight-medium);
-  }
-
-  .tok-fn {
-    color: var(--primary);
-  }
-
-  .tok-type {
-    color: color-mix(in oklab, var(--primary) 70%, var(--foreground));
-  }
-
-  .tok-num {
-    color: var(--primary);
-  }
-
-  .inline-code {
-    font-family: var(--font-mono);
-    font-size: 0.85em;
-    padding: 0.1em 0.35em;
-    background: var(--background);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-xs);
-  }
-
-  .text-primary {
-    color: var(--primary);
-    font-weight: var(--font-weight-semibold);
-  }
-
-  .text-accent {
-    color: var(--accent);
-    font-weight: var(--font-weight-semibold);
-  }
-
-  /* CJK Box */
-  .cjk-test-box {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 1.25rem;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    background: var(--background);
-  }
-
-  .cjk-badge {
-    font-family: var(--font-mono);
-    font-size: var(--step-xs);
-    color: var(--muted-foreground);
-  }
-
-  .cjk-prose {
-    font-size: var(--step-0);
-    line-height: 1.8;
-    color: var(--prose-foreground);
-
-    code {
-      font-family: var(--font-mono);
-      font-size: var(--step-xs);
-      padding: 0.1em 0.35em;
-      background: var(--muted);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-xs);
-    }
-  }
-
-  /* Footer */
-  .site-footer {
-    border-top: 1px solid var(--border);
-    padding: 2rem 1.25rem;
-    margin-top: 4rem;
-  }
-
-  .footer-inner {
-    max-width: var(--measure);
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
+    align-items: baseline;
     justify-content: space-between;
     gap: 1rem;
     flex-wrap: wrap;
+  }
+
+  .source-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
     font-size: var(--step-xs);
     color: var(--muted-foreground);
-  }
+    text-decoration: none;
+    transition: color var(--motion-duration-fast) var(--motion-ease);
 
-  .footer-copy a {
-    color: var(--foreground);
-  }
-
-  .footer-links {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-
-    a {
-      color: var(--muted-foreground);
-      text-decoration: none;
-
-      &:hover {
-        color: var(--foreground);
-      }
+    &:hover {
+      color: var(--primary);
     }
   }
 
-  .footer-dot {
-    opacity: 0.4;
+  .project-metrics {
+    display: flex;
+    align-items: baseline;
+    gap: 0.375rem;
+    font-size: var(--step-xs);
+    font-family: var(--font-mono);
+  }
+
+  .metrics-label {
+    color: var(--muted-foreground);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .metrics-value {
+    color: var(--foreground);
   }
 </style>

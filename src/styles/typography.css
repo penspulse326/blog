@@ -6,24 +6,21 @@
   --font-mono:
     "Lilex", "SF Mono", "Monaco", "Cascadia Code", "Roboto Mono", ui-monospace, "Menlo", "Consolas",
     "Liberation Mono", monospace;
-  --font-math: "STIX Two Math", math;
   --step-xs: 0.875rem;
   --step-0: 1rem;
   --step-1: 1.125rem;
   --step-2: 1.5rem;
   --step-3: 1.875rem;
   --step-4: 2.25rem;
-  --step-5: 3rem;
   --font-weight-normal: 400;
   --font-weight-medium: 450;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
   --tracking-tight: 0;
-  --leading-offset: 0.65rem;
   --line-height-tight: 1.15;
   --prose-foreground: color-mix(in oklab, var(--foreground) 85%, transparent);
-  --prose-marker: var(--primary);
   --measure: 44rem;
+  --grid-gutter: 1.25rem;
 }
 
 body {

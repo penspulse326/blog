@@ -1,4 +1,4 @@
-# Product
+# Product (Pen's Pulse)
 
 <!-- impeccable:product-schema 1 -->
 
@@ -6,13 +6,27 @@
 
 web
 
+## Site Name
+
+Pen's Pulse
+
 ## Users
 
 Primary users are fellow software engineers, systems programmers, technical leads, and engineering peers. They read long-form technical deep-dives, architecture postmortems, and engineering essays during focused desktop or mobile sessions, seeking thorough problem-solving insights and technical depth without corporate fluff.
 
 ## Product Purpose
 
-A personal engineering journal and technical blog for a software engineer. It provides a calm, high-rigor, distraction-free environment for reading complex engineering essays, architecture breakdowns, and technical explanations. Success means readers can immerse themselves in deep technical material with effortless legibility, superior code presentation, and clear visual diagrams.
+A personal engineering journal and technical publication ("Pen's Pulse") for a software engineer. It provides a calm, high-rigor, distraction-free environment for reading complex engineering essays, architecture breakdowns, and technical explanations. Success means readers can immerse themselves in deep technical material with effortless legibility, superior code presentation, and clear visual diagrams.
+
+## Primary Navigation
+
+- **Brand**: Pen's Pulse (link to `/`)
+- **Nav Actions (Right-aligned)**:
+  - `文章` (`/blog`)
+  - `專案` (`/projects`)
+  - `筆記` (`/notes`)
+  - Theme Toggle (Desktop stack / Mobile dropdown item)
+  - Mobile Menu dropdown with RWD behavior matching My Scholar (`myscholar`)
 
 ## Positioning
 

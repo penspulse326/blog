@@ -1,15 +1,9 @@
+@import url("./reset.css");
 @import url("./color.css");
 @import url("./shape.css");
+@import url("./layout.css");
 @import url("./typography.css");
 @import url("./callout.css");
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
 
 ::selection {
   background-color: var(--interactive-background);
@@ -26,13 +20,23 @@ html {
 
 body {
   min-height: 100vh;
+  min-height: 100svh;
+  max-width: var(--measure);
+  padding-inline: var(--grid-gutter);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
   background-color: var(--background);
   color: var(--foreground);
+  overflow-x: clip;
 }
 
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding-block: 2.5rem 4rem;
 }
 
 ::-webkit-scrollbar {

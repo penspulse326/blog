@@ -1,0 +1,73 @@
+---
+---
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p class="footer-copy">
+      &copy; 2026 <a href="/">Pen's Pulse</a>. Built with Astro 7 &amp; OKLCH tokens. Inspired by{" "}
+      <a href="https://github.com/mychiffonn/myscholar" target="_blank" rel="noopener noreferrer">
+        My Scholar
+      </a>
+      .
+    </p>
+    <div class="footer-links">
+      <a href="/blog">文章</a>
+      <span class="footer-dot">·</span>
+      <a href="/projects">專案</a>
+      <span class="footer-dot">·</span>
+      <a href="/notes">筆記</a>
+      <span class="footer-dot">·</span>
+      <a href="https://myscholar.pages.dev/" target="_blank" rel="noopener noreferrer">
+        Reference Demo
+      </a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 1.25rem 3rem;
+    margin-top: 4rem;
+  }
+
+  .footer-inner {
+    max-width: var(--measure);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    font-size: var(--step-xs);
+    color: var(--muted-foreground);
+  }
+
+  .footer-copy a {
+    color: var(--foreground);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .footer-links {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    a {
+      color: var(--muted-foreground);
+      text-decoration: none;
+
+      &:hover {
+        color: var(--foreground);
+      }
+    }
+  }
+
+  .footer-dot {
+    opacity: 0.4;
+  }
+</style>

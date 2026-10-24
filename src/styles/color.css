@@ -6,11 +6,9 @@
   --muted: light-dark(oklch(92.5% 0.006 150deg), oklch(26% 0.012 155deg));
   --muted-foreground: light-dark(oklch(56% 0.02 150deg), oklch(70% 0.02 145deg));
   --accent: light-dark(oklch(42% 0.14 148deg), oklch(76% 0.15 145deg));
-  --accent-foreground: light-dark(oklch(98% 0 0deg), oklch(16% 0.02 155deg));
-  --interactive-background: color-mix(in oklab, var(--accent) 15%, transparent);
-  --interactive-border: color-mix(in oklab, var(--accent) 45%, var(--border));
+  --interactive-background: color-mix(in oklab, var(--accent) 18%, transparent);
+  --interactive-border: color-mix(in oklab, var(--accent) 55%, var(--border));
   --interactive-foreground: var(--foreground);
-  --destructive: light-dark(oklch(55% 0.216 19.8deg), oklch(73.7% 0.125 11.2deg));
   --border: light-dark(oklch(88% 0.005 150deg), oklch(100% 0 0deg / 18%));
   --ring: light-dark(oklch(45% 0.13 148deg), oklch(78% 0.15 145deg));
 
@@ -21,8 +19,7 @@
   color-scheme: light;
 }
 
-[data-theme="dark"],
-:root:has(#theme-toggle:checked) {
+[data-theme="dark"] {
   color-scheme: dark;
 }
 

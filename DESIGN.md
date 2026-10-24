@@ -1,6 +1,6 @@
 ---
-name: Scholar SWE Codex
-description: High-craft, academic-grade design system for a software engineer's deep-dive publication
+name: Pen's Pulse
+description: High-craft, academic-grade design system for Pen's Pulse technical publication
 colors:
   primary: "oklch(45% 0.13 148deg)"
   accent: "oklch(42% 0.14 148deg)"

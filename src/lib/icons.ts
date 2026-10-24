@@ -9,6 +9,13 @@ export const SEMANTIC_ICONS: Record<string, string> = {
   close: "close-line",
   home: "home-4-line",
   "chevron-down": "down-line",
+  "chevron-right": "right-line",
+  "arrow-right": "arrow-right-line",
+
+  // Brand & Site
+  pen: "pen-line",
+  quill: "quill-pen-line",
+  pulse: "heartbeat-line",
 
   // Actions & Links
   copy: "copy-line",

@@ -23,7 +23,7 @@ A personal engineering journal and technical publication ("Pen's Pulse") for a s
 - **Brand**: Pen's Pulse (link to `/`)
 - **Nav Actions (Right-aligned)**:
   - `文章` (`/blog`)
-  - `專案` (`/projects`)
+  - `主題計劃` (`/plans`)
   - `筆記` (`/notes`)
   - Theme Toggle (Desktop stack / Mobile dropdown item)
   - Mobile Menu dropdown with RWD behavior matching My Scholar (`myscholar`)

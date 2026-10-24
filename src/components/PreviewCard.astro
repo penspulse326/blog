@@ -1,0 +1,70 @@
+---
+import Icon from "./Icon.astro";
+import TaxonomyChip from "./TaxonomyChip.astro";
+import Card from "./card/Card.astro";
+import CardContent from "./card/CardContent.astro";
+import CardTitle from "./card/CardTitle.astro";
+import CardDescription from "./card/CardDescription.astro";
+import CardMeta from "./card/CardMeta.astro";
+import CardFooter from "./card/CardFooter.astro";
+import type { CleanPost } from "../lib/content";
+
+interface Props {
+  post: CleanPost;
+  class?: string;
+}
+
+const { post, class: className } = Astro.props;
+---
+
+<Card
+  href={`/blog/${post.slug}`}
+  label={`文章: ${post.title}`}
+  class:list={["preview-card", className]}
+>
+  <CardContent class="preview-card-content">
+    <CardTitle>{post.title}</CardTitle>
+    {post.description && <CardDescription>{post.description}</CardDescription>}
+    <CardMeta>
+      {post.dateString && (
+        <span class="meta-item">
+          <Icon name="publish" size="0.875rem" />
+          <time datetime={post.date?.toISOString()}>{post.dateString}</time>
+        </span>
+      )}
+      <span class="meta-item">
+        <Icon name="reading-time" size="0.875rem" />
+        <span>{post.readingTime}</span>
+      </span>
+    </CardMeta>
+    {post.tags.length > 0 && (
+      <CardFooter class="preview-card-badges">
+        {post.tags.map((tag) => (
+          <TaxonomyChip label={tag} static />
+        ))}
+      </CardFooter>
+    )}
+  </CardContent>
+</Card>
+
+<style>
+  .preview-card-content {
+    transition: color var(--motion-duration-fast) var(--motion-ease);
+  }
+
+  .meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .preview-card-badges {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .preview-card-badges::-webkit-scrollbar {
+    display: none;
+  }
+</style>

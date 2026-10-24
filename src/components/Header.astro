@@ -14,7 +14,7 @@ export interface NavLink {
 
 export const NAV_LINKS: NavLink[] = [
   { href: "/blog", label: "文章" },
-  { href: "/projects", label: "專案" },
+  { href: "/plans", label: "主題計劃" },
   { href: "/notes", label: "筆記" },
 ];
 
@@ -25,7 +25,7 @@ const activeNormalized = normalizePath(currentPath);
 <div id="main-header" class="menu-bar">
   <header class="site-header">
     <div class="site-brand">
-      <a href="/" class="site-title" aria-label="Pen's Pulse 首頁">
+      <a href="/" class="site-title" aria-label="Pen's Pulse 首頁" transition:persist>
         <span>Pen's Pulse</span>
       </a>
     </div>
@@ -101,6 +101,7 @@ const activeNormalized = normalizePath(currentPath);
           id="theme-toggle"
           title="切換主題"
           aria-label="切換主題"
+          transition:persist
         >
           <div class="theme-icon-stack" aria-hidden="true">
             <Icon name="sun" size="1.5rem" class="theme-icon-light" />
@@ -293,6 +294,24 @@ const activeNormalized = normalizePath(currentPath);
     bindThemeToggle();
   }
   document.addEventListener("astro:after-swap", bindThemeToggle);
+  document.addEventListener("astro:page-load", bindThemeToggle);
+
+  function updateActiveNav() {
+    const currentPath = window.location.pathname.replace(/\/$/, "") || "/";
+    document.querySelectorAll<HTMLAnchorElement>(".desktop-nav .nav-link").forEach((link) => {
+      const href = link.getAttribute("href")?.replace(/\/$/, "") || "/";
+      const isActive = href === "/" ? currentPath === "/" : currentPath.startsWith(href);
+      link.classList.toggle("nav-active", isActive);
+      if (isActive) {
+        link.setAttribute("aria-current", "page");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+  }
+
+  document.addEventListener("astro:after-swap", updateActiveNav);
+  document.addEventListener("astro:page-load", updateActiveNav);
 </script>
 
 <style>

@@ -38,11 +38,17 @@ export const SEMANTIC_ICONS: Record<string, string> = {
   quote: "chat-4-line",
 
   // Blog & SWE Concepts
+  blog: "book-5-line",
+  post: "book-2-line",
   code: "code-line",
   terminal: "terminal-line",
   tag: "tag-2-line",
+  tags: "tag-2-line",
+  hashtag: "hashtag-line",
   time: "time-line",
   calendar: "calendar-line",
+  publish: "calendar-line",
+  "reading-time": "time-duration-line",
 };
 
 export interface ResolvedIcon {

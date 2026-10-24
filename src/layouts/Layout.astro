@@ -1,0 +1,61 @@
+---
+import "../styles/global.css";
+import { ClientRouter } from "astro:transitions";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  currentPath?: string;
+}
+
+const {
+  title = "Pen's Pulse",
+  description = "Pen's Pulse — 個人技術寫作典藏",
+  currentPath = Astro.url.pathname,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <ClientRouter />
+    <script is:inline data-astro-rerun>
+      (function () {
+        const storedTheme = localStorage.getItem("theme");
+        if (storedTheme === "dark" || storedTheme === "light") {
+          document.documentElement.setAttribute("data-theme", storedTheme);
+        } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        } else {
+          document.documentElement.setAttribute("data-theme", "light");
+        }
+      })();
+    </script>
+    <script>
+      document.addEventListener("astro:before-swap", (event) => {
+        const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
+        event.newDocument.documentElement.setAttribute("data-theme", currentTheme);
+        event.newDocument.documentElement.classList.remove("scheme-dark", "scheme-light");
+        event.newDocument.documentElement.classList.add(
+          currentTheme === "dark" ? "scheme-dark" : "scheme-light",
+        );
+      });
+    </script>
+  </head>
+  <body>
+    <Header currentPath={currentPath} />
+
+    <main id="main-content" transition:animate="fade">
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+</html>

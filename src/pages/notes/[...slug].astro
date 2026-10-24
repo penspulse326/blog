@@ -1,0 +1,177 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import Tag from "../../components/Tag.astro";
+import Icon from "../../components/Icon.astro";
+import { getAllNotes, type CleanNote } from "../../lib/content";
+import { render } from "astro:content";
+
+export async function getStaticPaths() {
+  const allNotes = await getAllNotes();
+  return allNotes.map((note) => ({
+    params: { slug: note.slug },
+    props: { note },
+  }));
+}
+
+interface Props {
+  note: CleanNote;
+}
+
+const { note } = Astro.props;
+const { Content } = await render(note.entry);
+---
+
+<Layout
+  title={`${note.title} — ${note.category} 筆記 — Pen's Pulse`}
+  description={note.description || `${note.category} 筆記 - ${note.title}`}
+  currentPath="/notes"
+>
+  <Breadcrumb
+    items={[
+      { label: "筆記", href: "/notes" },
+      { label: note.category, href: "/notes" },
+      { label: note.title },
+    ]}
+  />
+
+  <article class="article-container">
+    <header class="article-header">
+      <div class="category-badge-row">
+        <span class="category-badge">{note.category}</span>
+        {note.subCategory && <span class="sub-category-badge">{note.subCategory}</span>}
+      </div>
+
+      <h1 class="article-title">{note.title}</h1>
+
+      <div class="article-meta">
+        {note.dateString && <time class="article-date">{note.dateString}</time>}
+        {note.dateString && <span class="meta-separator">·</span>}
+        <span class="article-reading-time">{note.readingTime}</span>
+      </div>
+
+      {note.tags.length > 0 && (
+        <div class="tag-row">
+          {note.tags.map((tag) => (
+            <Tag prefix="#" label={tag} />
+          ))}
+        </div>
+      )}
+    </header>
+
+    <hr class="divider" />
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    <footer class="article-footer">
+      <a href="/notes" class="back-link">
+        <Icon name="chevron-right" class="rotate-180" size={16} />
+        <span>返回筆記列表</span>
+      </a>
+    </footer>
+  </article>
+</Layout>
+
+<style>
+  .article-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    margin-block-end: var(--space-xl);
+  }
+
+  .article-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .category-badge-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+  }
+
+  .category-badge {
+    font-size: var(--step-xs);
+    font-weight: var(--font-weight-medium);
+    font-family: var(--font-mono);
+    padding: 0.2em 0.6em;
+    background-color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--accent);
+  }
+
+  .sub-category-badge {
+    font-size: var(--step-xs);
+    font-family: var(--font-mono);
+    padding: 0.2em 0.6em;
+    background-color: var(--muted);
+    border-radius: var(--radius-sm);
+    color: var(--muted-foreground);
+  }
+
+  .article-title {
+    font-size: var(--step-3);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-tight);
+    color: var(--foreground);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .article-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    font-size: var(--step-xs);
+    color: var(--muted-foreground);
+    font-family: var(--font-mono);
+  }
+
+  .meta-separator {
+    opacity: 0.5;
+  }
+
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    margin-block-start: var(--space-3xs);
+  }
+
+  .divider {
+    border: none;
+    border-block-start: 1px solid var(--border);
+    margin: 0;
+  }
+
+  .article-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block-start: var(--space-m);
+    border-block-start: 1px solid var(--border);
+    margin-block-start: var(--space-l);
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    font-size: var(--step-xs);
+    color: var(--muted-foreground);
+    text-decoration: none;
+    transition: color var(--motion-duration-fast) var(--motion-ease);
+
+    &:hover {
+      color: var(--foreground);
+    }
+
+    :global(.rotate-180) {
+      transform: rotate(180deg);
+    }
+  }
+</style>

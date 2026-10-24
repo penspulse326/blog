@@ -11,6 +11,7 @@
   --interactive-foreground: var(--foreground);
   --border: light-dark(oklch(88% 0.005 150deg), oklch(100% 0 0deg / 18%));
   --ring: light-dark(oklch(45% 0.13 148deg), oklch(78% 0.15 145deg));
+  --celestial-surface: color-mix(in oklab, var(--background) 82%, transparent);
 
   color-scheme: light dark;
 }

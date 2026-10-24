@@ -1,233 +1,162 @@
 ---
-import "../styles/global.css";
+import Layout from "../layouts/Layout.astro";
 import Icon from "../components/Icon.astro";
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
 import Tag from "../components/Tag.astro";
+import { getAllBlogPosts, SERIES_META } from "../lib/content";
 
-const essays = [
-  {
-    title: "Building a Fault-Tolerant Raft Consensus Engine in Rust",
-    slug: "/blog",
-    date: "2026-10-18",
-    readingTime: "14 min read",
-    tags: ["systems", "rust", "consensus"],
-    excerpt:
-      "A deep dive into implementing state machine replication, handling network partitions, and eliminating split-brain anomalies in distributed consensus.",
-  },
-  {
-    title: "Zero-Copy Deserialization and Memory Alignment in Storage Pipelines",
-    slug: "/blog",
-    date: "2026-09-02",
-    readingTime: "18 min read",
-    tags: ["storage", "performance", "memory"],
-    excerpt:
-      "Analyzing cache-line eviction, SIMD vectorization, and struct padding to achieve sub-microsecond serialization over high-throughput NVMe streams.",
-  },
-  {
-    title: "Postmortem: Debugging a Cascading Tail-Latency Spike in Distributed Cache",
-    slug: "/blog",
-    date: "2026-08-14",
-    readingTime: "11 min read",
-    tags: ["postmortem", "sre", "networking"],
-    excerpt:
-      "How connection pool saturation and TCP window exhaustion triggered exponential retry storms across 40 microservice clusters.",
-  },
-];
+const allPosts = await getAllBlogPosts();
+const essays = allPosts.slice(0, 3);
 
-const featuredProjects = [
-  {
-    name: "Raft-Engine-RS",
-    summary:
-      "A high-performance, asynchronous Raft consensus engine implemented in Rust with zero external runtime dependencies.",
-    tech: ["Rust", "Tokio", "gRPC", "LSM-Tree"],
-    github: "https://github.com",
-    metrics: "Sub-millisecond election timeout · 85k ops/sec replication",
-  },
-  {
-    name: "ZeroCopy-Storage",
-    summary:
-      "Direct I/O NVMe storage streaming pipeline utilizing io_uring and SIMD serialization for Linux kernel bypass operations.",
-    tech: ["C++20", "io_uring", "Linux", "SIMD"],
-    github: "https://github.com",
-    metrics: "Zero heap allocations in fast-path · 4.8 GB/s sustained",
-  },
-];
+const featuredPlans = Object.entries(SERIES_META).map(([key, meta]) => ({
+  key,
+  name: meta.title,
+  summary: meta.description,
+  metrics: meta.metrics,
+  status: meta.status,
+  link: "/plans",
+}));
 ---
 
-<!doctype html>
-<html lang="zh-Hant">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="generator" content={Astro.generator} />
-    <meta
-      name="description"
-      content="Pen's Pulse — Software engineering journal, systems architecture, distributed engines, and digital garden notes."
-    />
-    <title>Pen's Pulse — Software Engineer Journal</title>
-    <script is:inline>
-      (function () {
-        const storedTheme = localStorage.getItem("theme");
-        if (storedTheme === "dark" || storedTheme === "light") {
-          document.documentElement.setAttribute("data-theme", storedTheme);
-        } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-          document.documentElement.setAttribute("data-theme", "dark");
-        } else {
-          document.documentElement.setAttribute("data-theme", "light");
-        }
-      })();
-    </script>
-  </head>
-  <body>
-    <Header currentPath="/" />
-
-    <main id="main-content">
-      <!-- Profile Article Matching My Scholar -->
-      <article id="profile">
-        <header class="profile-header">
-          <div class="profile-avatar">
-            <Icon name="quill" size={32} />
-          </div>
-          <div class="profile-content">
-            <div class="profile-heading">
-              <h1 class="profile-name">Vincent</h1>
-              <p class="profile-tagline">
-                Systems engineer exploring distributed consensus, high-throughput storage engines,
-                and low-latency runtime architecture.
-              </p>
-            </div>
-          </div>
-        </header>
-
-        <div class="prose">
-          <p>
-            Welcome to my digital workshop. This site operates as an editorial archive for rigorous
-            engineering essays, postmortems, and technical investigations. Designed with academic
-            restraint, high-contrast typography, and zero marketing clutter.
+<Layout
+  title="Pen's Pulse — Software Engineer Journal"
+  description="Pen's Pulse — Software engineering journal, systems architecture, distributed engines, and digital garden notes."
+  currentPath="/"
+>
+  <!-- Profile Article Matching My Scholar -->
+  <article id="profile">
+    <header class="profile-header">
+      <div class="profile-avatar">
+        <Icon name="quill" size={32} />
+      </div>
+      <div class="profile-content">
+        <div class="profile-heading">
+          <h1 class="profile-name">Vincent</h1>
+          <p class="profile-tagline">
+            Systems engineer exploring distributed consensus, high-throughput storage engines, and
+            low-latency runtime architecture.
           </p>
         </div>
+      </div>
+    </header>
 
-        <footer class="profile-footer">
-          <span class="email-link">
-            <Icon name="mail" size={16} />
-            <button
-              type="button"
-              id="copy-email-btn"
-              class="copy-email-button"
-              data-copy="vincent@example.dev"
-              title="Copy email address"
-            >
-              <span id="copy-email-text">vincent@example.dev</span>
-            </button>
-          </span>
-          <ul class="profile-social-links">
-            <li>
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="profile-icon-btn"
-                aria-label="GitHub"
-              >
-                <Icon name="github" size={16} />
-              </a>
-            </li>
-            <li>
-              <a href="/blog" class="profile-icon-btn" aria-label="Articles Feed">
-                <Icon name="rss" size={16} />
-              </a>
-            </li>
-          </ul>
-        </footer>
-      </article>
+    <div class="prose">
+      <p>
+        Welcome to my digital workshop. This site operates as an editorial archive for rigorous
+        engineering essays, postmortems, and technical investigations. Designed with academic
+        restraint, high-contrast typography, and zero marketing clutter.
+      </p>
+    </div>
 
-      <!-- Latest Technical Essays Section -->
-      <section id="essays" class="section-block">
-        <div class="section-heading">
-          <h2 class="section-title">最新文章</h2>
-          <a href="/blog" class="section-more">
-            <span>see all</span>
-            <Icon name="arrow-right" size={13} />
+    <footer class="profile-footer">
+      <span class="email-link">
+        <Icon name="mail" size={16} />
+        <button
+          type="button"
+          id="copy-email-btn"
+          class="copy-email-button"
+          data-copy="vincent@example.dev"
+          title="Copy email address"
+        >
+          <span id="copy-email-text">vincent@example.dev</span>
+        </button>
+      </span>
+      <ul class="profile-social-links">
+        <li>
+          <a
+            href="https://github.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="profile-icon-btn"
+            aria-label="GitHub"
+          >
+            <Icon name="github" size={16} />
           </a>
-        </div>
+        </li>
+        <li>
+          <a href="/blog" class="profile-icon-btn" aria-label="Articles Feed">
+            <Icon name="rss" size={16} />
+          </a>
+        </li>
+      </ul>
+    </footer>
+  </article>
 
-        <div class="card-list">
-          {essays.map((essay) => (
-            <article class="interactive-card">
-              <div class="card-meta">
-                <time class="meta-date">{essay.date}</time>
-                <span class="meta-dot">·</span>
-                <span class="meta-time">{essay.readingTime}</span>
-              </div>
+  <!-- Latest Technical Essays Section -->
+  <section id="essays" class="section-block">
+    <div class="section-heading">
+      <h2 class="section-title">最新文章</h2>
+      <a href="/blog" class="section-more">
+        <span>see all</span>
+        <Icon name="arrow-right" size={13} />
+      </a>
+    </div>
+
+    <div class="card-list">
+      {essays.map((essay) => (
+        <article class="interactive-card">
+          <div class="card-meta">
+            {essay.dateString && <time class="meta-date">{essay.dateString}</time>}
+            {essay.dateString && <span class="meta-dot">·</span>}
+            <span class="meta-time">{essay.readingTime}</span>
+          </div>
+          <h3 class="card-title">
+            <a href={`/blog/${essay.slug}`}>{essay.title}</a>
+          </h3>
+          {essay.description && <p class="card-summary">{essay.description}</p>}
+          {essay.tags.length > 0 && (
+            <div class="card-tags">
+              {essay.tags.map((tag) => (
+                <Tag prefix="#" label={tag} href="/blog" />
+              ))}
+            </div>
+          )}
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Selected Plans Section -->
+  <section id="plans" class="section-block">
+    <div class="section-heading">
+      <h2 class="section-title">主題計劃</h2>
+      <a href="/plans" class="section-more">
+        <span>see all</span>
+        <Icon name="arrow-right" size={13} />
+      </a>
+    </div>
+
+    <div class="card-list">
+      {featuredPlans.map((plan) => (
+        <article class="interactive-card">
+          <div class="project-head">
+            <div class="project-title-group">
               <h3 class="card-title">
-                <a href={essay.slug}>{essay.title}</a>
+                <a href={plan.link}>{plan.name}</a>
               </h3>
-              <p class="card-summary">{essay.excerpt}</p>
-              <div class="card-tags">
-                {essay.tags.map((tag) => (
-                  <Tag prefix="#" label={tag} href="/blog" />
-                ))}
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
+              <span class="status-indicator">{plan.status}</span>
+            </div>
+            <a href={plan.link} class="source-link" aria-label={`View ${plan.name} on Plans page`}>
+              <span>查看計劃</span>
+              <Icon name="chevron-right" size={12} />
+            </a>
+          </div>
+          <p class="card-summary">{plan.summary}</p>
+          <div class="project-metrics">
+            <span class="metrics-label">專案特點:</span>
+            <span class="metrics-value">{plan.metrics}</span>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
 
-      <!-- Selected Projects Section -->
-      <section id="projects" class="section-block">
-        <div class="section-heading">
-          <h2 class="section-title">精選專案</h2>
-          <a href="/projects" class="section-more">
-            <span>see all</span>
-            <Icon name="arrow-right" size={13} />
-          </a>
-        </div>
-
-        <div class="card-list">
-          {featuredProjects.map((project) => (
-            <article class="interactive-card">
-              <div class="project-head">
-                <h3 class="card-title">
-                  <a href={project.github} target="_blank" rel="noopener noreferrer">
-                    {project.name}
-                  </a>
-                </h3>
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="source-link"
-                  aria-label={`View ${project.name} source code on GitHub`}
-                >
-                  <Icon name="github" size={14} />
-                  <span>Source</span>
-                  <Icon name="external-link" size={12} />
-                </a>
-              </div>
-              <p class="card-summary">{project.summary}</p>
-              <div class="project-metrics">
-                <span class="metrics-label">Metrics:</span>
-                <span class="metrics-value">{project.metrics}</span>
-              </div>
-              <div class="card-tags">
-                {project.tech.map((t) => (
-                  <Tag label={t} />
-                ))}
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-    </main>
-
-    <Footer />
-
-    <!-- Copy Email Script -->
-    <script is:inline>
+  <!-- Copy Email Script -->
+  <script>
+    function setupCopyEmail() {
       const copyEmailBtn = document.getElementById("copy-email-btn");
       const copyEmailText = document.getElementById("copy-email-text");
-      if (copyEmailBtn && copyEmailText) {
+      if (copyEmailBtn && copyEmailText && !copyEmailBtn.dataset.bound) {
+        copyEmailBtn.dataset.bound = "true";
         copyEmailBtn.addEventListener("click", async () => {
           const email = copyEmailBtn.getAttribute("data-copy") || "";
           try {
@@ -241,9 +170,11 @@ const featuredProjects = [
           }
         });
       }
-    </script>
-  </body>
-</html>
+    }
+    setupCopyEmail();
+    document.addEventListener("astro:page-load", setupCopyEmail);
+  </script>
+</Layout>
 
 <style>
   /* Profile Layout Matching My Scholar */
@@ -492,6 +423,25 @@ const featuredProjects = [
     justify-content: space-between;
     gap: 1rem;
     flex-wrap: wrap;
+  }
+
+  .project-title-group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    flex-wrap: wrap;
+  }
+
+  .status-indicator {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.15rem 0.45rem;
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-medium);
+    border-radius: var(--radius-sm);
+    background-color: color-mix(in oklab, var(--primary) 15%, var(--muted));
+    color: var(--primary);
   }
 
   .source-link {

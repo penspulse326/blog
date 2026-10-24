@@ -1,0 +1,307 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+import Icon from "../components/Icon.astro";
+import { getAllPlans, SERIES_META } from "../lib/content";
+
+const allPlans = await getAllPlans();
+
+// Group plans by series
+const seriesKeys = Object.keys(SERIES_META);
+const seriesList = seriesKeys.map((key) => {
+  const meta = SERIES_META[key]!;
+  const episodes = allPlans.filter((p) => p.series === key);
+  return {
+    key,
+    ...meta,
+    episodes,
+  };
+});
+---
+
+<Layout
+  title="主題計劃 — Pen's Pulse"
+  description="Pen's Pulse — 主題計劃彙整。30 天鐵人挑戰、完整全端專案實作與技術架構驗證。"
+  currentPath="/plans"
+>
+  <Breadcrumb items={[{ label: "主題計劃" }]} />
+
+  <header class="section-header">
+    <h1 class="page-title">
+      <span>主題計劃</span>
+      <span class="sub-badge">Plans</span>
+    </h1>
+    <p class="page-tagline">記錄針對特定主題、架構或技術挑戰的 30 天深度實踐專案與連載筆記。</p>
+  </header>
+
+  <section class="series-list">
+    {seriesList.map((series) => (
+      <article class="series-card">
+        <header class="series-card-header">
+          <div class="series-title-group">
+            <h2 class="series-name">{series.title}</h2>
+            <span class="status-indicator">{series.status}</span>
+          </div>
+          <span class="role-badge">{series.role}</span>
+        </header>
+
+        <p class="series-summary">{series.description}</p>
+
+        <div class="series-metrics">
+          <span class="metrics-label">專案特點:</span>
+          <span class="metrics-value">{series.metrics}</span>
+        </div>
+
+        <details class="episodes-disclosure" open>
+          <summary class="episodes-summary">
+            <span class="disclosure-title">連載篇章 ({series.episodes.length} 篇)</span>
+            <span class="disclosure-hint">點擊展開/收合</span>
+          </summary>
+          <ol class="episodes-list">
+            {series.episodes.map((ep) => (
+              <li class="episode-item">
+                <a href={`/plans/${ep.slug}`} class="episode-link">
+                  <span class="episode-day">Day {String(ep.dayNumber).padStart(2, "0")}</span>
+                  <span class="episode-title">{ep.title}</span>
+                  <span class="episode-meta">{ep.readingTime}</span>
+                  <Icon name="chevron-right" size={14} class="episode-arrow" />
+                </a>
+              </li>
+            ))}
+          </ol>
+        </details>
+      </article>
+    ))}
+  </section>
+</Layout>
+
+<style>
+  .section-header {
+    margin-block: var(--space-s);
+  }
+
+  .page-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    font-size: var(--step-3);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--line-height-tight);
+    margin-block-end: var(--space-2xs);
+  }
+
+  .sub-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem 0.5rem;
+    border-radius: var(--radius-full);
+    background: color-mix(in oklab, var(--primary) 12%, var(--muted));
+    color: var(--primary);
+    border: 1px solid color-mix(in oklab, var(--primary) 25%, var(--border));
+    font-family: var(--font-mono);
+    font-size: var(--step-xs);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .page-tagline {
+    font-size: var(--step-0);
+    line-height: 1.7;
+    color: var(--muted-foreground);
+  }
+
+  .series-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+  }
+
+  .series-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-s);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    background-color: var(--card);
+    transition:
+      border-color var(--motion-duration-fast) var(--motion-ease),
+      box-shadow var(--motion-duration-fast) var(--motion-ease);
+
+    &:hover {
+      border-color: color-mix(in oklab, var(--primary) 40%, var(--border));
+      box-shadow: 0 4px 16px -4px rgb(0 0 0 / 5%);
+    }
+  }
+
+  .series-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .series-title-group {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+  }
+
+  .series-name {
+    font-size: var(--step-1);
+    font-weight: var(--font-weight-bold);
+    color: var(--foreground);
+    margin: 0;
+  }
+
+  .status-indicator {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-medium);
+    border-radius: var(--radius-sm);
+    background-color: color-mix(in oklab, var(--primary) 15%, var(--muted));
+    color: var(--primary);
+  }
+
+  .role-badge {
+    font-size: var(--step-xs);
+    font-family: var(--font-mono);
+    color: var(--muted-foreground);
+  }
+
+  .series-summary {
+    font-size: var(--step-xs);
+    line-height: 1.6;
+    color: var(--prose-foreground);
+    margin: 0;
+  }
+
+  .series-metrics {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+    padding: 0.5rem 0.75rem;
+    background-color: var(--muted);
+    border-radius: var(--radius-md);
+    margin-block: var(--space-3xs);
+    flex-wrap: wrap;
+  }
+
+  .metrics-label {
+    font-weight: var(--font-weight-medium);
+    color: var(--muted-foreground);
+  }
+
+  .metrics-value {
+    color: var(--foreground);
+    font-family: var(--font-mono);
+  }
+
+  .episodes-disclosure {
+    margin-block-start: var(--space-2xs);
+    border-block-start: 1px solid var(--border);
+    padding-block-start: var(--space-xs);
+  }
+
+  .episodes-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+    font-size: var(--step-xs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--foreground);
+    padding-block: var(--space-3xs);
+
+    &:hover {
+      color: var(--accent);
+    }
+  }
+
+  .disclosure-hint {
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-normal);
+    color: var(--muted-foreground);
+  }
+
+  .episodes-list {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-xs) 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    max-height: 24rem;
+    overflow-y: auto;
+    padding-inline-end: var(--space-3xs);
+  }
+
+  .episode-item {
+    border-radius: var(--radius-md);
+    transition: background-color var(--motion-duration-fast) var(--motion-ease);
+
+    &:hover {
+      background-color: var(--muted);
+    }
+  }
+
+  .episode-day {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-medium);
+    color: var(--accent);
+    background-color: color-mix(in oklab, var(--accent) 10%, transparent);
+    padding: 0.15rem 0.4rem;
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+  }
+
+  .episode-title {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: color var(--motion-duration-fast) var(--motion-ease);
+  }
+
+  .episode-meta {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--muted-foreground);
+    white-space: nowrap;
+  }
+
+  .episode-arrow {
+    color: var(--muted-foreground);
+    transition: transform var(--motion-duration-fast) var(--motion-ease);
+    flex-shrink: 0;
+  }
+
+  .episode-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-2xs) var(--space-xs);
+    color: var(--foreground);
+    text-decoration: none;
+    font-size: var(--step-xs);
+
+    &:hover {
+      text-decoration: none;
+
+      .episode-title {
+        color: var(--accent);
+      }
+
+      .episode-arrow {
+        transform: translateX(2px);
+      }
+    }
+  }
+</style>

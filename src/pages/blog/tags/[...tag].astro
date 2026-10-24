@@ -1,0 +1,59 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Breadcrumb from "../../../components/Breadcrumb.astro";
+import PreviewCard from "../../../components/PreviewCard.astro";
+import { getAllBlogPosts } from "../../../lib/content";
+
+export async function getStaticPaths() {
+  const allPosts = await getAllBlogPosts();
+  const uniqueTags = new Set<string>();
+  for (const post of allPosts) {
+    for (const tag of post.tags) {
+      uniqueTags.add(tag);
+    }
+  }
+
+  return Array.from(uniqueTags).map((tag) => ({
+    params: { tag },
+    props: {
+      tag,
+      posts: allPosts.filter((post) => post.tags.includes(tag)),
+    },
+  }));
+}
+
+const { tag, posts } = Astro.props;
+---
+
+<Layout
+  title={`標籤「${tag}」— Pen's Pulse`}
+  description={`標籤為「${tag}」的文章列表`}
+  currentPath="/blog"
+>
+  <Breadcrumb
+    items={[
+      { href: "/blog", label: "文章", icon: "blog" },
+      { href: "/blog/tags", label: "標籤", icon: "tags" },
+      { label: tag, icon: "hashtag" },
+    ]}
+  />
+
+  <ul class="post-list">
+    {posts.map((post) => (
+      <li>
+        <PreviewCard post={post} />
+      </li>
+    ))}
+  </ul>
+</Layout>
+
+<style>
+  .post-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+</style>

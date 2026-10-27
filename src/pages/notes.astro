@@ -1,17 +1,16 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Breadcrumb from "../components/Breadcrumb.astro";
-import Tag from "../components/Tag.astro";
+import TaxonomyChip from "../components/TaxonomyChip.astro";
+import NoteCard from "../components/NoteCard.astro";
 import { getAllNotes } from "../lib/content";
 
 const allNotes = await getAllNotes();
-const categoriesMap = new Map<string, typeof allNotes>();
 
+// Group topic/categories from folder names (NOT frontmatter tags)
+const categoryCountMap = new Map<string, number>();
 for (const note of allNotes) {
-  if (!categoriesMap.has(note.category)) {
-    categoriesMap.set(note.category, []);
-  }
-  categoriesMap.get(note.category)!.push(note);
+  categoryCountMap.set(note.category, (categoryCountMap.get(note.category) || 0) + 1);
 }
 
 const PREFERRED_ORDER = [
@@ -29,14 +28,26 @@ const PREFERRED_ORDER = [
   "GIS",
 ];
 
-const categories = Array.from(categoriesMap.keys()).sort((a, b) => {
-  const indexA = PREFERRED_ORDER.indexOf(a);
-  const indexB = PREFERRED_ORDER.indexOf(b);
-  if (indexA !== -1 && indexB !== -1) return indexA - indexB;
-  if (indexA !== -1) return -1;
-  if (indexB !== -1) return 1;
-  return a.localeCompare(b);
-});
+const sortedCategories = Array.from(categoryCountMap.entries())
+  .map(([category, count]) => ({ category, count }))
+  .sort((a, b) => {
+    const indexA = PREFERRED_ORDER.indexOf(a.category);
+    const indexB = PREFERRED_ORDER.indexOf(b.category);
+    if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+    if (indexA !== -1) return -1;
+    if (indexB !== -1) return 1;
+    return a.category.localeCompare(b.category);
+  });
+
+// Pick the 10 most recent notes sorted by date descending
+const recentNotes = [...allNotes]
+  .sort((a, b) => {
+    const timeA = a.date ? a.date.getTime() : 0;
+    const timeB = b.date ? b.date.getTime() : 0;
+    if (timeA !== timeB) return timeB - timeA;
+    return a.title.localeCompare(b.title);
+  })
+  .slice(0, 10);
 ---
 
 <Layout
@@ -44,177 +55,111 @@ const categories = Array.from(categoriesMap.keys()).sort((a, b) => {
   description="Pen's Pulse — 工程隨筆與技術筆記。涵蓋 JavaScript、React、NestJS、CSS、SQL 與前端架構。"
   currentPath="/notes"
 >
-  <Breadcrumb items={[{ label: "筆記" }]} />
+  <Breadcrumb items={[{ label: "筆記", icon: "notes" }]} />
 
-  <header class="section-header">
-    <h1 class="page-title">筆記</h1>
-    <p class="page-tagline">收錄前端開發、框架原理、資料庫與後端探索的日常學習筆記與踩坑記錄。</p>
-  </header>
+  {sortedCategories.length > 0 && (
+    <nav class="notes-filters" aria-label="依主題瀏覽筆記">
+      <div class="filter-group">
+        <h2 class="filter-heading">依主題瀏覽</h2>
+        <div class="filter-chips">
+          {sortedCategories.map(({ category, count }) => (
+            <TaxonomyChip
+              href={`/notes/tags/${category}`}
+              label={category}
+              count={count}
+              countNoun="篇"
+            />
+          ))}
+        </div>
+      </div>
+    </nav>
+  )}
 
-  <div class="topics-container">
-    {categories.map((category) => {
-      const notes = categoriesMap.get(category) || [];
-      return (
-        <section class="topic-group">
-          <div class="topic-header">
-            <h2 class="topic-heading">{category}</h2>
-            <span class="topic-count">{notes.length} 篇</span>
-          </div>
-          <div class="note-cards-list">
-            {notes.map((note) => (
-              <article class="note-entry">
-                <div class="note-entry-header">
-                  <h3 class="note-entry-title">
-                    <a href={`/notes/${note.slug}`}>{note.title}</a>
-                  </h3>
-                  <div class="note-entry-meta">
-                    {note.dateString && <time class="note-entry-date">{note.dateString}</time>}
-                    {note.dateString && <span class="meta-sep">·</span>}
-                    <span class="note-reading-time">{note.readingTime}</span>
-                  </div>
-                </div>
-                {note.description && <p class="note-entry-summary">{note.description}</p>}
-                {note.tags.length > 0 && (
-                  <div class="note-tags">
-                    {note.tags.map((tag) => (
-                      <Tag prefix="#" label={tag} />
-                    ))}
-                  </div>
-                )}
-              </article>
-            ))}
-          </div>
-        </section>
-      );
-    })}
+  <div class="notes-index">
+    <section class="recent-notes">
+      <div class="section-title-row">
+        <h2 class="section-title">最新筆記</h2>
+        <span class="note-count">共 {allNotes.length} 篇中的最近 10 篇</span>
+      </div>
+
+      <ul class="note-list">
+        {recentNotes.map((note) => (
+          <li>
+            <NoteCard note={note} />
+          </li>
+        ))}
+      </ul>
+    </section>
   </div>
 </Layout>
 
 <style>
-  .section-header {
-    margin-block: var(--space-s);
+  .notes-filters,
+  .filter-group,
+  .notes-index,
+  .recent-notes,
+  .note-list {
+    display: flex;
+    flex-direction: column;
   }
 
-  .page-title {
-    font-size: var(--step-3);
+  .notes-filters {
+    gap: var(--space-s);
+    margin-block-end: var(--space-l);
+  }
+
+  .filter-group {
+    gap: var(--space-2xs);
+  }
+
+  .filter-heading {
+    color: var(--muted-foreground);
+    font-size: var(--step-xs);
     font-weight: var(--font-weight-medium);
-    letter-spacing: var(--tracking-tight);
-    line-height: var(--line-height-tight);
-    margin-block-end: var(--space-2xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0;
   }
 
-  .page-tagline {
-    font-size: var(--step-0);
-    line-height: 1.7;
-    color: var(--muted-foreground);
-  }
-
-  .topics-container {
+  .filter-chips {
     display: flex;
-    flex-direction: column;
-    gap: var(--space-l);
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
   }
 
-  .topic-group {
-    display: flex;
-    flex-direction: column;
+  .notes-index {
+    min-block-size: calc(100dvh - 18rem);
+    gap: var(--space-xl);
+  }
+
+  .recent-notes {
     gap: var(--space-s);
   }
 
-  .topic-header {
+  .section-title-row {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    padding-bottom: var(--space-2xs);
-    border-bottom: 1px solid var(--border);
+    gap: var(--space-s);
   }
 
-  .topic-heading {
+  .section-title {
+    color: var(--foreground);
     font-size: var(--step-1);
-    font-weight: var(--font-weight-bold);
-    color: var(--foreground);
-    margin: 0;
-  }
-
-  .topic-count {
-    font-family: var(--font-mono);
-    font-size: var(--step-xs);
-    color: var(--muted-foreground);
-  }
-
-  .note-cards-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xs);
-  }
-
-  .note-entry {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3xs);
-    padding: var(--space-xs) var(--space-s);
-    border-radius: var(--radius-lg);
-    background-color: var(--muted);
-    border: 1px solid var(--border);
-    transition:
-      border-color var(--motion-duration-fast) var(--motion-ease),
-      background-color var(--motion-duration-fast) var(--motion-ease);
-
-    &:hover {
-      border-color: color-mix(in oklab, var(--primary) 34%, transparent);
-      background-color: color-mix(in oklab, var(--muted) 70%, transparent);
-    }
-  }
-
-  .note-entry-header {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--space-s);
-    flex-wrap: wrap;
-  }
-
-  .note-entry-title {
-    font-size: var(--step-0);
     font-weight: var(--font-weight-semibold);
-    color: var(--foreground);
     margin: 0;
-
-    a {
-      color: var(--foreground);
-      text-decoration: none;
-      transition: color var(--motion-duration-fast) var(--motion-ease);
-
-      &:hover {
-        color: var(--accent);
-      }
-    }
   }
 
-  .note-entry-meta {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3xs);
-    font-family: var(--font-mono);
-    font-size: var(--step-xs);
+  .note-count {
     color: var(--muted-foreground);
-  }
-
-  .meta-sep {
-    opacity: 0.5;
-  }
-
-  .note-entry-summary {
     font-size: var(--step-xs);
-    line-height: 1.6;
-    color: var(--prose-foreground);
     margin: 0;
   }
 
-  .note-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.375rem;
-    margin-top: var(--space-3xs);
+  .note-list {
+    gap: var(--space-s);
+    padding: 0;
+    margin: 0;
+    list-style: none;
   }
 </style>

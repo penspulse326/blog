@@ -1,0 +1,78 @@
+---
+import Icon from "./Icon.astro";
+import Card from "./card/Card.astro";
+import CardContent from "./card/CardContent.astro";
+import CardTitle from "./card/CardTitle.astro";
+import CardMeta from "./card/CardMeta.astro";
+import type { CleanNote } from "../lib/content";
+
+interface Props {
+  note: CleanNote;
+  showCategory?: boolean;
+  class?: string;
+}
+
+const { note, showCategory = true, class: className } = Astro.props;
+---
+
+<Card
+  href={`/notes/${note.slug}`}
+  label={`筆記: ${note.title}`}
+  class:list={["note-card", className]}
+>
+  <CardContent class="note-card-content">
+    <CardTitle>{note.title}</CardTitle>
+    <CardMeta>
+      {showCategory && <span class="note-topic-badge">{note.category}</span>}
+      {note.subCategory && <span class="note-subtopic-badge">{note.subCategory}</span>}
+      {note.dateString && (
+        <span class="meta-item">
+          <Icon name="publish" size="0.875rem" />
+          <time datetime={note.date?.toISOString()}>{note.dateString}</time>
+        </span>
+      )}
+      <span class="meta-item">
+        <Icon name="reading-time" size="0.875rem" />
+        <span>{note.readingTime}</span>
+      </span>
+    </CardMeta>
+  </CardContent>
+</Card>
+
+<style>
+  .note-card-content {
+    transition: color var(--motion-duration-fast) var(--motion-ease);
+  }
+
+  .meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .note-topic-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.1em 0.45em;
+    border: 1px solid color-mix(in oklab, var(--primary) 24%, transparent);
+    border-radius: var(--radius-sm);
+    background-color: color-mix(in oklab, var(--primary) 10%, transparent);
+    color: var(--primary);
+    font-family: var(--font-mono);
+    font-size: var(--step-xs);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.2;
+  }
+
+  .note-subtopic-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.1em 0.45em;
+    border-radius: var(--radius-sm);
+    background-color: var(--muted);
+    color: var(--muted-foreground);
+    font-family: var(--font-mono);
+    font-size: var(--step-xs);
+    line-height: 1.2;
+  }
+</style>

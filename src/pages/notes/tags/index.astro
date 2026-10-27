@@ -1,0 +1,67 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Breadcrumb from "../../../components/Breadcrumb.astro";
+import TaxonomyChip from "../../../components/TaxonomyChip.astro";
+import { getAllNotes } from "../../../lib/content";
+
+const allNotes = await getAllNotes();
+
+const categoryCountMap = new Map<string, number>();
+for (const note of allNotes) {
+  categoryCountMap.set(note.category, (categoryCountMap.get(note.category) || 0) + 1);
+}
+
+const PREFERRED_ORDER = [
+  "JavaScript",
+  "React",
+  "CSS",
+  "NestJS",
+  "SQL",
+  "Git",
+  "Vue",
+  "Test",
+  "Monorepo",
+  "Web animation",
+  "Chart",
+  "GIS",
+];
+
+const sortedCategories = Array.from(categoryCountMap.entries())
+  .map(([category, count]) => ({ category, count }))
+  .sort((a, b) => {
+    const indexA = PREFERRED_ORDER.indexOf(a.category);
+    const indexB = PREFERRED_ORDER.indexOf(b.category);
+    if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+    if (indexA !== -1) return -1;
+    if (indexB !== -1) return 1;
+    return a.category.localeCompare(b.category);
+  });
+---
+
+<Layout title="主題 — Pen's Pulse" description="Pen's Pulse — 所有筆記主題" currentPath="/notes">
+  <Breadcrumb
+    items={[
+      { label: "筆記", icon: "notes", href: "/notes" },
+      { label: "主題", icon: "tags" },
+    ]}
+  />
+
+  <nav class="tag-cloud" aria-label="所有筆記主題">
+    {sortedCategories.map(({ category, count }) => (
+      <TaxonomyChip
+        href={`/notes/tags/${category}`}
+        label={category}
+        count={count}
+        countNoun="篇"
+      />
+    ))}
+  </nav>
+</Layout>
+
+<style>
+  .tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+  }
+</style>

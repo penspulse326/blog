@@ -29,8 +29,8 @@ const { Content } = await render(note.entry);
 >
   <Breadcrumb
     items={[
-      { label: "筆記", href: "/notes" },
-      { label: note.category, href: "/notes" },
+      { label: "筆記", href: "/notes", icon: "notes" },
+      { label: note.category, href: `/notes/tags/${note.category}` },
       { label: note.title },
     ]}
   />
@@ -38,7 +38,9 @@ const { Content } = await render(note.entry);
   <article class="article-container">
     <header class="article-header">
       <div class="category-badge-row">
-        <span class="category-badge">{note.category}</span>
+        <a href={`/notes/tags/${note.category}`} class="category-badge">
+          {note.category}
+        </a>
         {note.subCategory && <span class="sub-category-badge">{note.subCategory}</span>}
       </div>
 
@@ -95,14 +97,25 @@ const { Content } = await render(note.entry);
   }
 
   .category-badge {
-    font-size: var(--step-xs);
-    font-weight: var(--font-weight-medium);
-    font-family: var(--font-mono);
+    display: inline-flex;
+    align-items: center;
     padding: 0.2em 0.6em;
-    background-color: var(--muted);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
+    background-color: var(--muted);
     color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: var(--step-xs);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    transition:
+      border-color var(--motion-duration-fast) var(--motion-ease),
+      color var(--motion-duration-fast) var(--motion-ease);
+
+    &:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
   }
 
   .sub-category-badge {

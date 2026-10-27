@@ -1,0 +1,83 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Breadcrumb from "../../../components/Breadcrumb.astro";
+import NoteCard from "../../../components/NoteCard.astro";
+import { getAllNotes, extractNoteOrder } from "../../../lib/content";
+
+export async function getStaticPaths() {
+  const allNotes = await getAllNotes();
+  const uniqueCategories = Array.from(new Set(allNotes.map((note) => note.category)));
+
+  return uniqueCategories.map((category) => ({
+    params: { tag: category },
+    props: {
+      tag: category,
+      notes: allNotes
+        .filter((note) => note.category === category)
+        .sort((a, b) => {
+          const orderA = extractNoteOrder(a.id.split("/").pop() || "");
+          const orderB = extractNoteOrder(b.id.split("/").pop() || "");
+          if (orderA !== orderB) return orderA - orderB;
+          const timeA = a.date ? a.date.getTime() : 0;
+          const timeB = b.date ? b.date.getTime() : 0;
+          if (timeA !== timeB) return timeB - timeA;
+          return a.title.localeCompare(b.title);
+        }),
+    },
+  }));
+}
+
+const { tag, notes } = Astro.props;
+---
+
+<Layout
+  title={`主題「${tag}」筆記 — Pen's Pulse`}
+  description={`主題為「${tag}」的筆記列表`}
+  currentPath="/notes"
+>
+  <Breadcrumb
+    items={[
+      { href: "/notes", label: "筆記", icon: "notes" },
+      { href: "/notes/tags", label: "主題", icon: "tags" },
+      { label: tag, icon: "hashtag" },
+    ]}
+  />
+
+  <div class="notes-tag-index">
+    <p class="tag-summary">
+      主題「{tag}」，共 {notes.length} 篇筆記
+    </p>
+
+    <ul class="note-list">
+      {notes.map((note) => (
+        <li>
+          <NoteCard note={note} showCategory={false} />
+        </li>
+      ))}
+    </ul>
+  </div>
+</Layout>
+
+<style>
+  .notes-tag-index {
+    display: flex;
+    min-block-size: calc(100dvh - 18rem);
+    flex-direction: column;
+    gap: var(--space-l);
+  }
+
+  .tag-summary {
+    color: var(--muted-foreground);
+    font-size: var(--step-xs);
+    margin: 0;
+  }
+
+  .note-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+</style>

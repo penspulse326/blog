@@ -27,7 +27,8 @@ export const SEMANTIC_ICONS: Record<string, string> = {
   rss: "rss-line",
 
   // Callouts & Admonitions
-  note: "information-line",
+  note: "notebook-line",
+  notes: "notebook-line",
   info: "information-line",
   tip: "bulb-line",
   warning: "alert-line",

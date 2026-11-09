@@ -1,8 +1,6 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import Breadcrumb from "../../components/Breadcrumb.astro";
+import ArticleLayout from "../../layouts/ArticleLayout.astro";
 import TaxonomyChip from "../../components/TaxonomyChip.astro";
-import Icon from "../../components/Icon.astro";
 import { getAllBlogPosts } from "../../lib/content";
 import { render } from "astro:content";
 
@@ -15,124 +13,36 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post.entry);
+const { Content, headings } = await render(post.entry);
+
+const allPosts = await getAllBlogPosts();
+const currentIndex = allPosts.findIndex((p) => p.slug === post.slug);
+const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
+const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
 ---
 
-<Layout title={`${post.title} — Pen's Pulse`} description={post.description} currentPath="/blog">
-  <Breadcrumb items={[{ label: "文章", href: "/blog", icon: "blog" }, { label: post.title }]} />
+<ArticleLayout
+  title={`${post.title} — Pen's Pulse`}
+  description={post.description}
+  currentPath="/blog"
+  headings={headings}
+  breadcrumbItems={[{ label: "文章", href: "/blog", icon: "blog" }, { label: post.title }]}
+  dateString={post.dateString}
+  date={post.date}
+  readingTime={post.readingTime}
+  prevPost={prevPost}
+  nextPost={nextPost}
+  backLink={{ href: "/blog", label: "返回文章列表" }}
+>
+  {post.tags.length > 0 && (
+    <ul slot="header-bottom" class="post-tags" aria-label="文章標籤">
+      {post.tags.map((tag) => (
+        <li>
+          <TaxonomyChip href={`/blog/tags/${tag}`} label={tag} />
+        </li>
+      ))}
+    </ul>
+  )}
 
-  <article class="article-container">
-    <header class="article-header">
-      <div class="article-meta">
-        {post.dateString && (
-          <span class="meta-item">
-            <Icon name="publish" size="0.875rem" />
-            <time datetime={post.date?.toISOString()}>{post.dateString}</time>
-          </span>
-        )}
-        <span class="meta-item">
-          <Icon name="reading-time" size="0.875rem" />
-          <span>{post.readingTime}</span>
-        </span>
-      </div>
-      <h1 class="article-title">{post.title}</h1>
-      {post.tags.length > 0 && (
-        <div class="tag-row">
-          {post.tags.map((tag) => (
-            <TaxonomyChip href={`/blog/tags/${tag}`} label={tag} />
-          ))}
-        </div>
-      )}
-    </header>
-
-    <hr class="divider" />
-
-    <div class="prose">
-      <Content />
-    </div>
-
-    <footer class="article-footer">
-      <a href="/blog" class="back-link">
-        <Icon name="chevron-right" class="rotate-180" size={16} />
-        <span>返回文章列表</span>
-      </a>
-    </footer>
-  </article>
-</Layout>
-
-<style>
-  .article-container {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-m);
-    margin-block-end: var(--space-xl);
-  }
-
-  .article-header {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xs);
-  }
-
-  .article-meta {
-    display: flex;
-    align-items: center;
-    gap: var(--space-s);
-    font-size: var(--step-xs);
-    color: var(--muted-foreground);
-  }
-
-  .meta-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-  }
-
-  .article-title {
-    font-size: var(--step-3);
-    font-weight: var(--font-weight-bold);
-    line-height: var(--line-height-tight);
-    color: var(--foreground);
-    letter-spacing: var(--tracking-tight);
-  }
-
-  .tag-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2xs);
-    margin-block-start: var(--space-3xs);
-  }
-
-  .divider {
-    border: none;
-    border-block-start: 1px solid var(--border);
-    margin: 0;
-  }
-
-  .article-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-block-start: var(--space-m);
-    border-block-start: 1px solid var(--border);
-    margin-block-start: var(--space-l);
-  }
-
-  .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2xs);
-    font-size: var(--step-xs);
-    color: var(--muted-foreground);
-    text-decoration: none;
-    transition: color var(--motion-duration-fast) var(--motion-ease);
-
-    &:hover {
-      color: var(--foreground);
-    }
-  }
-
-  .rotate-180 {
-    transform: rotate(180deg);
-  }
-</style>
+  <Content />
+</ArticleLayout>

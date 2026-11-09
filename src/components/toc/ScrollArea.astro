@@ -1,0 +1,45 @@
+---
+interface Props {
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { class: className, ...rest } = Astro.props;
+---
+
+<div class:list={["scroll-area scroll-area-viewport", className]} {...rest}>
+  <slot />
+</div>
+
+<style>
+  .scroll-area {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .scroll-area-viewport {
+    display: var(--scroll-area-display, block);
+    block-size: var(--scroll-area-block-size, 100%);
+    max-block-size: var(--scroll-area-max-block-size, none);
+    flex-direction: var(--scroll-area-flex-direction, row);
+    gap: var(--scroll-area-gap, 0);
+    overflow-y: auto;
+    inline-size: 100%;
+    padding: var(--scroll-area-padding, 0);
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  .scroll-area-viewport::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scroll-area-viewport::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scroll-area-viewport::-webkit-scrollbar-thumb {
+    background-color: var(--border);
+    border-radius: var(--radius-full);
+  }
+</style>

@@ -11,6 +11,7 @@ export const SEMANTIC_ICONS: Record<string, string> = {
   "chevron-down": "down-line",
   "chevron-right": "right-line",
   "arrow-right": "arrow-right-line",
+  "arrow-left": "arrow-left-line",
 
   // Brand & Site
   pen: "pen-line",

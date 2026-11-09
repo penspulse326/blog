@@ -113,6 +113,8 @@ const activeNormalized = normalizePath(currentPath);
     </div>
   </header>
 
+  <slot name="toc" />
+
   <div class="menu-bar-progress" aria-hidden="true">
     <span data-scroll-progress></span>
   </div>
@@ -312,6 +314,37 @@ const activeNormalized = normalizePath(currentPath);
 
   document.addEventListener("astro:after-swap", updateActiveNav);
   document.addEventListener("astro:page-load", updateActiveNav);
+
+  // 4. Header Height & TOC Controller
+  import { TOCController } from "../lib/toc";
+
+  let headerObserver: ResizeObserver | undefined;
+  function updateHeaderHeight() {
+    const header = document.getElementById("main-header");
+    if (!header) return;
+    document.documentElement.style.setProperty("--header-height", `${header.offsetHeight}px`);
+  }
+
+  let tocController: TOCController | null = null;
+  function initTOC() {
+    updateHeaderHeight();
+    const header = document.getElementById("main-header");
+    if (header && !headerObserver) {
+      headerObserver = new ResizeObserver(updateHeaderHeight);
+      headerObserver.observe(header);
+    }
+
+    tocController?.cleanup();
+    tocController = new TOCController();
+    tocController.init();
+  }
+
+  document.addEventListener("astro:after-swap", initTOC);
+  document.addEventListener("astro:page-load", initTOC);
+  document.addEventListener("astro:before-swap", () => {
+    tocController?.cleanup();
+    tocController = null;
+  });
 </script>
 
 <style>

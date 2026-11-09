@@ -1,0 +1,252 @@
+---
+import type { MarkdownHeading } from "astro";
+import Icon from "../Icon.astro";
+import ScrollArea from "./ScrollArea.astro";
+import TOCHeadingLink from "./TOCHeadingLink.astro";
+
+interface Props {
+  headings?: MarkdownHeading[];
+}
+
+const { headings = [] } = Astro.props;
+const hasHeadings = headings && headings.length > 1;
+---
+
+{hasHeadings && (
+  <div class="toc-root">
+    {/* 1. Mobile & Tablet Sticky Dropdown Header (< 80rem) */}
+    <nav id="page-toc-container" class="mobile-toc" aria-label="文章目錄">
+      <details data-disclosure class="toc-disclosure">
+        <summary class="toc-summary">
+          <div
+            class="toc-progress"
+            role="progressbar"
+            aria-label="閱讀進度"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="0"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="progress-svg">
+              <circle
+                class="toc-progress-track"
+                cx="12"
+                cy="12"
+                r="10"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+              <circle
+                id="toc-progress-circle"
+                class="toc-progress-value"
+                cx="12"
+                cy="12"
+                r="10"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-dasharray="62.83"
+                stroke-dashoffset="62.83"
+                transform="rotate(-90 12 12)"
+              />
+            </svg>
+          </div>
+          <span id="toc-current-section" class="toc-current-text">
+            目錄
+          </span>
+          <span data-disclosure-chevron class="toc-chevron" aria-hidden="true">
+            <Icon name="chevron-down" size="1rem" />
+          </span>
+        </summary>
+
+        <div class="toc-panel" data-scroll-container>
+          <ScrollArea data-scroll-area class="toc-scroll-area">
+            <ul id="toc-list" class="toc-list">
+              {headings.map((heading) => (
+                <TOCHeadingLink heading={heading} />
+              ))}
+            </ul>
+          </ScrollArea>
+        </div>
+      </details>
+    </nav>
+
+    {/* 2. Desktop Sticky Sidebar (>= 80rem) */}
+    <aside id="desktop-toc-container" class="desktop-toc" aria-label="文章目錄側邊欄">
+      <div class="desktop-toc-card">
+        <header class="desktop-toc-header">
+          <Icon name="notes" size="0.875rem" />
+          <h2 id="desktop-toc-heading" class="desktop-toc-title">
+            目錄
+          </h2>
+        </header>
+        <ScrollArea data-scroll-area class="desktop-toc-scroll">
+          <ul class="desktop-toc-list">
+            {headings.map((heading) => (
+              <TOCHeadingLink heading={heading} />
+            ))}
+          </ul>
+        </ScrollArea>
+      </div>
+    </aside>
+  </div>
+)}
+
+<style>
+  .toc-root {
+    display: contents;
+  }
+
+  /* --- Mobile / Tablet TOC (< 80rem) --- */
+  .mobile-toc {
+    inline-size: 100%;
+    border-block-start: 1px solid var(--border);
+
+    @media (width >= 80rem) {
+      display: none;
+    }
+  }
+
+  .toc-disclosure {
+    overflow-x: hidden;
+  }
+
+  .toc-summary {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    inline-size: 100%;
+    padding: var(--space-2xs) 0;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+
+    &:focus-visible {
+      outline: 2px solid var(--ring);
+      outline-offset: -2px;
+    }
+  }
+
+  .toc-progress {
+    position: relative;
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .progress-svg {
+    inline-size: 1.25rem;
+    block-size: 1.25rem;
+  }
+
+  .toc-progress-track {
+    color: color-mix(in oklab, var(--primary) 20%, transparent);
+    stroke: currentcolor;
+  }
+
+  .toc-progress-value {
+    color: var(--primary);
+    stroke: currentcolor;
+    transition: stroke-dashoffset 100ms ease;
+  }
+
+  .toc-current-text {
+    min-inline-size: 0;
+    flex: 1;
+    overflow: hidden;
+    color: var(--foreground);
+    font-size: var(--step-xs);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-tight);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .toc-chevron {
+    display: inline-flex;
+    align-items: center;
+    margin-inline-start: auto;
+  }
+
+  .toc-panel {
+    display: block;
+    border-block-start: 1px solid color-mix(in oklab, var(--border) 50%, transparent);
+    padding-block: var(--space-2xs);
+  }
+
+  .toc-scroll-area {
+    --scroll-area-display: flex;
+    --scroll-area-flex-direction: column;
+    --scroll-area-max-block-size: 40dvh;
+  }
+
+  .toc-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    padding: var(--space-2xs) 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  /* --- Desktop Sidebar TOC (>= 80rem) --- */
+  .desktop-toc {
+    display: none;
+
+    @media (width >= 80rem) {
+      position: fixed;
+      top: calc(var(--header-height, 4rem) + 2rem);
+      left: calc(50% + (var(--measure) / 2) + 2rem);
+      z-index: 20;
+      display: block;
+      width: 14rem;
+      max-height: calc(100vh - var(--header-height, 4rem) - 4rem);
+    }
+  }
+
+  @media (width >= 80rem) {
+    .desktop-toc-card {
+      display: flex;
+      flex-direction: column;
+      padding: var(--space-xs);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: color-mix(in oklab, var(--background) 90%, transparent);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0.5rem 1.5rem -0.5rem color-mix(in oklab, var(--foreground) 6%, transparent);
+    }
+
+    .desktop-toc-header {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding-block-end: var(--space-3xs);
+      margin-block-end: var(--space-2xs);
+      border-block-end: 1px solid var(--border);
+      color: var(--muted-foreground);
+    }
+
+    .desktop-toc-title {
+      margin: 0;
+      color: var(--foreground);
+      font-size: var(--step-xs);
+      font-weight: var(--font-weight-semibold);
+    }
+
+    .desktop-toc-scroll {
+      --scroll-area-display: flex;
+      --scroll-area-flex-direction: column;
+      --scroll-area-max-block-size: calc(100vh - var(--header-height, 4rem) - 8rem);
+    }
+
+    .desktop-toc-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3xs);
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+  }
+</style>

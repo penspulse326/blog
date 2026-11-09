@@ -1,0 +1,267 @@
+---
+import type { MarkdownHeading } from "astro";
+import Layout from "./Layout.astro";
+import Breadcrumb, { type BreadcrumbItem } from "../components/Breadcrumb.astro";
+import Icon from "../components/Icon.astro";
+import PostNavigation, { type PostRef } from "../components/PostNavigation.astro";
+import TOC from "../components/toc/TOC.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  currentPath?: string;
+  headings?: MarkdownHeading[];
+  breadcrumbItems: BreadcrumbItem[];
+  dateString?: string;
+  date?: Date;
+  readingTime?: string;
+  prevPost?: PostRef | null;
+  nextPost?: PostRef | null;
+  backLink: { href: string; label: string };
+}
+
+const {
+  title,
+  description,
+  currentPath = "/blog",
+  headings = [],
+  breadcrumbItems,
+  dateString,
+  date,
+  readingTime,
+  prevPost,
+  nextPost,
+  backLink,
+} = Astro.props;
+---
+
+<Layout title={title} description={description} currentPath={currentPath}>
+  <TOC slot="toc" headings={headings} />
+
+  <Breadcrumb items={breadcrumbItems} />
+
+  <header class="post-header">
+    <slot name="header">
+      <slot name="header-top" />
+
+      <h1 id="post-title">{title}</h1>
+
+      {(dateString || readingTime) && (
+        <div class="post-metadata">
+          {dateString && (
+            <span class="meta-item">
+              <Icon name="publish" size="0.875rem" />
+              <time datetime={date ? date.toISOString() : undefined}>{dateString}</time>
+            </span>
+          )}
+          {readingTime && (
+            <span class="meta-item">
+              <Icon name="reading-time" size="0.875rem" />
+              <span>{readingTime}</span>
+            </span>
+          )}
+        </div>
+      )}
+
+      <slot name="header-bottom" />
+    </slot>
+  </header>
+
+  <article class="article-body">
+    <prose-content class="prose">
+      <slot />
+    </prose-content>
+  </article>
+
+  <footer class="post-footer">
+    <PostNavigation basePath={currentPath} prevPost={prevPost} nextPost={nextPost} />
+
+    <div class="footer-actions">
+      <a href={backLink.href} class="back-link">
+        <Icon name="arrow-left" size="0.875rem" />
+        <span>{backLink.label}</span>
+      </a>
+    </div>
+  </footer>
+</Layout>
+
+<script>
+  function setupHeadingAnchors() {
+    const headings = document.querySelectorAll<HTMLElement>(
+      "prose-content :is(h2, h3, h4, h5, h6), .prose :is(h2, h3, h4, h5, h6)",
+    );
+    for (const heading of headings) {
+      if (heading.id && !heading.querySelector("[data-heading-anchor]")) {
+        const anchor = document.createElement("a");
+        anchor.setAttribute("data-heading-anchor", "");
+        anchor.href = `#${heading.id}`;
+        anchor.setAttribute("aria-label", "Link to this section");
+        anchor.tabIndex = -1;
+        heading.appendChild(anchor);
+      }
+    }
+  }
+
+  setupHeadingAnchors();
+  document.addEventListener("astro:page-load", setupHeadingAnchors);
+</script>
+
+<style>
+  .post-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    text-align: center;
+    margin-block: var(--space-s) var(--space-m);
+  }
+
+  #post-title {
+    scroll-margin-top: calc(var(--header-height, 3.5rem) + 1rem);
+    font-size: var(--step-3);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--tracking-tight);
+    color: var(--foreground);
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  @media (width >= 40rem) {
+    #post-title {
+      font-size: var(--step-4);
+    }
+  }
+
+  @media (width >= 64rem) {
+    #post-title {
+      font-size: var(--step-5);
+    }
+  }
+
+  .post-metadata {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2xs) var(--space-s);
+    color: var(--muted-foreground);
+    font-size: var(--step-xs);
+  }
+
+  @media (width >= 40rem) {
+    .post-metadata {
+      flex-direction: row;
+
+      > *:not(:first-child)::before {
+        content: "•";
+        margin-inline: 0.25rem;
+        display: inline-block;
+        vertical-align: middle;
+        color: color-mix(in oklab, var(--muted-foreground) 50%, transparent);
+        pointer-events: none;
+      }
+    }
+  }
+
+  .meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .category-badge-row,
+  .series-badge-row {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2xs);
+  }
+
+  .category-badge {
+    font-size: var(--step-xs);
+    font-weight: var(--font-weight-medium);
+    padding: 0.2em 0.6em;
+    background-color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--accent);
+    text-decoration: none;
+    transition: color var(--motion-duration-fast) var(--motion-ease);
+
+    &:hover {
+      color: var(--foreground);
+    }
+  }
+
+  .sub-category-badge {
+    font-size: var(--step-xs);
+    color: var(--muted-foreground);
+    background-color: color-mix(in oklab, var(--muted) 40%, transparent);
+    padding: 0.2em 0.6em;
+    border-radius: var(--radius-sm);
+  }
+
+  .series-badge {
+    font-size: var(--step-xs);
+    font-weight: var(--font-weight-medium);
+    background-color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--accent);
+    padding: 0.2em 0.6em;
+  }
+
+  .day-badge {
+    font-size: var(--step-xs);
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-bold);
+    padding: 0.2em 0.6em;
+    background-color: color-mix(in oklab, var(--primary) 15%, transparent);
+    border: 1px solid color-mix(in oklab, var(--primary) 30%, transparent);
+    border-radius: var(--radius-sm);
+    color: var(--primary);
+  }
+
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-2xs);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .article-body {
+    display: flex;
+    flex-direction: column;
+    inline-size: 100%;
+    min-inline-size: 0;
+  }
+
+  .post-footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    margin-block: var(--space-l) var(--space-xl);
+  }
+
+  .footer-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    font-size: var(--step-xs);
+    color: var(--muted-foreground);
+    text-decoration: none;
+    transition: color var(--motion-duration-fast) var(--motion-ease);
+
+    &:hover {
+      color: var(--foreground);
+    }
+  }
+</style>

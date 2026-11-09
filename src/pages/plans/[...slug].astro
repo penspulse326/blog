@@ -1,8 +1,6 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import Breadcrumb from "../../components/Breadcrumb.astro";
-import Tag from "../../components/Tag.astro";
-import Icon from "../../components/Icon.astro";
+import ArticleLayout from "../../layouts/ArticleLayout.astro";
+import TaxonomyChip from "../../components/TaxonomyChip.astro";
 import { getAllPlans, type CleanPlan } from "../../lib/content";
 import { render } from "astro:content";
 
@@ -21,10 +19,10 @@ export async function getStaticPaths() {
       props: {
         plan,
         prevPlan: prevPlan
-          ? { slug: prevPlan.slug, title: prevPlan.title, dayNumber: prevPlan.dayNumber }
+          ? { slug: prevPlan.slug, title: `Day ${prevPlan.dayNumber} - ${prevPlan.title}` }
           : null,
         nextPlan: nextPlan
-          ? { slug: nextPlan.slug, title: nextPlan.title, dayNumber: nextPlan.dayNumber }
+          ? { slug: nextPlan.slug, title: `Day ${nextPlan.dayNumber} - ${nextPlan.title}` }
           : null,
       },
     };
@@ -33,257 +31,42 @@ export async function getStaticPaths() {
 
 interface Props {
   plan: CleanPlan;
-  prevPlan: { slug: string; title: string; dayNumber: number } | null;
-  nextPlan: { slug: string; title: string; dayNumber: number } | null;
+  prevPlan: { slug: string; title: string } | null;
+  nextPlan: { slug: string; title: string } | null;
 }
 
 const { plan, prevPlan, nextPlan } = Astro.props;
-const { Content } = await render(plan.entry);
+const { Content, headings } = await render(plan.entry);
 ---
 
-<Layout
-  title={`${plan.title} — ${plan.seriesTitle} — Pen's Pulse`}
+<ArticleLayout
+  title={plan.title}
   description={plan.description || `${plan.seriesTitle} - ${plan.title}`}
   currentPath="/plans"
+  headings={headings}
+  breadcrumbItems={[
+    { label: "主題計劃", href: "/plans" },
+    { label: plan.seriesTitle, href: "/plans" },
+    { label: `Day ${plan.dayNumber}` },
+  ]}
+  prevPost={prevPlan}
+  nextPost={nextPlan}
+  backLink={{ href: "/plans", label: "返回主題計劃" }}
 >
-  <Breadcrumb
-    items={[
-      { label: "主題計劃", href: "/plans" },
-      { label: plan.seriesTitle, href: "/plans" },
-      { label: `Day ${plan.dayNumber}` },
-    ]}
-  />
+  <div slot="header-top" class="series-badge-row">
+    <span class="series-badge">{plan.seriesTitle}</span>
+    <span class="day-badge">Day {plan.dayNumber}</span>
+  </div>
 
-  <article class="article-container">
-    <header class="article-header">
-      <div class="series-badge-row">
-        <span class="series-badge">{plan.seriesTitle}</span>
-        <span class="day-badge">Day {plan.dayNumber}</span>
-      </div>
+  {plan.tags.length > 0 && (
+    <ul slot="header-bottom" class="post-tags" aria-label="文章標籤">
+      {plan.tags.map((tag) => (
+        <li>
+          <TaxonomyChip href={`/plans/tags/${tag}`} label={tag} />
+        </li>
+      ))}
+    </ul>
+  )}
 
-      <h1 class="article-title">{plan.title}</h1>
-
-      <div class="article-meta">
-        {plan.dateString && <time class="article-date">{plan.dateString}</time>}
-        {plan.dateString && <span class="meta-separator">·</span>}
-        <span class="article-reading-time">{plan.readingTime}</span>
-      </div>
-
-      {plan.tags.length > 0 && (
-        <div class="tag-row">
-          {plan.tags.map((tag) => (
-            <Tag prefix="#" label={tag} />
-          ))}
-        </div>
-      )}
-    </header>
-
-    <hr class="divider" />
-
-    <div class="prose">
-      <Content />
-    </div>
-
-    <nav class="series-nav" aria-label="Series navigation">
-      {prevPlan ? (
-        <a href={`/plans/${prevPlan.slug}`} class="nav-button prev">
-          <span class="nav-dir">
-            <Icon name="chevron-right" class="rotate-180" size={14} />
-            <span>上一篇 (Day {prevPlan.dayNumber})</span>
-          </span>
-          <span class="nav-title">{prevPlan.title}</span>
-        </a>
-      ) : (
-        <div class="nav-placeholder" />
-      )}
-
-      {nextPlan ? (
-        <a href={`/plans/${nextPlan.slug}`} class="nav-button next">
-          <span class="nav-dir">
-            <span>下一篇 (Day {nextPlan.dayNumber})</span>
-            <Icon name="chevron-right" size={14} />
-          </span>
-          <span class="nav-title">{nextPlan.title}</span>
-        </a>
-      ) : (
-        <div class="nav-placeholder" />
-      )}
-    </nav>
-
-    <footer class="article-footer">
-      <a href="/plans" class="back-link">
-        <Icon name="chevron-right" class="rotate-180" size={16} />
-        <span>返回主題計劃</span>
-      </a>
-    </footer>
-  </article>
-</Layout>
-
-<style>
-  .article-container {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-m);
-    margin-block-end: var(--space-xl);
-  }
-
-  .article-header {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xs);
-  }
-
-  .series-badge-row {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2xs);
-  }
-
-  .series-badge {
-    font-size: var(--step-xs);
-    font-weight: var(--font-weight-medium);
-    padding: 0.2em 0.6em;
-    background-color: var(--muted);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    color: var(--accent);
-  }
-
-  .day-badge {
-    font-size: var(--step-xs);
-    font-weight: var(--font-weight-medium);
-    font-family: var(--font-mono);
-    padding: 0.2em 0.6em;
-    background-color: var(--accent-subtle, var(--muted));
-    border-radius: var(--radius-sm);
-    color: var(--foreground);
-  }
-
-  .article-title {
-    font-size: var(--step-3);
-    font-weight: var(--font-weight-bold);
-    line-height: var(--line-height-tight);
-    color: var(--foreground);
-    letter-spacing: var(--tracking-tight);
-  }
-
-  .article-meta {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2xs);
-    font-size: var(--step-xs);
-    color: var(--muted-foreground);
-    font-family: var(--font-mono);
-  }
-
-  .meta-separator {
-    opacity: 0.5;
-  }
-
-  .tag-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2xs);
-    margin-block-start: var(--space-3xs);
-  }
-
-  .divider {
-    border: none;
-    border-block-start: 1px solid var(--border);
-    margin: 0;
-  }
-
-  .series-nav {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-s);
-    margin-block-start: var(--space-l);
-    padding-block-start: var(--space-m);
-    border-block-start: 1px solid var(--border);
-
-    @media (width < 36rem) {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .nav-dir {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3xs);
-    font-size: var(--step-xs);
-    color: var(--muted-foreground);
-    font-family: var(--font-mono);
-
-    :global(.rotate-180) {
-      transform: rotate(180deg);
-    }
-  }
-
-  .nav-button {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3xs);
-    padding: var(--space-s);
-    background-color: var(--muted);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    text-decoration: none;
-    transition:
-      border-color var(--motion-duration-fast) var(--motion-ease),
-      background-color var(--motion-duration-fast) var(--motion-ease);
-
-    &:hover {
-      border-color: var(--accent);
-      background-color: var(--interactive-background);
-    }
-
-    &.next {
-      text-align: right;
-
-      .nav-dir {
-        justify-content: flex-end;
-      }
-    }
-  }
-
-  .nav-title {
-    font-size: var(--step-xs);
-    font-weight: var(--font-weight-medium);
-    color: var(--foreground);
-    line-height: 1.4;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
-
-  .nav-placeholder {
-    visibility: hidden;
-  }
-
-  .article-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-block-start: var(--space-s);
-  }
-
-  .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2xs);
-    font-size: var(--step-xs);
-    color: var(--muted-foreground);
-    text-decoration: none;
-    transition: color var(--motion-duration-fast) var(--motion-ease);
-
-    &:hover {
-      color: var(--foreground);
-    }
-
-    :global(.rotate-180) {
-      transform: rotate(180deg);
-    }
-  }
-</style>
+  <Content />
+</ArticleLayout>

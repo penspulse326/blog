@@ -1,0 +1,190 @@
+---
+import Icon from "./Icon.astro";
+
+export interface PostRef {
+  title: string;
+  slug: string;
+}
+
+interface Props {
+  prevPost?: PostRef | null;
+  nextPost?: PostRef | null;
+  basePath?: string;
+}
+
+const { prevPost, nextPost, basePath = "/blog" } = Astro.props;
+---
+
+<nav class="post-navigation" aria-label="文章上下篇導航">
+  {prevPost ? (
+    <a
+      href={`${basePath}/${prevPost.slug}#post-title`}
+      class="post-nav-card"
+      data-direction="previous"
+    >
+      <div class="nav-content">
+        <span class="nav-icon">
+          <Icon name="arrow-left" size="1.25rem" />
+        </span>
+        <div class="nav-text">
+          <span class="nav-direction">較新文章</span>
+          <strong class="nav-title">{prevPost.title}</strong>
+        </div>
+      </div>
+    </a>
+  ) : (
+    <div class="post-nav-card is-disabled" data-direction="previous" aria-hidden="true">
+      <div class="nav-content">
+        <span class="nav-icon">
+          <Icon name="arrow-left" size="1.25rem" />
+        </span>
+        <div class="nav-text">
+          <span class="nav-direction">較新文章</span>
+          <strong class="nav-title">已是最新文章</strong>
+        </div>
+      </div>
+    </div>
+  )}
+
+  {nextPost ? (
+    <a href={`${basePath}/${nextPost.slug}#post-title`} class="post-nav-card" data-direction="next">
+      <div class="nav-content">
+        <div class="nav-text">
+          <span class="nav-direction">較舊文章</span>
+          <strong class="nav-title">{nextPost.title}</strong>
+        </div>
+        <span class="nav-icon">
+          <Icon name="arrow-right" size="1.25rem" />
+        </span>
+      </div>
+    </a>
+  ) : (
+    <div class="post-nav-card is-disabled" data-direction="next" aria-hidden="true">
+      <div class="nav-content">
+        <div class="nav-text">
+          <span class="nav-direction">較舊文章</span>
+          <strong class="nav-title">已是最後一篇</strong>
+        </div>
+        <span class="nav-icon">
+          <Icon name="arrow-right" size="1.25rem" />
+        </span>
+      </div>
+    </div>
+  )}
+</nav>
+
+<style>
+  .post-navigation {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-s);
+    margin-block: var(--space-m);
+  }
+
+  @media (width >= 40rem) {
+    .post-navigation {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .nav-title {
+    font-size: var(--step-xs);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.35;
+    color: var(--foreground);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color var(--motion-duration-fast) var(--motion-ease);
+  }
+
+  .post-nav-card {
+    display: flex;
+    align-items: center;
+    padding: var(--space-s);
+    min-block-size: 4rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background-color: var(--muted);
+    color: var(--foreground);
+    text-decoration: none;
+    transition:
+      border-color var(--motion-duration-fast) var(--motion-ease),
+      background-color var(--motion-duration-fast) var(--motion-ease);
+
+    &:hover:not(.is-disabled) {
+      border-color: var(--primary);
+      background-color: color-mix(in oklab, var(--muted) 70%, transparent);
+
+      .nav-title {
+        color: var(--primary);
+      }
+    }
+
+    &.is-disabled {
+      opacity: 0.4;
+      pointer-events: none;
+      user-select: none;
+    }
+  }
+
+  .nav-content {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    inline-size: 100%;
+    min-inline-size: 0;
+  }
+
+  .post-nav-card[data-direction="next"] .nav-content {
+    justify-content: flex-end;
+  }
+
+  .nav-text {
+    display: flex;
+    flex-direction: column;
+    min-inline-size: 0;
+    flex: 1;
+  }
+
+  .post-nav-card[data-direction="previous"] .nav-text {
+    align-items: flex-start;
+    text-align: start;
+  }
+
+  .post-nav-card[data-direction="next"] .nav-text {
+    align-items: flex-end;
+    text-align: end;
+  }
+
+  .nav-direction {
+    font-size: var(--step-xs);
+    color: var(--muted-foreground);
+    line-height: 1.2;
+    margin-block-end: 0.15rem;
+  }
+
+  .nav-icon {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    color: var(--muted-foreground);
+    transition:
+      transform var(--motion-duration) var(--motion-ease),
+      color var(--motion-duration-fast) var(--motion-ease);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .post-nav-card[data-direction="previous"]:hover .nav-icon {
+      transform: translateX(-0.25rem);
+      color: var(--primary);
+    }
+
+    .post-nav-card[data-direction="next"]:hover .nav-icon {
+      transform: translateX(0.25rem);
+      color: var(--primary);
+    }
+  }
+</style>

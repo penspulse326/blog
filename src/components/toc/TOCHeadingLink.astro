@@ -1,0 +1,75 @@
+---
+import type { MarkdownHeading } from "astro";
+
+interface Props {
+  heading: MarkdownHeading;
+  class?: string;
+}
+
+const { heading, class: className } = Astro.props;
+---
+
+<li>
+  <a
+    href={`#${heading.slug}`}
+    class:list={["toc-item", className]}
+    data-heading-link={heading.slug}
+    data-depth={heading.depth}
+  >
+    <span>{heading.text}</span>
+  </a>
+</li>
+
+<style>
+  .toc-item {
+    display: block;
+    margin-inline-start: calc(var(--depth-offset, 0) * var(--space-s));
+    padding: 0.25rem var(--space-2xs);
+    border-radius: var(--radius-sm);
+    color: var(--muted-foreground);
+    font-size: var(--step-xs);
+    text-decoration: none;
+    transition:
+      background-color var(--motion-duration) var(--motion-ease),
+      color var(--motion-duration-fast) var(--motion-ease);
+
+    &:hover {
+      background: color-mix(in oklab, var(--accent) 15%, transparent);
+      color: var(--accent);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--ring);
+      outline-offset: 2px;
+    }
+
+    &[data-active] {
+      background: color-mix(in oklab, var(--primary) 15%, transparent);
+      color: var(--primary);
+      font-weight: var(--font-weight-medium);
+    }
+  }
+
+  .toc-item[data-depth="3"] {
+    --depth-offset: 1;
+  }
+
+  .toc-item[data-depth="4"] {
+    --depth-offset: 2;
+  }
+
+  .toc-item[data-depth="5"] {
+    --depth-offset: 3;
+  }
+
+  .toc-item[data-depth="6"] {
+    --depth-offset: 4;
+  }
+
+  span {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+</style>

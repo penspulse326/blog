@@ -3,7 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Breadcrumb from "../components/Breadcrumb.astro";
 import TaxonomyChip from "../components/TaxonomyChip.astro";
 import PreviewCard from "../components/PreviewCard.astro";
-import { getAllBlogPosts } from "../lib/content";
+import { getAllBlogPosts, getSortedBlogTags } from "../lib/content";
 
 const allPosts = await getAllBlogPosts();
 
@@ -18,22 +18,7 @@ const postsByYear = Object.entries(postsByYearMap)
   .map(([year, posts]) => ({ year: parseInt(year, 10), posts }))
   .sort((a, b) => b.year - a.year);
 
-// Calculate tags and their frequencies
-const tagCountMap = new Map<string, number>();
-for (const post of allPosts) {
-  for (const tag of post.tags) {
-    tagCountMap.set(tag, (tagCountMap.get(tag) || 0) + 1);
-  }
-}
-
-const sortedTags = Array.from(tagCountMap.entries())
-  .map(([tag, count]) => ({ tag, count }))
-  .sort((a, b) => {
-    const countDiff = b.count - a.count;
-    if (countDiff !== 0) return countDiff;
-    return a.tag.localeCompare(b.tag, "zh-Hant");
-  });
-
+const sortedTags = getSortedBlogTags(allPosts);
 const displayTags = sortedTags.slice(0, 15);
 const numTags = sortedTags.length;
 ---

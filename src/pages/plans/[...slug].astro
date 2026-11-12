@@ -62,7 +62,7 @@ const { Content, headings } = await render(plan.entry);
     <ul slot="header-bottom" class="post-tags" aria-label="文章標籤">
       {plan.tags.map((tag) => (
         <li>
-          <TaxonomyChip href={`/plans/tags/${tag}`} label={tag} />
+          <TaxonomyChip label={tag} static />
         </li>
       ))}
     </ul>

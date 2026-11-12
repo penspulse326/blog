@@ -159,7 +159,7 @@
 }
 
 [data-slot="card"] :where(img, [data-card-media]) {
-  outline: 1px solid light-dark(oklch(0% 0 0deg / 10%), oklch(100% 0 0deg / 10%));
+  outline: 1px solid var(--border);
   outline-offset: -1px;
 }
 
@@ -225,12 +225,5 @@
 
   [data-slot="card"][data-clickable]:hover [data-slot="card-title"] {
     color: var(--primary);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-slot="card"],
-  [data-slot="card-title"] {
-    transition-duration: 0.01ms;
   }
 }

@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Icon from "../components/Icon.astro";
-import Tag from "../components/Tag.astro";
+import PreviewCard from "../components/PreviewCard.astro";
 import { getAllBlogPosts, SERIES_META } from "../lib/content";
 
 const allPosts = await getAllBlogPosts();
@@ -93,24 +93,7 @@ const featuredPlans = Object.entries(SERIES_META).map(([key, meta]) => ({
 
     <div class="card-list">
       {essays.map((essay) => (
-        <article class="interactive-card">
-          <div class="card-meta">
-            {essay.dateString && <time class="meta-date">{essay.dateString}</time>}
-            {essay.dateString && <span class="meta-dot">·</span>}
-            <span class="meta-time">{essay.readingTime}</span>
-          </div>
-          <h3 class="card-title">
-            <a href={`/blog/${essay.slug}`}>{essay.title}</a>
-          </h3>
-          {essay.description && <p class="card-summary">{essay.description}</p>}
-          {essay.tags.length > 0 && (
-            <div class="card-tags">
-              {essay.tags.map((tag) => (
-                <Tag prefix="#" label={tag} href="/blog" />
-              ))}
-            </div>
-          )}
-        </article>
+        <PreviewCard post={essay} />
       ))}
     </div>
   </section>
@@ -372,19 +355,6 @@ const featuredPlans = Object.entries(SERIES_META).map(([key, meta]) => ({
     }
   }
 
-  .card-meta {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: var(--step-xs);
-    color: var(--muted-foreground);
-    font-family: var(--font-mono);
-  }
-
-  .meta-dot {
-    opacity: 0.5;
-  }
-
   .card-title {
     font-size: var(--step-1);
     font-weight: var(--font-weight-semibold);
@@ -409,14 +379,6 @@ const featuredPlans = Object.entries(SERIES_META).map(([key, meta]) => ({
     margin: 0;
   }
 
-  .card-tags {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 0.25rem;
-    flex-wrap: wrap;
-  }
-
   .project-head {
     display: flex;
     align-items: baseline;
@@ -436,7 +398,7 @@ const featuredPlans = Object.entries(SERIES_META).map(([key, meta]) => ({
     display: inline-flex;
     align-items: center;
     padding: 0.15rem 0.45rem;
-    font-size: 0.75rem;
+    font-size: var(--step-xs);
     font-family: var(--font-mono);
     font-weight: var(--font-weight-medium);
     border-radius: var(--radius-sm);

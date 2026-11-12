@@ -30,65 +30,28 @@ const {
 
 const accessibleLabel =
   ariaLabel ?? (count === undefined ? label : `${label}，共 ${count} ${countNoun}`);
+
+const Tag = href ? "a" : isStatic ? "span" : "button";
+const elementProps = href
+  ? { href, "aria-label": accessibleLabel }
+  : isStatic
+    ? { "data-static": true }
+    : { type, "aria-label": accessibleLabel };
 ---
 
-{href ? (
-  <a
-    href={href}
-    data-taxonomy-chip
-    data-tone={tone}
-    class={className}
-    aria-label={accessibleLabel}
-    {...rest}
-  >
-    <span data-taxonomy-surface>
-      <span data-taxonomy-prefix aria-hidden="true">
-        {prefix}
-      </span>
-      <span>{label}</span>
-      {count !== undefined && (
-        <span data-taxonomy-count aria-hidden="true">
-          ({count})
-        </span>
-      )}
+<Tag data-taxonomy-chip data-tone={tone} class={className} {...elementProps} {...rest}>
+  <span data-taxonomy-surface>
+    <span data-taxonomy-prefix aria-hidden="true">
+      {prefix}
     </span>
-  </a>
-) : isStatic ? (
-  <span data-taxonomy-chip data-static data-tone={tone} class={className} {...rest}>
-    <span data-taxonomy-surface>
-      <span data-taxonomy-prefix aria-hidden="true">
-        {prefix}
+    <span>{label}</span>
+    {count !== undefined && (
+      <span data-taxonomy-count aria-hidden="true">
+        ({count})
       </span>
-      <span>{label}</span>
-      {count !== undefined && (
-        <span data-taxonomy-count aria-hidden="true">
-          ({count})
-        </span>
-      )}
-    </span>
+    )}
   </span>
-) : (
-  <button
-    type={type}
-    data-taxonomy-chip
-    data-tone={tone}
-    class={className}
-    aria-label={accessibleLabel}
-    {...rest}
-  >
-    <span data-taxonomy-surface>
-      <span data-taxonomy-prefix aria-hidden="true">
-        {prefix}
-      </span>
-      <span>{label}</span>
-      {count !== undefined && (
-        <span data-taxonomy-count aria-hidden="true">
-          ({count})
-        </span>
-      )}
-    </span>
-  </button>
-)}
+</Tag>
 
 <style>
   [data-taxonomy-chip] {
@@ -158,8 +121,8 @@ const accessibleLabel =
   }
 
   :is(a, button)[data-taxonomy-chip][data-tone="destructive"]:hover [data-taxonomy-surface] {
-    border-color: light-dark(oklch(55% 0.2 25deg), oklch(65% 0.2 25deg));
-    color: light-dark(oklch(55% 0.2 25deg), oklch(65% 0.2 25deg));
+    border-color: var(--destructive);
+    color: var(--destructive);
   }
 
   [data-taxonomy-prefix] {
@@ -180,9 +143,8 @@ const accessibleLabel =
   }
 
   @media (prefers-reduced-motion: reduce) {
-    :is(a, button)[data-taxonomy-chip],
-    [data-taxonomy-surface] {
-      transition-duration: 0.01ms;
+    :is(a, button)[data-taxonomy-chip]:active {
+      scale: 1;
     }
   }
 </style>

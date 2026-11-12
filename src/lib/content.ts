@@ -272,3 +272,63 @@ export async function getAllNotes(): Promise<CleanNote[]> {
     return a.title.localeCompare(b.title);
   });
 }
+
+export interface TagCount {
+  tag: string;
+  count: number;
+}
+
+export interface CategoryCount {
+  category: string;
+  count: number;
+}
+
+export function getSortedBlogTags(posts: CleanPost[]): TagCount[] {
+  const tagCountMap = new Map<string, number>();
+  for (const post of posts) {
+    for (const tag of post.tags) {
+      tagCountMap.set(tag, (tagCountMap.get(tag) || 0) + 1);
+    }
+  }
+
+  return Array.from(tagCountMap.entries())
+    .map(([tag, count]) => ({ tag, count }))
+    .sort((a, b) => {
+      const countDiff = b.count - a.count;
+      if (countDiff !== 0) return countDiff;
+      return a.tag.localeCompare(b.tag, "zh-Hant");
+    });
+}
+
+export const PREFERRED_NOTE_CATEGORIES = [
+  "JavaScript",
+  "React",
+  "CSS",
+  "NestJS",
+  "SQL",
+  "Git",
+  "Vue",
+  "Test",
+  "Monorepo",
+  "Web animation",
+  "Chart",
+  "GIS",
+];
+
+export function getSortedNoteCategories(notes: CleanNote[]): CategoryCount[] {
+  const categoryCountMap = new Map<string, number>();
+  for (const note of notes) {
+    categoryCountMap.set(note.category, (categoryCountMap.get(note.category) || 0) + 1);
+  }
+
+  return Array.from(categoryCountMap.entries())
+    .map(([category, count]) => ({ category, count }))
+    .sort((a, b) => {
+      const indexA = PREFERRED_NOTE_CATEGORIES.indexOf(a.category);
+      const indexB = PREFERRED_NOTE_CATEGORIES.indexOf(b.category);
+      if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+      if (indexA !== -1) return -1;
+      if (indexB !== -1) return 1;
+      return a.category.localeCompare(b.category);
+    });
+}

@@ -2,18 +2,13 @@
 import Layout from "../../../layouts/Layout.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
 import PreviewCard from "../../../components/PreviewCard.astro";
-import { getAllBlogPosts } from "../../../lib/content";
+import { getAllBlogPosts, getSortedBlogTags } from "../../../lib/content";
 
 export async function getStaticPaths() {
   const allPosts = await getAllBlogPosts();
-  const uniqueTags = new Set<string>();
-  for (const post of allPosts) {
-    for (const tag of post.tags) {
-      uniqueTags.add(tag);
-    }
-  }
+  const sortedTags = getSortedBlogTags(allPosts);
 
-  return Array.from(uniqueTags).map((tag) => ({
+  return sortedTags.map(({ tag }) => ({
     params: { tag },
     props: {
       tag,
@@ -38,16 +33,35 @@ const { tag, posts } = Astro.props;
     ]}
   />
 
-  <ul class="post-list">
-    {posts.map((post) => (
-      <li>
-        <PreviewCard post={post} />
-      </li>
-    ))}
-  </ul>
+  <div class="blog-tag-index">
+    <p class="tag-summary">
+      標籤「{tag}」，共 {posts.length} 篇文章
+    </p>
+
+    <ul class="post-list">
+      {posts.map((post) => (
+        <li>
+          <PreviewCard post={post} />
+        </li>
+      ))}
+    </ul>
+  </div>
 </Layout>
 
 <style>
+  .blog-tag-index {
+    display: flex;
+    min-block-size: calc(100dvh - 18rem);
+    flex-direction: column;
+    gap: var(--space-l);
+  }
+
+  .tag-summary {
+    color: var(--muted-foreground);
+    font-size: var(--step-xs);
+    margin: 0;
+  }
+
   .post-list {
     display: flex;
     flex-direction: column;

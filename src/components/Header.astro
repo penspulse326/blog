@@ -120,21 +120,6 @@ const activeNormalized = normalizePath(currentPath);
   </div>
 </div>
 
-<script is:inline>
-  (() => {
-    const stored = localStorage?.getItem("theme");
-    const resolved =
-      stored === "dark" || stored === "light"
-        ? stored
-        : window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? "dark"
-          : "light";
-
-    document.documentElement.setAttribute("data-theme", resolved);
-    document.documentElement.classList.add(resolved === "dark" ? "scheme-dark" : "scheme-light");
-  })();
-</script>
-
 <script>
   // 1. Scroll Progress Logic
   let fill: HTMLElement | null = null;

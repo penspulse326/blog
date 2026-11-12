@@ -123,14 +123,13 @@ const seriesList = seriesKeys.map((key) => {
     padding: var(--space-s);
     border: 1px solid var(--border);
     border-radius: var(--radius-xl);
-    background-color: var(--card);
     transition:
       border-color var(--motion-duration-fast) var(--motion-ease),
-      box-shadow var(--motion-duration-fast) var(--motion-ease);
+      background-color var(--motion-duration-fast) var(--motion-ease);
 
     &:hover {
       border-color: color-mix(in oklab, var(--primary) 40%, var(--border));
-      box-shadow: 0 4px 16px -4px rgb(0 0 0 / 5%);
+      background-color: color-mix(in oklab, var(--muted) 45%, transparent);
     }
   }
 
@@ -159,7 +158,7 @@ const seriesList = seriesKeys.map((key) => {
     display: inline-flex;
     align-items: center;
     padding: 0.2rem 0.5rem;
-    font-size: 0.75rem;
+    font-size: var(--step-xs);
     font-family: var(--font-mono);
     font-weight: var(--font-weight-medium);
     border-radius: var(--radius-sm);
@@ -184,7 +183,7 @@ const seriesList = seriesKeys.map((key) => {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 0.8125rem;
+    font-size: var(--step-xs);
     padding: 0.5rem 0.75rem;
     background-color: var(--muted);
     border-radius: var(--radius-md);
@@ -225,7 +224,7 @@ const seriesList = seriesKeys.map((key) => {
   }
 
   .disclosure-hint {
-    font-size: 0.75rem;
+    font-size: var(--step-xs);
     font-weight: var(--font-weight-normal);
     color: var(--muted-foreground);
   }
@@ -253,7 +252,7 @@ const seriesList = seriesKeys.map((key) => {
 
   .episode-day {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: var(--step-xs);
     font-weight: var(--font-weight-medium);
     color: var(--accent);
     background-color: color-mix(in oklab, var(--accent) 10%, transparent);
@@ -272,7 +271,7 @@ const seriesList = seriesKeys.map((key) => {
 
   .episode-meta {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: var(--step-xs);
     color: var(--muted-foreground);
     white-space: nowrap;
   }

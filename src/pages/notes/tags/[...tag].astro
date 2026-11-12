@@ -2,27 +2,17 @@
 import Layout from "../../../layouts/Layout.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
 import NoteCard from "../../../components/NoteCard.astro";
-import { getAllNotes, extractNoteOrder } from "../../../lib/content";
+import { getAllNotes, getSortedNoteCategories } from "../../../lib/content";
 
 export async function getStaticPaths() {
   const allNotes = await getAllNotes();
-  const uniqueCategories = Array.from(new Set(allNotes.map((note) => note.category)));
+  const sortedCategories = getSortedNoteCategories(allNotes);
 
-  return uniqueCategories.map((category) => ({
+  return sortedCategories.map(({ category }) => ({
     params: { tag: category },
     props: {
       tag: category,
-      notes: allNotes
-        .filter((note) => note.category === category)
-        .sort((a, b) => {
-          const orderA = extractNoteOrder(a.id.split("/").pop() || "");
-          const orderB = extractNoteOrder(b.id.split("/").pop() || "");
-          if (orderA !== orderB) return orderA - orderB;
-          const timeA = a.date ? a.date.getTime() : 0;
-          const timeB = b.date ? b.date.getTime() : 0;
-          if (timeA !== timeB) return timeB - timeA;
-          return a.title.localeCompare(b.title);
-        }),
+      notes: allNotes.filter((note) => note.category === category),
     },
   }));
 }

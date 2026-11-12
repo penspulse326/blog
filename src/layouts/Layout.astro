@@ -28,14 +28,18 @@ const {
     <ClientRouter />
     <script is:inline data-astro-rerun>
       (function () {
-        const storedTheme = localStorage.getItem("theme");
-        if (storedTheme === "dark" || storedTheme === "light") {
-          document.documentElement.setAttribute("data-theme", storedTheme);
-        } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-          document.documentElement.setAttribute("data-theme", "dark");
-        } else {
-          document.documentElement.setAttribute("data-theme", "light");
-        }
+        const storedTheme = localStorage?.getItem("theme");
+        const resolved =
+          storedTheme === "dark" || storedTheme === "light"
+            ? storedTheme
+            : window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light";
+        document.documentElement.setAttribute("data-theme", resolved);
+        document.documentElement.classList.remove("scheme-dark", "scheme-light");
+        document.documentElement.classList.add(
+          resolved === "dark" ? "scheme-dark" : "scheme-light",
+        );
       })();
     </script>
     <script>

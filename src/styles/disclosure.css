@@ -21,9 +21,3 @@
 [data-disclosure][data-disclosure-rotation="quarter"][open] [data-disclosure-chevron] {
   rotate: 90deg;
 }
-
-@media (prefers-reduced-motion: reduce) {
-  [data-disclosure-chevron] {
-    transition-duration: 0.01ms;
-  }
-}

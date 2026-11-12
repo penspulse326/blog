@@ -3,41 +3,10 @@ import Layout from "../layouts/Layout.astro";
 import Breadcrumb from "../components/Breadcrumb.astro";
 import TaxonomyChip from "../components/TaxonomyChip.astro";
 import NoteCard from "../components/NoteCard.astro";
-import { getAllNotes } from "../lib/content";
+import { getAllNotes, getSortedNoteCategories } from "../lib/content";
 
 const allNotes = await getAllNotes();
-
-// Group topic/categories from folder names (NOT frontmatter tags)
-const categoryCountMap = new Map<string, number>();
-for (const note of allNotes) {
-  categoryCountMap.set(note.category, (categoryCountMap.get(note.category) || 0) + 1);
-}
-
-const PREFERRED_ORDER = [
-  "JavaScript",
-  "React",
-  "CSS",
-  "NestJS",
-  "SQL",
-  "Git",
-  "Vue",
-  "Test",
-  "Monorepo",
-  "Web animation",
-  "Chart",
-  "GIS",
-];
-
-const sortedCategories = Array.from(categoryCountMap.entries())
-  .map(([category, count]) => ({ category, count }))
-  .sort((a, b) => {
-    const indexA = PREFERRED_ORDER.indexOf(a.category);
-    const indexB = PREFERRED_ORDER.indexOf(b.category);
-    if (indexA !== -1 && indexB !== -1) return indexA - indexB;
-    if (indexA !== -1) return -1;
-    if (indexB !== -1) return 1;
-    return a.category.localeCompare(b.category);
-  });
+const sortedCategories = getSortedNoteCategories(allNotes);
 
 // Pick the 10 most recent notes sorted by date descending
 const recentNotes = [...allNotes]
